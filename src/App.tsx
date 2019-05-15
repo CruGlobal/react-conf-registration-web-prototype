@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 // import styled from "@emotion/styled";
 import "./App.css";
-import Navbar from "./Components/Navbar";
-import LandingJumbotron from "./Components/LandingJumbotron";
-import LandingEventContainer from "./Components/LandingEventContainer";
-import Footer from "./Components/Footer";
+import Navbar from "./Components/Navbar/Navbar";
+import LandingJumbotron from "./Components/LandingJumbotron/LandingJumbotron";
+import LandingEventContainer from "./Components/LandingEventContainer/LandingEventContainer";
+import Footer from "./Components/Footer/Footer";
 
 class App extends Component {
   state = {

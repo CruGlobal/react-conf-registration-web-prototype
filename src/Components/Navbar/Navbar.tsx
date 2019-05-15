@@ -9,9 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
-import RelayImg from "../img/signin-relay.png";
-import FacebookImg from "../img/signin-facebook.png";
-import InstagramImg from "../img/signin-instagram.jpeg";
+import RelayImg from "../../img/signin-relay.png";
+import FacebookImg from "../../img/signin-facebook.png";
+import InstagramImg from "../../img/signin-instagram.jpeg";
 
 const NavBarContainer = styled.div`
   width: 100%;
