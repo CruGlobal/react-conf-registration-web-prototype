@@ -34,77 +34,7 @@ const LandingJumbotron: FunctionComponent<Props> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const BASE_URL = `https://api.stage.eventregistrationtool.com/eventhub-api/rest/conferences?conferenceName=`;
-
-  const JumbotronContainer = styled.div`
-    width: 100%;
-    height: 250px;
-    background-image: url(${randomImage.img});
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 0 ${randomImage.position}%;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  `;
-
-  const ContentContainer = styled.div`
-    width: 1170px;
-    height: auto;
-  `;
-
-  const JumbotronTitle = styled.h3`
-    font-size: 2.4em;
-    font-weight: bold;
-    color: white;
-    text-shadow: 2px 2px black;
-  `;
-
-  const InputContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  `;
-
-  const EventInput = styled.input`
-    width: 470px;
-    height: 40px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    font-size: 120%;
-    padding-left: 10px;
-  `;
-
-  const LocationInput = styled.select`
-    width: 300px;
-    height: 40px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  `;
-
-  const DateInput = styled.select`
-    width: 300px;
-    height: 40px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  `;
-
-  const SearchButton = styled.button`
-    height: 40px;
-    width: 90px;
-    color: white;
-    background-color: #3494c6;
-    border-color: #337ab7;
-    font-size: 120%;
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    :hover {
-      background-color: #337ab7;
-    }
-  `;
+  const API = new APIController();
 
   // THIS IS CODE TO GET THE USER PROFILE, WILL FLESH OUT IN FURTHER DEVELOPMENT
   // const authToken = "3d2ab0731b570800a20040d69f2da815b7161bec";
@@ -134,26 +64,17 @@ const LandingJumbotron: FunctionComponent<Props> = ({
   //   "https://api.stage.eventregistrationtool.com/eventhub-api/rest/profile"
   // );
 
-  const getConferences = (url: string) => {
+  const getConferences = (searchQuery: string) => {
     setIsLoading(true);
     setConferences([], null);
-    return fetch(url, {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, cors, *same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json"
-        // "Content-Type": "application/x-www-form-urlencoded",
-      },
-      redirect: "follow", // manual, *follow, error
-      referrer: "no-referrer" // no-referrer, *client
-    })
-      .then(response => {
+    API.getConferences(
+      `${API.BASE_URL}${API.CONFERENCE_SEARCH_NAME}${searchQuery}`
+    )
+      .then(res => {
         setIsLoading(false);
-        return response.json();
+        return res.json();
       })
-      .then(res => setConferences(res, null))
+      .then(response => setConferences(response, null))
       .catch(error => console.log("Error", error));
   };
 
@@ -170,9 +91,8 @@ const LandingJumbotron: FunctionComponent<Props> = ({
               value={searchQuery}
               onChange={e => {
                 setSearchQuery(e.target.value);
-
                 if (e.target.value.length >= 2) {
-                  getConferences(`${BASE_URL}${e.target.value}`);
+                  getConferences(`${e.target.value}`);
                 }
               }}
               autoFocus={true}
@@ -189,7 +109,7 @@ const LandingJumbotron: FunctionComponent<Props> = ({
             </DateInput>
             <SearchButton
               type="button"
-              onClick={() => getConferences(`${BASE_URL}${searchQuery}`)}
+              onClick={() => getConferences(`${searchQuery}`)}
             >
               Search
             </SearchButton>
@@ -201,3 +121,73 @@ const LandingJumbotron: FunctionComponent<Props> = ({
 };
 
 export default LandingJumbotron;
+
+const JumbotronContainer = styled.div`
+  width: 100%;
+  height: 250px;
+  background-image: url(${randomImage.img});
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 ${randomImage.position}%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ContentContainer = styled.div`
+  width: 1170px;
+  height: auto;
+`;
+
+const JumbotronTitle = styled.h3`
+  font-size: 2.4em;
+  font-weight: bold;
+  color: white;
+  text-shadow: 2px 2px black;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const EventInput = styled.input`
+  width: 470px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 120%;
+  padding-left: 10px;
+`;
+
+const LocationInput = styled.select`
+  width: 300px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+`;
+
+const DateInput = styled.select`
+  width: 300px;
+  height: 40px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+`;
+
+const SearchButton = styled.button`
+  height: 40px;
+  width: 90px;
+  color: white;
+  background-color: #3494c6;
+  border-color: #337ab7;
+  font-size: 120%;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  :hover {
+    background-color: #337ab7;
+  }
+`;
