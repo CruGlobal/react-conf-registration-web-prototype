@@ -1,11 +1,22 @@
 {
-  "name": "relay-signin",
+  "name": "react-conf-registration-web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/core": "^10.0.10",
+    "@emotion/styled": "^10.0.11",
+    "@fortawesome/fontawesome-svg-core": "^1.2.18",
+    "@fortawesome/free-solid-svg-icons": "^5.8.2",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "@types/lodash": "^4.14.126",
+    "@types/react": "^16.8.17",
+    "bootstrap": "^4.3.1",
+    "lodash": "^4.17.11",
     "react": "^16.8.6",
+    "react-bootstrap": "^1.0.0-beta.8",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "typescript": "^3.4.5"
   },
   "scripts": {
     "start": "react-scripts start",
