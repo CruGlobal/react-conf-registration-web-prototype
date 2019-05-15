@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
 import styled from "@emotion/styled";
 import _ from "lodash";
-import bigBreak from "../img/big-break.jpg";
-import climbingImg from "../img/187.jpg";
-import friendsImg from "../img/311.jpg";
-import APIController from "../Controllers/apicontroller";
+import bigBreak from "../../img/big-break.jpg";
+import climbingImg from "../../img/187.jpg";
+import friendsImg from "../../img/311.jpg";
+import APIController from "../../Controllers/apicontroller";
 
 type Props = {
   setConferences: any;
