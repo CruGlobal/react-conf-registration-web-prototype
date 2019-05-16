@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
 import styled from "@emotion/styled";
 import _ from "lodash";
-import bigBreak from "../../img/big-break.jpg";
-import climbingImg from "../../img/187.jpg";
-import friendsImg from "../../img/311.jpg";
-import APIController from "../../Controllers/apicontroller";
+import bigBreak from "../../../img/big-break.jpg";
+import climbingImg from "../../../img/187.jpg";
+import friendsImg from "../../../img/311.jpg";
+import APIController from "../../../Controllers/apicontroller";
 
 type Props = {
   setConferences: any;
@@ -35,34 +35,6 @@ const LandingJumbotron: FunctionComponent<Props> = ({
   const [searchQuery, setSearchQuery] = useState("");
 
   const API = new APIController();
-
-  // THIS IS CODE TO GET THE USER PROFILE, WILL FLESH OUT IN FURTHER DEVELOPMENT
-  // const authToken = "3d2ab0731b570800a20040d69f2da815b7161bec";
-
-  // const getUser = (url: string) => {
-  //   return fetch(url, {
-  //     method: "GET", // *GET, POST, PUT, DELETE, etc.
-  //     mode: "cors", // no-cors, cors, *same-origin
-  //     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-  //     credentials: "same-origin", // include, *same-origin, omit
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       // "Content-Type": "application/x-www-form-urlencoded",
-  //       Authorization: `${authToken}`
-  //     },
-  //     redirect: "follow", // manual, *follow, error
-  //     referrer: "no-referrer" // no-referrer, *client
-  //   })
-  //     .then(response => {
-  //       return response.json();
-  //     })
-  //     .then(res => console.log(res))
-  //     .catch(error => console.log("Error", error));
-  // };
-
-  // getUser(
-  //   "https://api.stage.eventregistrationtool.com/eventhub-api/rest/profile"
-  // );
 
   const getConferences = (searchQuery: string) => {
     setIsLoading(true);

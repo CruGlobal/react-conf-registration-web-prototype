@@ -1,6 +1,7 @@
 class APIController {
   BASE_URL = `https://api.stage.eventregistrationtool.com/eventhub-api/rest/`;
   CONFERENCE_SEARCH_NAME = `conferences?conferenceName=`;
+  PROFILE_SEARCH = "profile";
 
   getConferences = (url: string) => {
     return fetch(url, {
