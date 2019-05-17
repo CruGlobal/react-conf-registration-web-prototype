@@ -131,7 +131,7 @@ const Navbar: FunctionComponent<Props> = ({ name, signedIn, signout }) => {
         <ButtonContainer>
           {signedIn ? (
             <>
-              <DashboardButton>
+              <DashboardButton data-testid="signed-in-title">
                 Hello <strong>{name}</strong>
               </DashboardButton>
               <Dropdown as={ButtonGroup}>
@@ -158,7 +158,10 @@ const Navbar: FunctionComponent<Props> = ({ name, signedIn, signout }) => {
             </>
           ) : (
             <>
-              <DashboardButton onClick={() => changeShow(true)}>
+              <DashboardButton
+                data-testid="unsigned-in-title"
+                onClick={() => changeShow(true)}
+              >
                 EVENT DASHBOARD
               </DashboardButton>
               <Modal show={show} onHide={() => changeShow(false)} size="lg">

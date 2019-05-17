@@ -50,7 +50,9 @@ const LandingEventContainer: FunctionComponent<Props> = ({
     <Container>
       {!isLoading && conferences.length <= 0 ? (
         <>
-          <ContentTitle>Register for an event</ContentTitle>
+          <ContentTitle data-testid="register-title">
+            Register for an event
+          </ContentTitle>
           <ContentInfo>
             To register for an event, search the event name above.
           </ContentInfo>
@@ -63,11 +65,13 @@ const LandingEventContainer: FunctionComponent<Props> = ({
         </>
       ) : conferences.length <= 0 ? (
         <SearchingContainer>
-          <SearchingTitle>Searching Events...</SearchingTitle>
+          <SearchingTitle data-testid="searching-title">
+            Searching Events...
+          </SearchingTitle>
           <FontAwesomeIcon icon={faSpinner} spin size="3x" />
         </SearchingContainer>
       ) : (
-        <div>Results found</div>
+        <div data-testid="results-container">Results found</div>
       )}
     </Container>
   );

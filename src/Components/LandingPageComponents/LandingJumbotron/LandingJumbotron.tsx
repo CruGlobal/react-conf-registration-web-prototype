@@ -80,6 +80,7 @@ const LandingJumbotron: FunctionComponent<Props> = ({
               <option value="">Greater Than Next Month</option>
             </DateInput>
             <SearchButton
+              data-testid="search-button"
               type="button"
               onClick={() => getConferences(`${searchQuery}`)}
             >
