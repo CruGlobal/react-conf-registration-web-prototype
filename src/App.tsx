@@ -3,6 +3,9 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LandingPage from "./Components/LandingPageComponents/LandingPage/LandingPage";
 import AuthPage from "./Components/AuthComponent/AuthPage";
+import APIController from "./Controllers/apicontroller";
+
+const API = new APIController();
 
 class App extends Component {
   state = {
@@ -72,9 +75,16 @@ class App extends Component {
     }
   };
 
+  getUserProfile = (userToken: any) => {
+    API.getUser(`${API.BASE_URL}${API.PROFILE_SEARCH}`, userToken)
+      .then(res => res.json())
+      .then(response => this.setProfile(response));
+  };
+
   async componentDidMount() {
     await this.checkLocalAuth();
     this.setSignInStatus();
+    this.getUserProfile(this.state.crsToken);
   }
 
   render() {

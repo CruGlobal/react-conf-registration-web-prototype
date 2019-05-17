@@ -38,7 +38,7 @@ const Footer = () => {
           </LinkContent>
           <LinkContent href="/#a">Help</LinkContent>
         </PrivacyContainer>
-        <span>
+        <span data-testid="copyright-title">
           &copy; {currentYear} |{" "}
           <LinkContent href="http://www.cru.org">Cru</LinkContent>
         </span>
