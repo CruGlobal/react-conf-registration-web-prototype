@@ -12,6 +12,7 @@ import Modal from "react-bootstrap/Modal";
 import RelayImg from "../../../img/signin-relay.png";
 import FacebookImg from "../../../img/signin-facebook.png";
 import InstagramImg from "../../../img/signin-instagram.jpeg";
+import { Link } from "react-router-dom";
 
 const NavBarContainer = styled.div`
   width: 100%;
@@ -33,10 +34,15 @@ const NavBar = styled.div`
   margin-bottom: 5px;
 `;
 
-const MainHeadingContainer = styled.div`
+const MainHeadingContainer = styled(Link)`
   display: flex;
   flex-direction: row;
   align-items: center;
+  color: white;
+  :hover {
+    color: white;
+    text-decoration: none;
+  }
 `;
 
 const NavBarTitle = styled.h3`
@@ -124,7 +130,7 @@ const Navbar: FunctionComponent<Props> = ({ name, signedIn, signout }) => {
   return (
     <NavBarContainer>
       <NavBar>
-        <MainHeadingContainer>
+        <MainHeadingContainer to="/">
           <FontAwesomeIcon icon={faUsers} size="3x" />
           <NavBarTitle>Event Registration Tool</NavBarTitle>
         </MainHeadingContainer>
@@ -142,15 +148,17 @@ const Navbar: FunctionComponent<Props> = ({ name, signedIn, signout }) => {
                 />
 
                 <Dropdown.Menu alignRight={true}>
-                  <Dropdown.Item hred="#/action-1">
+                  <Dropdown.Item>
                     <FontAwesomeIcon icon={faUsers} />
                     <DropDownItemText>My Dashboard</DropDownItemText>
                   </Dropdown.Item>
-                  <Dropdown.Item hred="#/action-2">
+
+                  <Dropdown.Item href="/help">
                     <FontAwesomeIcon icon={faMedkit} />
                     <DropDownItemText>I Need Help!</DropDownItemText>
                   </Dropdown.Item>
-                  <Dropdown.Item hred="#/action-3">
+
+                  <Dropdown.Item>
                     {" "}
                     <FontAwesomeIcon icon={faSignOutAlt} />
                     <DropDownItemText
