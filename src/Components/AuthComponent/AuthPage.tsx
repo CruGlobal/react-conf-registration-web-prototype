@@ -19,13 +19,13 @@ const AuthPage: FunctionComponent<Props> = ({
     localStorage.setItem("crsToken", token);
   };
 
-  const getUserProfile = (userToken: any) => {
-    API.getUser(`${API.BASE_URL}${API.PROFILE_SEARCH}`, userToken)
-      .then(res => res.json())
-      .then(response => setProfile(response));
-  };
-
   useEffect(() => {
+    const getUserProfile = (userToken: any) => {
+      API.getUser(`${API.BASE_URL}${API.PROFILE_SEARCH}`, userToken)
+        .then(res => res.json())
+        .then(response => setProfile(response));
+    };
+
     if (match.params.id) {
       setCrsToken(match.params.id);
       setTokenLocalStorage(match.params.id);
@@ -37,7 +37,7 @@ const AuthPage: FunctionComponent<Props> = ({
     } else {
       setCrsToken("");
     }
-  }, [getUserProfile, match.params.id, setCrsToken]);
+  }, [API, match.params.id, setCrsToken, setProfile]);
 
   return (
     <div>

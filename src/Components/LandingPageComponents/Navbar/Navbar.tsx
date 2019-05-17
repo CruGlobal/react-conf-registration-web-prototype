@@ -135,7 +135,11 @@ const Navbar: FunctionComponent<Props> = ({ name, signedIn, signout }) => {
                 Hello <strong>{name}</strong>
               </DashboardButton>
               <Dropdown as={ButtonGroup}>
-                <DownArrowButton split id="dropdown-split-basic" />
+                <DownArrowButton
+                  split
+                  id="dropdown-split-basic"
+                  data-testid="drop-down-button"
+                />
 
                 <Dropdown.Menu alignRight={true}>
                   <Dropdown.Item hred="#/action-1">
@@ -149,7 +153,10 @@ const Navbar: FunctionComponent<Props> = ({ name, signedIn, signout }) => {
                   <Dropdown.Item hred="#/action-3">
                     {" "}
                     <FontAwesomeIcon icon={faSignOutAlt} />
-                    <DropDownItemText onClick={signout}>
+                    <DropDownItemText
+                      onClick={signout}
+                      data-testid="sign-out-title"
+                    >
                       Sign out
                     </DropDownItemText>
                   </Dropdown.Item>
@@ -171,7 +178,7 @@ const Navbar: FunctionComponent<Props> = ({ name, signedIn, signout }) => {
                   </Modal.Title>
                 </Modal.Header>
                 <ModalContentContainer>
-                  <ModalText>
+                  <ModalText data-testid="signin-method-title">
                     Please sign in with one of the following services:
                   </ModalText>
                   <LoginMethodContainer href="https://api.stage.eventregistrationtool.com/eventhub-api/rest/auth/instagram/authorization">
