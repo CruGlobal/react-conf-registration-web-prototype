@@ -1,5 +1,6 @@
 import React from "react";
 import { render, cleanup, fireEvent } from "react-testing-library";
+import { MemoryRouter } from "react-router-dom";
 import LandingPage from "../LandingPage";
 
 afterEach(() => {
@@ -30,7 +31,9 @@ const fullConferences = [
 
 test("<LandingPage /> not signed in", () => {
   const { getByTestId } = render(
-    <LandingPage userProfile={userProfile} conferences={emptyConferences} />
+    <MemoryRouter>
+      <LandingPage userProfile={userProfile} conferences={emptyConferences} />
+    </MemoryRouter>
   );
   expect(getByTestId("register-title")).toBeTruthy();
   expect(getByTestId("unsigned-in-title")).toBeTruthy();
@@ -39,11 +42,13 @@ test("<LandingPage /> not signed in", () => {
 
 test("<LandingPage /> signedIn", () => {
   const { getByTestId } = render(
-    <LandingPage
-      userProfile={userProfile}
-      conferences={emptyConferences}
-      signedIn={signedIn}
-    />
+    <MemoryRouter>
+      <LandingPage
+        userProfile={userProfile}
+        conferences={emptyConferences}
+        signedIn={signedIn}
+      />
+    </MemoryRouter>
   );
   expect(getByTestId("signed-in-title")).toBeTruthy();
   expect(getByTestId("register-title")).toBeTruthy();
@@ -52,11 +57,13 @@ test("<LandingPage /> signedIn", () => {
 
 test("<LandingPage /> notSignedIn and Searching", () => {
   const { getByTestId } = render(
-    <LandingPage
-      userProfile={userProfile}
-      conferences={emptyConferences}
-      isLoading={true}
-    />
+    <MemoryRouter>
+      <LandingPage
+        userProfile={userProfile}
+        conferences={emptyConferences}
+        isLoading={true}
+      />
+    </MemoryRouter>
   );
 
   expect(getByTestId("searching-title")).toBeTruthy();
@@ -65,12 +72,14 @@ test("<LandingPage /> notSignedIn and Searching", () => {
 
 test("<LandingPage /> SignedIn and Searching", () => {
   const { getByTestId } = render(
-    <LandingPage
-      userProfile={userProfile}
-      conferences={emptyConferences}
-      signedIn={signedIn}
-      isLoading={true}
-    />
+    <MemoryRouter>
+      <LandingPage
+        userProfile={userProfile}
+        conferences={emptyConferences}
+        signedIn={signedIn}
+        isLoading={true}
+      />
+    </MemoryRouter>
   );
 
   expect(getByTestId("searching-title")).toBeTruthy();
@@ -80,12 +89,14 @@ test("<LandingPage /> SignedIn and Searching", () => {
 
 test("<LandingPage /> SignedIn and afterSearching", () => {
   const { getByTestId } = render(
-    <LandingPage
-      userProfile={userProfile}
-      conferences={fullConferences}
-      signedIn={signedIn}
-      isLoading={false}
-    />
+    <MemoryRouter>
+      <LandingPage
+        userProfile={userProfile}
+        conferences={fullConferences}
+        signedIn={signedIn}
+        isLoading={false}
+      />
+    </MemoryRouter>
   );
 
   expect(getByTestId("results-container")).toBeTruthy();

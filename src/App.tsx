@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import styled from "@emotion/styled";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LandingPage from "./Components/LandingPageComponents/LandingPage/LandingPage";
+import HelpComponent from "./Components/HelpComponent/HelpComponent";
 import AuthPage from "./Components/AuthComponent/AuthPage";
 import APIController from "./Controllers/apicontroller";
 
@@ -110,6 +111,17 @@ class App extends Component {
             )}
           />
 
+          <Route
+            path="/help"
+            render={props => (
+              <HelpComponent
+                {...props}
+                userProfile={profile}
+                signedIn={signedIn}
+                signout={this.signOut}
+              />
+            )}
+          />
           <Route
             exact
             path="/auth/"

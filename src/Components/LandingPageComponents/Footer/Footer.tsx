@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const FooterContainer = styled.div`
@@ -26,6 +27,9 @@ const Footer = () => {
   const LinkContent = styled.a`
     color: #337ab7;
   `;
+  const LinkComponentRoute = styled(Link)`
+    color: #337ab7;
+  `;
 
   const currentYear = new Date().getFullYear();
 
@@ -36,7 +40,7 @@ const Footer = () => {
           <LinkContent href="https://www.cru.org/us/en/about/privacy.html">
             Privacy Policy
           </LinkContent>
-          <LinkContent href="/#a">Help</LinkContent>
+          <LinkComponentRoute to="/help">Help</LinkComponentRoute>
         </PrivacyContainer>
         <span data-testid="copyright-title">
           &copy; {currentYear} |{" "}
