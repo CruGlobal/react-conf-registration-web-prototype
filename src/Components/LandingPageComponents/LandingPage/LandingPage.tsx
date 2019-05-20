@@ -23,6 +23,8 @@ const LandingPage: FunctionComponent<Props> = ({
   isLoading,
   userProfile
 }) => {
+  document.title = "Search for event | Event Registration Tool";
+
   return (
     <>
       <Navbar
