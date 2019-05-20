@@ -82,7 +82,11 @@ const LandingJumbotron: FunctionComponent<Props> = ({
             <SearchButton
               data-testid="search-button"
               type="button"
-              onClick={() => getConferences(`${searchQuery}`)}
+              onClick={() => {
+                if (searchQuery.length >= 2) {
+                  getConferences(`${searchQuery}`);
+                }
+              }}
             >
               Search
             </SearchButton>
