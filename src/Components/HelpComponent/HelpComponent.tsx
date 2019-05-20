@@ -15,6 +15,8 @@ const HelpComponent: FunctionComponent<Props> = ({
   signout,
   userProfile
 }) => {
+  document.title = "Help | Event Registration Tool";
+
   return (
     <>
       {signedIn ? (
