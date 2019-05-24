@@ -1,37 +1,20 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import Navbar from "../Navbar/Navbar";
 import LandingJumbotron from "../LandingJumbotron/LandingJumbotron";
 import LandingEventContainer from "../LandingEventContainer/LandingEventContainer";
 import Footer from "../Footer/Footer";
 
-type Props = {
-  signedIn: any;
-  signout: any;
-  setConferences: any;
-  setIsLoading: any;
-  conferences: any;
-  isLoading: any;
-  userProfile: any;
-};
-
-const LandingPage: FunctionComponent<Props> = ({
-  signedIn,
-  signout,
+const LandingPage = ({
   setConferences,
   setIsLoading,
   conferences,
-  isLoading,
-  userProfile
+  isLoading
 }) => {
   document.title = "Search for event | Event Registration Tool";
 
   return (
     <>
-      <Navbar
-        name={userProfile.firstName}
-        signedIn={signedIn}
-        signout={signout}
-      />
+      <Navbar />
       <LandingJumbotron
         setConferences={setConferences}
         setIsLoading={setIsLoading}

@@ -1,31 +1,17 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import Navbar from "../LandingPageComponents/Navbar/Navbar";
 import Footer from "../LandingPageComponents/Footer/Footer";
 import { Redirect } from "react-router";
 
-type Props = {
-  signedIn: any;
-  signout: any;
-  userProfile: any;
-};
-
-const HelpComponent: FunctionComponent<Props> = ({
-  signedIn,
-  signout,
-  userProfile
-}) => {
+const HelpComponent = ({ signedIn, signout }) => {
   document.title = "Help | Event Registration Tool";
 
   return (
     <>
       {signedIn ? (
         <>
-          <Navbar
-            name={userProfile.firstName}
-            signedIn={signedIn}
-            signout={signout}
-          />
+          <Navbar signedIn={signedIn} signout={signout} />
           <Container>
             <HelpTitle>Help</HelpTitle>
             <p>

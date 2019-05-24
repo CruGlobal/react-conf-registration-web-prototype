@@ -1,17 +1,9 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-type Props = {
-  conferences: any;
-  isLoading: boolean;
-};
-
-const LandingEventContainer: FunctionComponent<Props> = ({
-  conferences,
-  isLoading
-}) => {
+const LandingEventContainer = ({ conferences, isLoading }) => {
   const Container = styled.div`
     width: 1170px;
     display: flex;

@@ -1,15 +1,10 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import _ from "lodash";
 import bigBreak from "../../../img/big-break.jpg";
 import climbingImg from "../../../img/187.jpg";
 import friendsImg from "../../../img/311.jpg";
 import APIController from "../../../Controllers/apicontroller";
-
-type Props = {
-  setConferences: any;
-  setIsLoading: any;
-};
 
 let jumbotronImages = [
   {
@@ -28,15 +23,12 @@ let jumbotronImages = [
 
 let randomImage = jumbotronImages[_.random(0, jumbotronImages.length - 1)];
 
-const LandingJumbotron: FunctionComponent<Props> = ({
-  setConferences,
-  setIsLoading
-}) => {
+const LandingJumbotron = ({ setConferences, setIsLoading }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const API = new APIController();
 
-  const getConferences = (searchQuery: string) => {
+  const getConferences = searchQuery => {
     setIsLoading(true);
     setConferences([], null);
     API.getConferences(
