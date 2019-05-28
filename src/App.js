@@ -7,7 +7,6 @@ import AuthPage from "./Components/AuthComponent/AuthPage";
 
 import {
   applicationInit,
-  setProfile,
   successfulLogin,
   failedLogin,
   userLogin
