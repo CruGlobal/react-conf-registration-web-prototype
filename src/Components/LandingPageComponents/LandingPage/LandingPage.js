@@ -4,22 +4,14 @@ import LandingJumbotron from "../LandingJumbotron/LandingJumbotron";
 import LandingEventContainer from "../LandingEventContainer/LandingEventContainer";
 import Footer from "../Footer/Footer";
 
-const LandingPage = ({
-  setConferences,
-  setIsLoading,
-  conferences,
-  isLoading
-}) => {
+const LandingPage = () => {
   document.title = "Search for event | Event Registration Tool";
 
   return (
     <>
       <Navbar />
-      <LandingJumbotron
-        setConferences={setConferences}
-        setIsLoading={setIsLoading}
-      />
-      <LandingEventContainer conferences={conferences} isLoading={isLoading} />
+      <LandingJumbotron />
+      <LandingEventContainer />
       <Footer />
     </>
   );

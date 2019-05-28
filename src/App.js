@@ -17,24 +17,7 @@ const API = new APIController();
 
 class App extends Component {
   state = {
-    cruStatus: true,
-    isLoading: false,
-    conferences: [],
-    selectedConference: [],
-    error: null
-  };
-
-  setConferences = (conferences, error) => {
-    this.setState({
-      conferences: conferences,
-      error: error
-    });
-  };
-
-  setIsLoading = status => {
-    this.setState({
-      isLoading: status
-    });
+    cruStatus: true
   };
 
   checkLocalAuth = () => {
@@ -71,26 +54,17 @@ class App extends Component {
   }
 
   render() {
-    const { conferences, isLoading } = this.state;
+    const { loginState } = this.props;
 
     return (
       <Router>
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={props => (
-              <LandingPage
-                {...props}
-                setConferences={this.setConferences}
-                setIsLoading={this.setIsLoading}
-                conferences={conferences}
-                isLoading={isLoading}
-              />
-            )}
-          />
+          <Route exact path="/" render={props => <LandingPage {...props} />} />
 
-          <Route path="/help" render={props => <HelpComponent {...props} />} />
+          <Route
+            path="/help"
+            render={props => <HelpComponent signedIn={loginState} {...props} />}
+          />
           <Route
             exact
             path="/auth/"

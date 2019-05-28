@@ -4,14 +4,14 @@ import Navbar from "../LandingPageComponents/Navbar/Navbar";
 import Footer from "../LandingPageComponents/Footer/Footer";
 import { Redirect } from "react-router";
 
-const HelpComponent = ({ signedIn, signout }) => {
+const HelpComponent = ({ signedIn }) => {
   document.title = "Help | Event Registration Tool";
 
   return (
     <>
       {signedIn ? (
         <>
-          <Navbar signedIn={signedIn} signout={signout} />
+          <Navbar />
           <Container>
             <HelpTitle>Help</HelpTitle>
             <p>
