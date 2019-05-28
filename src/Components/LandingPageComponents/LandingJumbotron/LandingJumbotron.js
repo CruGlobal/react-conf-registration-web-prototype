@@ -1,15 +1,11 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import _ from "lodash";
 import bigBreak from "../../../img/big-break.jpg";
 import climbingImg from "../../../img/187.jpg";
 import friendsImg from "../../../img/311.jpg";
-import APIController from "../../../Controllers/apicontroller";
-
-type Props = {
-  setConferences: any;
-  setIsLoading: any;
-};
+import { conferenceSearch } from "../../../actions";
+import { connect } from "react-redux";
 
 let jumbotronImages = [
   {
@@ -28,27 +24,8 @@ let jumbotronImages = [
 
 let randomImage = jumbotronImages[_.random(0, jumbotronImages.length - 1)];
 
-const LandingJumbotron: FunctionComponent<Props> = ({
-  setConferences,
-  setIsLoading
-}) => {
+const LandingJumbotron = ({ setConferences }) => {
   const [searchQuery, setSearchQuery] = useState("");
-
-  const API = new APIController();
-
-  const getConferences = (searchQuery: string) => {
-    setIsLoading(true);
-    setConferences([], null);
-    API.getConferences(
-      `${API.BASE_URL}${API.CONFERENCE_SEARCH_NAME}${searchQuery}`
-    )
-      .then(res => {
-        setIsLoading(false);
-        return res.json();
-      })
-      .then(response => setConferences(response, null))
-      .catch(error => console.log("Error", error));
-  };
 
   return (
     <JumbotronContainer>
@@ -64,7 +41,7 @@ const LandingJumbotron: FunctionComponent<Props> = ({
               onChange={e => {
                 setSearchQuery(e.target.value);
                 if (e.target.value.length >= 2) {
-                  getConferences(`${e.target.value}`);
+                  setConferences(e.target.value);
                 }
               }}
               autoFocus={true}
@@ -84,7 +61,7 @@ const LandingJumbotron: FunctionComponent<Props> = ({
               type="button"
               onClick={() => {
                 if (searchQuery.length >= 2) {
-                  getConferences(`${searchQuery}`);
+                  setConferences(`${searchQuery}`);
                 }
               }}
             >
@@ -97,7 +74,24 @@ const LandingJumbotron: FunctionComponent<Props> = ({
   );
 };
 
-export default LandingJumbotron;
+const mapStateToProps = state => {
+  return {
+    conferences: state.conferenceReducer.conferences
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setConferences: searchQuery => {
+      dispatch(conferenceSearch(searchQuery));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LandingJumbotron);
 
 const JumbotronContainer = styled.div`
   width: 100%;

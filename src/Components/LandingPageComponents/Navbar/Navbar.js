@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import {
   faUsers,
@@ -13,6 +13,135 @@ import RelayImg from "../../../img/signin-relay.png";
 import FacebookImg from "../../../img/signin-facebook.png";
 import InstagramImg from "../../../img/signin-instagram.jpeg";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { userLogout } from "../../../actions";
+
+const Navbar = ({ profile, loginState, userLogout }) => {
+  const DashboardButton = styled.button`
+    width: ${loginState ? "auto" : "180px"};
+    height: 35px;
+    font-size: ${loginState ? "18px" : "16px"};
+    color: #3494c6;
+    border-radius: ${loginState ? "0px" : "5px"};
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    text-transform: uppercase;
+    :hover {
+      cursor: pointer;
+      opacity: 0.7;
+    }
+  `;
+
+  const [show, changeShow] = useState(false);
+
+  return (
+    <NavBarContainer>
+      <NavBar>
+        <MainHeadingContainer to="/">
+          <FontAwesomeIcon icon={faUsers} size="3x" />
+          <NavBarTitle>Event Registration Tool</NavBarTitle>
+        </MainHeadingContainer>
+        <ButtonContainer>
+          {loginState ? (
+            <>
+              <DashboardButton data-testid="signed-in-title">
+                Hello <strong>{profile.firstName}</strong>
+              </DashboardButton>
+              <Dropdown as={ButtonGroup}>
+                <DownArrowButton
+                  split
+                  id="dropdown-split-basic"
+                  data-testid="drop-down-button"
+                />
+
+                <Dropdown.Menu alignRight={true}>
+                  <Dropdown.Item>
+                    <FontAwesomeIcon icon={faUsers} />
+                    <DropDownItemText>My Dashboard</DropDownItemText>
+                  </Dropdown.Item>
+
+                  <Dropdown.Item href="/help">
+                    <FontAwesomeIcon icon={faMedkit} />
+                    <DropDownItemText>I Need Help!</DropDownItemText>
+                  </Dropdown.Item>
+
+                  <Dropdown.Item>
+                    {" "}
+                    <FontAwesomeIcon icon={faSignOutAlt} />
+                    <DropDownItemText
+                      onClick={userLogout}
+                      data-testid="sign-out-title"
+                    >
+                      Sign out
+                    </DropDownItemText>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </>
+          ) : (
+            <>
+              <DashboardButton
+                data-testid="unsigned-in-title"
+                onClick={() => changeShow(true)}
+              >
+                EVENT DASHBOARD
+              </DashboardButton>
+              <Modal show={show} onHide={() => changeShow(false)} size="lg">
+                <Modal.Header closeButton>
+                  <Modal.Title id="contained-modal-title-vcenter">
+                    Welcome to the Event Registration Tool!
+                  </Modal.Title>
+                </Modal.Header>
+                <ModalContentContainer>
+                  <ModalText data-testid="signin-method-title">
+                    Please sign in with one of the following services:
+                  </ModalText>
+                  <LoginMethodContainer href="https://api.stage.eventregistrationtool.com/eventhub-api/rest/auth/instagram/authorization">
+                    <img src={InstagramImg} alt="Instagram Login" />
+                  </LoginMethodContainer>
+                  <LinkContent href="https://www.instagram.com">
+                    Create an Instagram account
+                  </LinkContent>
+                  <LoginMethodContainer href="https://api.stage.eventregistrationtool.com/eventhub-api/rest/auth/facebook/authorization">
+                    <img src={FacebookImg} alt="Facebook Login" />
+                  </LoginMethodContainer>
+                  <LinkContent href="https://www.facebook.com">
+                    Create a Facebook account
+                  </LinkContent>
+                  <LoginMethodContainer href="https://api.stage.eventregistrationtool.com/eventhub-api/rest/auth/relay/login?logoutCallbackUrl=https://api.stage.eventregistrationtool.com/eventhub-api/rest/auth/relay/logout&ticket=None">
+                    <img src={RelayImg} alt="Relay Login" />
+                  </LoginMethodContainer>
+                  <LinkContent href="https://signon.cru.org/cas/login?action=signup&service=https%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogin%3FlogoutCallbackUrl%3Dhttps%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogout">
+                    Create a Relay account
+                  </LinkContent>
+                </ModalContentContainer>
+              </Modal>
+            </>
+          )}
+        </ButtonContainer>
+      </NavBar>
+    </NavBarContainer>
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    profile: state.authenticationReducer.profile,
+    loginState: state.authenticationReducer.loginState
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogout: () => {
+      dispatch(userLogout());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navbar);
 
 const NavBarContainer = styled.div`
   width: 100%;
@@ -102,119 +231,3 @@ const LoginMethodContainer = styled.a`
 const LinkContent = styled.a`
   color: #337ab7;
 `;
-
-type Props = {
-  name: string;
-  signedIn: boolean;
-  signout: any;
-};
-
-const Navbar: FunctionComponent<Props> = ({ name, signedIn, signout }) => {
-  const DashboardButton = styled.button`
-    width: ${signedIn ? "auto" : "180px"};
-    height: 35px;
-    font-size: ${signedIn ? "18px" : "16px"};
-    color: #3494c6;
-    border-radius: ${signedIn ? "0px" : "5px"};
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    text-transform: uppercase;
-    :hover {
-      cursor: pointer;
-      opacity: 0.7;
-    }
-  `;
-
-  const [show, changeShow] = useState(false);
-
-  return (
-    <NavBarContainer>
-      <NavBar>
-        <MainHeadingContainer to="/">
-          <FontAwesomeIcon icon={faUsers} size="3x" />
-          <NavBarTitle>Event Registration Tool</NavBarTitle>
-        </MainHeadingContainer>
-        <ButtonContainer>
-          {signedIn ? (
-            <>
-              <DashboardButton data-testid="signed-in-title">
-                Hello <strong>{name}</strong>
-              </DashboardButton>
-              <Dropdown as={ButtonGroup}>
-                <DownArrowButton
-                  split
-                  id="dropdown-split-basic"
-                  data-testid="drop-down-button"
-                />
-
-                <Dropdown.Menu alignRight={true}>
-                  <Dropdown.Item>
-                    <FontAwesomeIcon icon={faUsers} />
-                    <DropDownItemText>My Dashboard</DropDownItemText>
-                  </Dropdown.Item>
-
-                  <Dropdown.Item href="/help">
-                    <FontAwesomeIcon icon={faMedkit} />
-                    <DropDownItemText>I Need Help!</DropDownItemText>
-                  </Dropdown.Item>
-
-                  <Dropdown.Item>
-                    {" "}
-                    <FontAwesomeIcon icon={faSignOutAlt} />
-                    <DropDownItemText
-                      onClick={signout}
-                      data-testid="sign-out-title"
-                    >
-                      Sign out
-                    </DropDownItemText>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </>
-          ) : (
-            <>
-              <DashboardButton
-                data-testid="unsigned-in-title"
-                onClick={() => changeShow(true)}
-              >
-                EVENT DASHBOARD
-              </DashboardButton>
-              <Modal show={show} onHide={() => changeShow(false)} size="lg">
-                <Modal.Header closeButton>
-                  <Modal.Title id="contained-modal-title-vcenter">
-                    Welcome to the Event Registration Tool!
-                  </Modal.Title>
-                </Modal.Header>
-                <ModalContentContainer>
-                  <ModalText data-testid="signin-method-title">
-                    Please sign in with one of the following services:
-                  </ModalText>
-                  <LoginMethodContainer href="https://api.stage.eventregistrationtool.com/eventhub-api/rest/auth/instagram/authorization">
-                    <img src={InstagramImg} alt="Instagram Login" />
-                  </LoginMethodContainer>
-                  <LinkContent href="https://www.instagram.com">
-                    Create an Instagram account
-                  </LinkContent>
-                  <LoginMethodContainer href="https://api.stage.eventregistrationtool.com/eventhub-api/rest/auth/facebook/authorization">
-                    <img src={FacebookImg} alt="Facebook Login" />
-                  </LoginMethodContainer>
-                  <LinkContent href="https://www.facebook.com">
-                    Create a Facebook account
-                  </LinkContent>
-                  <LoginMethodContainer href="https://api.stage.eventregistrationtool.com/eventhub-api/rest/auth/relay/login?logoutCallbackUrl=https://api.stage.eventregistrationtool.com/eventhub-api/rest/auth/relay/logout&ticket=None">
-                    <img src={RelayImg} alt="Relay Login" />
-                  </LoginMethodContainer>
-                  <LinkContent href="https://signon.cru.org/cas/login?action=signup&service=https%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogin%3FlogoutCallbackUrl%3Dhttps%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogout">
-                    Create a Relay account
-                  </LinkContent>
-                </ModalContentContainer>
-              </Modal>
-            </>
-          )}
-        </ButtonContainer>
-      </NavBar>
-    </NavBarContainer>
-  );
-};
-
-export default Navbar;
