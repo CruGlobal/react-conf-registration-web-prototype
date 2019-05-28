@@ -10,3 +10,4 @@ export const USER_SIGN_OUT = "USER_SIGN_OUT";
 export const AUTH_USER_PROFILE = "AUTH_USER_PROFILE";
 export const CONFERENCE_SEARCH = "CONFERENCE_SEARCH";
 export const IS_LOADING = "IS_LOADING";
+export const SET_CRS_TOKEN = "SET_CRS_TOKEN";

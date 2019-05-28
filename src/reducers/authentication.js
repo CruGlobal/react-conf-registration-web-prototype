@@ -5,7 +5,8 @@ import {
   USER_LOGIN,
   USER_LOGIN_FAILURE,
   SET_USER_PROFILE,
-  USER_SIGN_OUT
+  USER_SIGN_OUT,
+  SET_CRS_TOKEN
 } from "../constants";
 
 const initialState = {
@@ -20,6 +21,11 @@ const authenticationReducer = (
 ) => {
   switch (type) {
     case USER_LOGIN:
+      return {
+        ...state,
+        profile: profile
+      };
+    case SET_CRS_TOKEN:
       return {
         ...state,
         crsToken: crsToken

@@ -4,22 +4,17 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LandingPage from "./Components/LandingPageComponents/LandingPage/LandingPage";
 import HelpComponent from "./Components/HelpComponent/HelpComponent";
 import AuthPage from "./Components/AuthComponent/AuthPage";
-import APIController from "./Controllers/apicontroller";
+
 import {
   applicationInit,
   setProfile,
   successfulLogin,
-  failedLogin
+  failedLogin,
+  userLogin
 } from "./actions";
 import { connect } from "react-redux";
 
-const API = new APIController();
-
 class App extends Component {
-  state = {
-    cruStatus: true
-  };
-
   checkLocalAuth = () => {
     const token = localStorage.getItem("crsToken");
     if (token) {
@@ -37,20 +32,10 @@ class App extends Component {
     }
   };
 
-  getUserProfile = userToken => {
-    API.getUser(`${API.BASE_URL}${API.PROFILE_SEARCH}`, userToken)
-      .then(res => res.json())
-      .then(response => {
-        this.props.setProfile(response);
-      });
-  };
-
   async componentDidMount() {
     await this.checkLocalAuth();
     this.setSignInStatus();
-    if (this.props.crsToken) {
-      this.getUserProfile(this.props.crsToken);
-    }
+    this.props.setUserProfile(this.props.crsToken);
   }
 
   render() {
@@ -87,6 +72,9 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
+    setUserProfile: accessToken => {
+      dispatch(userLogin(accessToken));
+    },
     getCrsToken: () => {
       dispatch(applicationInit());
     },
@@ -96,9 +84,6 @@ const mapDispatchToProps = dispatch => {
 
     failedLogin: () => {
       dispatch(failedLogin());
-    },
-    setProfile: profile => {
-      dispatch(setProfile(profile));
     }
   };
 };

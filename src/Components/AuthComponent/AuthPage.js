@@ -1,16 +1,10 @@
 import React, { useEffect } from "react";
 import { Redirect } from "react-router";
 import APIController from "../../Controllers/apicontroller";
-import { userLogin, setProfile } from "../../actions";
+import { userLogin } from "../../actions";
 import { connect } from "react-redux";
 
-const AuthPage = ({
-  setProfile,
-  match,
-  setcrsToken,
-  setUserProfile,
-  crsToken
-}) => {
+const AuthPage = ({ match, setcrsToken, setUserProfile }) => {
   const API = new APIController();
 
   const setTokenLocalStorage = token => {
@@ -18,23 +12,16 @@ const AuthPage = ({
   };
 
   useEffect(() => {
-    const getUserProfile = userToken => {
-      API.getUser(`${API.BASE_URL}${API.PROFILE_SEARCH}`, userToken)
-        .then(res => res.json())
-        .then(response => setUserProfile(response));
-    };
     if (match.params.id) {
       setTokenLocalStorage(match.params.id);
-      setcrsToken(match.params.id);
-      getUserProfile(match.params.id);
+      setUserProfile(match.params.id);
     } else if (localStorage.getItem("crsToken")) {
       const token = localStorage.getItem("crsToken");
-      setcrsToken(token);
-      getUserProfile(token);
+      setUserProfile(token);
     } else {
       setcrsToken("");
     }
-  }, [API, match.params.id, setProfile, setUserProfile, setcrsToken]);
+  }, [API, match.params.id, setUserProfile, setcrsToken]);
 
   return (
     <div>
@@ -55,11 +42,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    setcrsToken: crsToken => {
-      dispatch(userLogin(crsToken));
-    },
-    setUserProfile: profile => {
-      dispatch(setProfile(profile));
+    setUserProfile: accessToken => {
+      dispatch(userLogin(accessToken));
     }
   };
 };
