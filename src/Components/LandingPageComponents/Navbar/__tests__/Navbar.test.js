@@ -2,6 +2,11 @@ import React from "react";
 import { render, cleanup, fireEvent } from "react-testing-library";
 import Navbar from "../Navbar";
 import { MemoryRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { createStore, compose, applyMiddleware } from "redux";
+import rootReducer from "../../../../reducers";
+import thunk from "redux-thunk";
+import { successfulLogin, userLogout } from "../../../../actions";
 
 afterEach(() => {
   cleanup();
@@ -10,34 +15,50 @@ afterEach(() => {
 
 console.error = jest.fn();
 
-const signout = jest.fn();
-
-const name = "Christian";
+const initialState = {
+  crsToken: "123",
+  loginState: true,
+  profile: {
+    firstName: "Christian"
+  }
+};
+const store = createStore(
+  rootReducer,
+  initialState,
+  compose(applyMiddleware(thunk))
+);
 
 test("<Navbar /> not signed in", () => {
   const { getByTestId } = render(
     <MemoryRouter>
-      <Navbar />
+      <Provider store={store}>
+        <Navbar />
+      </Provider>
     </MemoryRouter>
   );
-  expect(console.error).toHaveBeenCalledTimes(0);
   expect(getByTestId("unsigned-in-title").textContent).toBe("EVENT DASHBOARD");
 });
 
 test("<Navbar /> Signed in", () => {
+  store.dispatch(successfulLogin());
   const { getByTestId } = render(
     <MemoryRouter>
-      <Navbar signedIn={true} name={name} />
+      <Provider store={store}>
+        <Navbar />
+      </Provider>
     </MemoryRouter>
   );
   expect(console.error).toHaveBeenCalledTimes(0);
-  expect(getByTestId("signed-in-title").textContent).toBe("Hello Christian");
+  expect(getByTestId("signed-in-title").textContent).toBe("Hello ");
 });
 
 test("<Navbar /> testing opening signup modal", () => {
+  store.dispatch(userLogout());
   const { getByTestId } = render(
     <MemoryRouter>
-      <Navbar signedIn={false} name={name} />
+      <Provider store={store}>
+        <Navbar />
+      </Provider>
     </MemoryRouter>
   );
   expect(console.error).toHaveBeenCalledTimes(0);
@@ -46,9 +67,12 @@ test("<Navbar /> testing opening signup modal", () => {
 });
 
 test("<Navbar /> testing opening dropdown menu", () => {
+  store.dispatch(successfulLogin());
   const { getByTestId } = render(
     <MemoryRouter>
-      <Navbar signedIn={true} name={name} />
+      <Provider store={store}>
+        <Navbar />
+      </Provider>
     </MemoryRouter>
   );
   expect(console.error).toHaveBeenCalledTimes(0);
@@ -59,12 +83,14 @@ test("<Navbar /> testing opening dropdown menu", () => {
 test("<Navbar /> testing signout method", () => {
   const { getByTestId } = render(
     <MemoryRouter>
-      <Navbar signedIn={true} name={name} signout={signout} />
+      <Provider store={store}>
+        <Navbar />
+      </Provider>
     </MemoryRouter>
   );
   expect(console.error).toHaveBeenCalledTimes(0);
   fireEvent.click(getByTestId("drop-down-button"));
   expect(getByTestId("sign-out-title")).toBeTruthy();
   fireEvent.click(getByTestId("sign-out-title"));
-  expect(signout).toHaveBeenCalled();
+  store.dispatch(userLogout());
 });

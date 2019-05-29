@@ -3,6 +3,7 @@ class APIController {
   CONFERENCE_SEARCH_NAME = `conferences?conferenceName=`;
   PROFILE_SEARCH = "profile";
   REGISTRATIONS_CURRENT = "registrations/current";
+  SELECTED_CONFERENCE = "conferences/"; //Conference id will be after this
 
   // This will get all the conferences by search query
   getConferences = (url: string) => {

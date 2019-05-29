@@ -25,6 +25,7 @@ let jumbotronImages = [
 let randomImage = jumbotronImages[_.random(0, jumbotronImages.length - 1)];
 
 const LandingJumbotron = ({ setConferences }) => {
+  // State Hook for storing our searchQuery
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
@@ -44,11 +45,12 @@ const LandingJumbotron = ({ setConferences }) => {
                   setConferences(e.target.value);
                 }
               }}
-              autoFocus={true}
             />
+            {/* Need to Add Dynamic Location Choices based on search results */}
             <LocationInput>
               <option value="">-Any Location-</option>
             </LocationInput>
+            {/* Need to Filter Based on Search results start times */}
             <DateInput>
               <option>-Any Date-</option>
               <option value="">This Week</option>

@@ -2,7 +2,8 @@ import { CONFERENCE_SEARCH, IS_LOADING } from "../constants";
 
 const initialState = {
   conferences: [],
-  selectedConference: [],
+  selectedConference: {},
+  currentRegistration: {},
   isLoading: false
 };
 
