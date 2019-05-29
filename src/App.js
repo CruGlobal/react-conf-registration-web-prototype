@@ -11,18 +11,10 @@ import {
   failedLogin,
   userLogin
 } from "./actions";
+
 import { connect } from "react-redux";
 
 class App extends Component {
-  checkLocalAuth = () => {
-    const token = localStorage.getItem("crsToken");
-    if (token) {
-      this.props.getCrsToken();
-    } else {
-      this.props.getCrsToken();
-    }
-  };
-
   setSignInStatus = () => {
     if (localStorage.getItem("crsToken")) {
       this.props.successfulLogin();
@@ -32,8 +24,11 @@ class App extends Component {
   };
 
   async componentDidMount() {
-    await this.checkLocalAuth();
+    // When the component mounts, check localstorage for a crsToken and set it our redux store
+    await this.props.getCrsToken();
+    // After the above function runs, set the signin status
     this.setSignInStatus();
+    // Then we will use the crsToken we set to get our users profile information
     this.props.setUserProfile(this.props.crsToken);
   }
 
@@ -41,6 +36,8 @@ class App extends Component {
     const { loginState } = this.props;
 
     return (
+      // This is where we do our routing
+      // Dependent on the route, we will render the required component
       <Router>
         <Switch>
           <Route exact path="/" render={props => <LandingPage {...props} />} />

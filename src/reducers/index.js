@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import authenticationReducer from "./authentication";
-import conferenceReducer from "./conferenceSearch";
+import conferenceReducer from "./conference";
 
 const rootReducer = combineReducers({
   authenticationReducer,

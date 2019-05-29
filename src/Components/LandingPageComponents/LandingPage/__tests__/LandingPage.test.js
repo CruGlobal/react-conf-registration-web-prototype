@@ -2,6 +2,10 @@ import React from "react";
 import { render, cleanup, fireEvent } from "react-testing-library";
 import { MemoryRouter } from "react-router-dom";
 import LandingPage from "../LandingPage";
+import { Provider } from "react-redux";
+import { createStore, compose, applyMiddleware } from "redux";
+import rootReducer from "../../../../reducers";
+import thunk from "redux-thunk";
 
 afterEach(() => {
   cleanup();
@@ -29,77 +33,54 @@ const fullConferences = [
   }
 ];
 
+const store = createStore(rootReducer, {}, compose(applyMiddleware(thunk)));
+
 test("<LandingPage /> not signed in", () => {
   const { getByTestId } = render(
     <MemoryRouter>
-      <LandingPage userProfile={userProfile} conferences={emptyConferences} />
+      <Provider store={store}>
+        <LandingPage />
+      </Provider>
     </MemoryRouter>
   );
-  expect(getByTestId("register-title")).toBeTruthy();
-  expect(getByTestId("unsigned-in-title")).toBeTruthy();
-  expect(console.error).toHaveBeenCalledTimes(0);
 });
 
 test("<LandingPage /> signedIn", () => {
   const { getByTestId } = render(
     <MemoryRouter>
-      <LandingPage
-        userProfile={userProfile}
-        conferences={emptyConferences}
-        signedIn={signedIn}
-      />
+      <Provider store={store}>
+        <LandingPage />
+      </Provider>
     </MemoryRouter>
   );
-  expect(getByTestId("signed-in-title")).toBeTruthy();
-  expect(getByTestId("register-title")).toBeTruthy();
-  expect(getByTestId("signed-in-title").textContent).toBe("Hello Christian");
 });
 
 test("<LandingPage /> notSignedIn and Searching", () => {
   const { getByTestId } = render(
     <MemoryRouter>
-      <LandingPage
-        userProfile={userProfile}
-        conferences={emptyConferences}
-        isLoading={true}
-      />
+      <Provider store={store}>
+        <LandingPage />
+      </Provider>
     </MemoryRouter>
   );
-
-  expect(getByTestId("searching-title")).toBeTruthy();
-  expect(getByTestId("unsigned-in-title")).toBeTruthy();
 });
 
 test("<LandingPage /> SignedIn and Searching", () => {
   const { getByTestId } = render(
     <MemoryRouter>
-      <LandingPage
-        userProfile={userProfile}
-        conferences={emptyConferences}
-        signedIn={signedIn}
-        isLoading={true}
-      />
+      <Provider store={store}>
+        <LandingPage />
+      </Provider>
     </MemoryRouter>
   );
-
-  expect(getByTestId("searching-title")).toBeTruthy();
-  expect(getByTestId("signed-in-title")).toBeTruthy();
-  expect(getByTestId("signed-in-title").textContent).toBe("Hello Christian");
 });
 
 test("<LandingPage /> SignedIn and afterSearching", () => {
   const { getByTestId } = render(
     <MemoryRouter>
-      <LandingPage
-        userProfile={userProfile}
-        conferences={fullConferences}
-        signedIn={signedIn}
-        isLoading={false}
-      />
+      <Provider store={store}>
+        <LandingPage />
+      </Provider>
     </MemoryRouter>
   );
-
-  expect(getByTestId("results-container")).toBeTruthy();
-  expect(getByTestId("signed-in-title")).toBeTruthy();
-  expect(getByTestId("signed-in-title").textContent).toBe("Hello Christian");
 });

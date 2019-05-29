@@ -3,34 +3,6 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const FooterContainer = styled.div`
-    width: 100%;
-    padding: 22px;
-    border-top: 1px solid #c7ecff;
-  `;
-
-  const FootContent = styled.div`
-    width: 1170px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  `;
-
-  const PrivacyContainer = styled.div`
-    width: 150px;
-    display: flex;
-    justify-content: space-between;
-  `;
-
-  const LinkContent = styled.a`
-    color: #337ab7;
-  `;
-  const LinkComponentRoute = styled(Link)`
-    color: #337ab7;
-  `;
-
   const currentYear = new Date().getFullYear();
 
   return (
@@ -52,3 +24,31 @@ const Footer = () => {
 };
 
 export default Footer;
+
+const FooterContainer = styled.div`
+  width: 100%;
+  padding: 22px;
+  border-top: 1px solid #c7ecff;
+`;
+
+const FootContent = styled.div`
+  width: 1170px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const PrivacyContainer = styled.div`
+  width: 150px;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const LinkContent = styled.a`
+  color: #337ab7;
+`;
+const LinkComponentRoute = styled(Link)`
+  color: #337ab7;
+`;
