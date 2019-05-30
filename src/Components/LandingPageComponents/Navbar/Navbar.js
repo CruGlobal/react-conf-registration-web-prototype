@@ -13,6 +13,7 @@ import RelayImg from "../../../img/signin-relay.png";
 import FacebookImg from "../../../img/signin-facebook.png";
 import InstagramImg from "../../../img/signin-instagram.jpeg";
 import { Link } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import { connect } from "react-redux";
 import { userLogout } from "../../../actions";
 
@@ -59,11 +60,12 @@ const Navbar = ({ profile, loginState, userLogout }) => {
                     <FontAwesomeIcon icon={faUsers} />
                     <DropDownItemText>My Dashboard</DropDownItemText>
                   </Dropdown.Item>
-
-                  <Dropdown.Item href="/help">
-                    <FontAwesomeIcon icon={faMedkit} />
-                    <DropDownItemText>I Need Help!</DropDownItemText>
-                  </Dropdown.Item>
+                  <LinkContainer to="/help">
+                    <Dropdown.Item>
+                      <FontAwesomeIcon icon={faMedkit} />
+                      <DropDownItemText>I Need Help!</DropDownItemText>
+                    </Dropdown.Item>
+                  </LinkContainer>
 
                   <Dropdown.Item>
                     {" "}
