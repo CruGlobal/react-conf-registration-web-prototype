@@ -14,25 +14,6 @@ afterEach(() => {
 
 console.error = jest.fn();
 
-const signedIn = true;
-
-const userProfile = {
-  firstName: "Christian"
-};
-
-const emptyConferences = [];
-
-const fullConferences = [
-  {
-    name: "first test conf",
-    date: "06/29/2019"
-  },
-  {
-    name: "second test conf",
-    date: "06/29/2020"
-  }
-];
-
 const store = createStore(rootReducer, {}, compose(applyMiddleware(thunk)));
 
 test("<LandingPage /> not signed in", () => {
