@@ -145,7 +145,7 @@ export default connect(
   mapDispatchToProps
 )(Navbar);
 
-const NavBarContainer = styled.div`
+const NavBarContainer = styled.header`
   width: 100%;
   background: #3494c6;
   color: white;
@@ -154,7 +154,7 @@ const NavBarContainer = styled.div`
   border-bottom: 7px solid #2b86b7;
 `;
 
-const NavBar = styled.div`
+const NavBar = styled.nav`
   width: 1170px;
   height: 75px;
   background: #3494c6;

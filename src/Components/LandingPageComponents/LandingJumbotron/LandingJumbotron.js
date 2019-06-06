@@ -24,7 +24,7 @@ let jumbotronImages = [
 
 let randomImage = jumbotronImages[_.random(0, jumbotronImages.length - 1)];
 
-const LandingJumbotron = ({ setConferences }) => {
+const LandingJumbotron = ({ setConferences, conferences }) => {
   // State Hook for storing our searchQuery
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -47,8 +47,29 @@ const LandingJumbotron = ({ setConferences }) => {
               }}
             />
             {/* Need to Add Dynamic Location Choices based on search results */}
+            {/* Need to actually make filter functionality work */}
             <LocationInput>
-              <option value="">-Any Location-</option>
+              {conferences.length > 0 ? (
+                <>
+                  <option value="">-Any Location-</option>
+                  {_.map(conferences, conference => {
+                    if (conference.locationName) {
+                      return (
+                        <option
+                          key={conference.id}
+                          value={conference.locationName}
+                        >
+                          {conference.locationName}
+                        </option>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
+                </>
+              ) : (
+                <option value="">-Any Location-</option>
+              )}
             </LocationInput>
             {/* Need to Filter Based on Search results start times */}
             <DateInput>
