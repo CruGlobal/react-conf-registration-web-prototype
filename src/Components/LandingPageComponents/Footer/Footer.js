@@ -25,7 +25,7 @@ const Footer = () => {
 
 export default Footer;
 
-const FooterContainer = styled.div`
+const FooterContainer = styled.footer`
   width: 100%;
   padding: 22px;
   border-top: 1px solid #c7ecff;
@@ -49,6 +49,7 @@ const PrivacyContainer = styled.div`
 const LinkContent = styled.a`
   color: #337ab7;
 `;
+
 const LinkComponentRoute = styled(Link)`
   color: #337ab7;
 `;

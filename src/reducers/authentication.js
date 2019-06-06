@@ -45,6 +45,7 @@ const authenticationReducer = (
     case USER_LOGIN_FAILURE:
       return {
         ...state,
+        profile: {},
         loginState: false
       };
 
