@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import LandingPage from "./Components/LandingPageComponents/LandingPage/LandingPage";
 import HelpComponent from "./Components/HelpComponent/HelpComponent";
 import AuthPage from "./Components/AuthComponent/AuthPage";
+import Dashboard from "./Components/DashboardComponent/Dashboard";
 
 import {
   applicationInit,
@@ -46,6 +47,12 @@ class App extends Component {
             path="/help"
             render={props => <HelpComponent signedIn={loginState} {...props} />}
           />
+
+          <Route
+            path="/eventDashboard"
+            render={props => <Dashboard {...props} />}
+          />
+
           <Route
             exact
             path="/auth/"

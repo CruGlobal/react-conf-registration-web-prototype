@@ -29,7 +29,7 @@ const Navbar = ({ profile, loginState, userLogout }) => {
     text-transform: uppercase;
     :hover {
       cursor: pointer;
-      opacity: 0.7;
+      background-color: #e6e5e5;
     }
   `;
 
@@ -56,10 +56,12 @@ const Navbar = ({ profile, loginState, userLogout }) => {
                 />
 
                 <Dropdown.Menu alignRight={true}>
-                  <Dropdown.Item>
-                    <FontAwesomeIcon icon={faUsers} />
-                    <DropDownItemText>My Dashboard</DropDownItemText>
-                  </Dropdown.Item>
+                  <LinkContainer to="/eventDashboard">
+                    <Dropdown.Item>
+                      <FontAwesomeIcon icon={faUsers} />
+                      <DropDownItemText>My Dashboard</DropDownItemText>
+                    </Dropdown.Item>
+                  </LinkContainer>
                   <LinkContainer to="/help">
                     <Dropdown.Item>
                       <FontAwesomeIcon icon={faMedkit} />
