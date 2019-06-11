@@ -43,7 +43,8 @@ class Dashboard extends Component {
           <DashboardContainer>
             <ContentContainer>
               <p>
-                Showing <strong>0 of 2</strong> events
+                Showing{" "}
+                <strong>0 of {this.props.userConferences.length}</strong> events
               </p>
               <InputContainer>
                 <DashboardButtons>
