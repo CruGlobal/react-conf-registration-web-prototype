@@ -1,4 +1,8 @@
-import { CONFERENCE_SEARCH, IS_LOADING } from "../constants";
+import {
+  CONFERENCE_SEARCH,
+  IS_LOADING,
+  USER_CONFERENCE_SEARCH
+} from "../constants";
 
 import APIController from "../Controllers/apicontroller";
 
@@ -31,6 +35,39 @@ const setConferences = async (dispatch, searchQuery) => {
     dispatch({
       type: CONFERENCE_SEARCH,
       conferences: []
+    });
+  }
+  dispatch({
+    type: IS_LOADING,
+    isLoading: true
+  });
+};
+
+export const userConferenceSearch = token => {
+  return dispatch => {
+    dispatch({
+      type: IS_LOADING,
+      isLoading: true
+    });
+    setUserConferences(dispatch, token);
+  };
+};
+
+const setUserConferences = async (dispatch, token) => {
+  try {
+    API.getUsersConferences(`${API.BASE_URL}${API.USER_CONFERENCES}`, token)
+      .then(res => res.json())
+      .then(response => {
+        dispatch({
+          type: USER_CONFERENCE_SEARCH,
+          userConferences: response,
+          isLoading: false
+        });
+      });
+  } catch (err) {
+    dispatch({
+      type: USER_CONFERENCE_SEARCH,
+      userConferences: []
     });
   }
   dispatch({

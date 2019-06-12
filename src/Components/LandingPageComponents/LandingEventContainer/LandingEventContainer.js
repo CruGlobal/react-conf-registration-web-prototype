@@ -3,6 +3,9 @@ import styled from "@emotion/styled";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
+import Card from "./Subcomponents/Card";
+import { Link } from "react-router-dom";
+import _ from "lodash";
 
 const LandingEventContainer = ({ conferences, isLoading }) => {
   if (!isLoading && conferences.length <= 0) {
@@ -19,7 +22,7 @@ const LandingEventContainer = ({ conferences, isLoading }) => {
           <ContentInfo>
             To create a new event or view registrations, manage scholarships or
             change questions on an existing event, continue to your{" "}
-            <LinkContent href="#/dashboard">Event Dashboard</LinkContent>
+            <LinkContent to="/eventDashboard">Event Dashboard</LinkContent>
           </ContentInfo>{" "}
         </>
       </Container>
@@ -38,7 +41,11 @@ const LandingEventContainer = ({ conferences, isLoading }) => {
   } else if (!isLoading && conferences.length > 0) {
     return (
       <Container>
-        <div data-testid="results-container">Results found</div>
+        <CardContainer>
+          {_.map(conferences, conference => {
+            return <Card key={conference.id} cardData={conference} />;
+          })}
+        </CardContainer>
       </Container>
     );
   } else {
@@ -76,6 +83,11 @@ const Container = styled.div`
   margin-bottom: 1.5rem;
 `;
 
+const CardContainer = styled.div`
+  columns: 2;
+  column-gap: 10px;
+`;
+
 const SearchingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -96,6 +108,6 @@ const ContentInfo = styled.p`
   font-size: 14px;
 `;
 
-const LinkContent = styled.a`
+const LinkContent = styled(Link)`
   color: #337ab7;
 `;
