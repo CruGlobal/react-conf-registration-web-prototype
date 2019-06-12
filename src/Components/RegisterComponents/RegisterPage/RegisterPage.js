@@ -6,6 +6,9 @@ import BackgroundImg from "../../../img/rough_diagonal.png";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { selectConference } from "../../../actions";
+import EvtFormater from "../../../Controllers/formatercontroller";
+
+const FORMATER = new EvtFormater();
 
 class RegisterPage extends Component {
   componentDidMount() {
@@ -33,8 +36,17 @@ class RegisterPage extends Component {
                   <DetailTitle>Event Dates</DetailTitle>
                 </TitleContainer>
                 <DescriptionText>
-                  {selectedConference.eventStartTime} -{" "}
-                  {selectedConference.eventEndTime}
+                  {FORMATER.dateFormater(
+                    selectedConference.eventStartTime,
+                    selectedConference.eventTimezone,
+                    "ddd, MMM D, YYYY h:mma "
+                  )}{" "}
+                  -{" "}
+                  {FORMATER.dateFormater(
+                    selectedConference.eventEndTime,
+                    selectedConference.eventTimezone,
+                    "ddd, MMM D, YYYY h:mma"
+                  )}
                 </DescriptionText>
               </DetailContainer>
               {!selectedConference.locationAddress &&
@@ -60,8 +72,17 @@ class RegisterPage extends Component {
                   <DetailTitle>Registration Window</DetailTitle>
                 </TitleContainer>
                 <DescriptionText>
-                  {selectedConference.registrationStartTime} -{" "}
-                  {selectedConference.registrationEndTime}
+                  {FORMATER.dateFormater(
+                    selectedConference.registrationStartTime,
+                    selectedConference.eventTimezone,
+                    "ddd, MMM D, YYYY h:mma z"
+                  )}{" "}
+                  -{" "}
+                  {FORMATER.dateFormater(
+                    selectedConference.registrationEndTime,
+                    selectedConference.eventTimezone,
+                    "ddd, MMM D, YYYY h:mma z"
+                  )}
                 </DescriptionText>
               </DetailContainer>
               <DetailContainer>

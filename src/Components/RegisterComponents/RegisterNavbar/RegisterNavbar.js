@@ -28,13 +28,13 @@ const RegisterNavbar = ({ userLogout, conference }) => {
               {FORMATER.dateFormater(
                 conference.eventStartTime,
                 conference.eventTimezone,
-                "ddd, MMM D, YYYY h:00a "
+                "ddd, MMM D, YYYY h:mma "
               )}{" "}
               -{" "}
               {FORMATER.dateFormater(
                 conference.eventEndTime,
                 conference.eventTimezone,
-                "ddd, MMM D, YYYY h:00a"
+                "ddd, MMM D, YYYY h:mma"
               )}
             </DetailText>
           </ConfDataContainer>
