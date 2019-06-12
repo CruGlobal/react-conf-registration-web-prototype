@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { userLogout } from "../../../actions";
 
-const RegisterNavbar = ({ userLogout }) => {
+const RegisterNavbar = ({ userLogout, conference }) => {
   const FORMATER = new EvtFormater();
 
   return (
@@ -18,20 +18,32 @@ const RegisterNavbar = ({ userLogout }) => {
       <NavbarHeader />
       <NavbarSection>
         <TitleContainer>
-          <ConferenceTitle>Hello</ConferenceTitle>
+          <ConferenceTitle>{conference.name}</ConferenceTitle>
           <SignoutButton onClick={userLogout}>Sign Out</SignoutButton>
         </TitleContainer>
         <DetailContainer>
           <ConfDataContainer>
             <Icon icon={faCalendarAlt} size="xs" />
             <DetailText>
-              Mon, Oct 17 2016 8:00am - Fri, Oct 21, 2016 5:00pm
+              {FORMATER.dateFormater(
+                conference.eventStartTime,
+                conference.eventTimezone,
+                "ddd, MMM D, YYYY h:00a "
+              )}{" "}
+              -{" "}
+              {FORMATER.dateFormater(
+                conference.eventEndTime,
+                conference.eventTimezone,
+                "ddd, MMM D, YYYY h:00a"
+              )}
             </DetailText>
           </ConfDataContainer>
-          <ConfDataContainer>
-            <Icon icon={faMapMarkerAlt} size="xs" />
-            <DetailText>Cru HQ</DetailText>
-          </ConfDataContainer>
+          {conference.locationName ? (
+            <ConfDataContainer>
+              <Icon icon={faMapMarkerAlt} size="xs" />
+              <DetailText>{conference.locationName}</DetailText>
+            </ConfDataContainer>
+          ) : null}
         </DetailContainer>
       </NavbarSection>
     </NavbarContainer>
@@ -95,6 +107,8 @@ const ConfDataContainer = styled.div`
 const DetailText = styled.p`
   margin: 0;
   color: #fff;
+  font-family: sans-serif;
+  font-size: 14px;
 `;
 
 const ConferenceTitle = styled.h3`
