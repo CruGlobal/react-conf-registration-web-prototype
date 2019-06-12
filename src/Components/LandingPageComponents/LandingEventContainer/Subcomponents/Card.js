@@ -77,6 +77,12 @@ const RegisterButton = styled(Link)`
   font-size: 14px;
   font-weight: 400;
   text-align: center;
+  :hover {
+    text-decoration: none;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2969a0;
+  }
 `;
 
 const ButtonContainer = styled.div`
