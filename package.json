@@ -9,6 +9,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.8.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@types/lodash": "^4.14.126",
+    "@types/moment-timezone": "^0.5.12",
     "@types/react": "^16.8.17",
     "@types/react-router-dom": "^4.3.3",
     "bootstrap": "^4.3.1",

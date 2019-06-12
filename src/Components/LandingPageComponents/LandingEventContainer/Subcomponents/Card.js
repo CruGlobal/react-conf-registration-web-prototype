@@ -5,8 +5,50 @@ import {
   faMapMarkerAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import momentTimezone from "moment-timezone";
 import { Link } from "react-router-dom";
+import EvtFormater from "../../../../Controllers/formatercontroller";
+
+const Card = ({ cardData }) => {
+  const FORMATER = new EvtFormater();
+
+  return (
+    <CardContainer>
+      <CardName>{cardData.name}</CardName>
+
+      <DetailContainer>
+        <Icon size="xs" icon={faCalendarAlt} />
+        <DetailText>
+          {FORMATER.dateFormater(
+            cardData.eventStartTime,
+            cardData.eventTimezone,
+            "ddd, MMM D, YYYY h:00a "
+          )}{" "}
+          -{" "}
+          {FORMATER.dateFormater(
+            cardData.eventEndTime,
+            cardData.eventTimezone,
+            "ddd, MMM D, YYYY h:00a"
+          )}
+        </DetailText>
+      </DetailContainer>
+
+      {cardData.locationName ? (
+        <DetailContainer>
+          <Icon size="xs" icon={faMapMarkerAlt} />
+          <DetailText>{cardData.locationName}</DetailText>
+        </DetailContainer>
+      ) : null}
+      <DescriptionText>{cardData.description}</DescriptionText>
+      <ButtonContainer>
+        <RegisterButton to={`/register/${cardData.id}/page/`}>
+          Register
+        </RegisterButton>
+      </ButtonContainer>
+    </CardContainer>
+  );
+};
+
+export default Card;
 
 const CardContainer = styled.div`
   padding: 20px;
@@ -58,51 +100,3 @@ const DetailText = styled.p`
 const DescriptionText = styled.p`
   margin: 21px 0 10px 0;
 `;
-
-const Card = ({ cardData }) => {
-  const dateFormater = (date, zone, format) => {
-    if (!format) {
-      format = "MMM D, YYYY h:mm a z";
-    }
-
-    return momentTimezone.tz(date, zone).format(format);
-  };
-
-  return (
-    <CardContainer>
-      <CardName>{cardData.name}</CardName>
-
-      <DetailContainer>
-        <Icon size="xs" icon={faCalendarAlt} />
-        <DetailText>
-          {dateFormater(
-            cardData.eventStartTime,
-            cardData.eventTimezone,
-            "ddd, MMM D, YYYY h:00a "
-          )}{" "}
-          -{" "}
-          {dateFormater(
-            cardData.eventEndTime,
-            cardData.eventTimezone,
-            "ddd, MMM D, YYYY h:00a"
-          )}
-        </DetailText>
-      </DetailContainer>
-
-      {cardData.locationName ? (
-        <DetailContainer>
-          <Icon size="xs" icon={faMapMarkerAlt} />
-          <DetailText>{cardData.locationName}</DetailText>
-        </DetailContainer>
-      ) : null}
-      <DescriptionText>{cardData.description}</DescriptionText>
-      <ButtonContainer>
-        <RegisterButton to={`/register/${cardData.id}/page/`}>
-          Register
-        </RegisterButton>
-      </ButtonContainer>
-    </CardContainer>
-  );
-};
-
-export default Card;
