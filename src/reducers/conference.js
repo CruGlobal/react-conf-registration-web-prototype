@@ -1,7 +1,8 @@
 import {
   CONFERENCE_SEARCH,
   IS_LOADING,
-  USER_CONFERENCE_SEARCH
+  USER_CONFERENCE_SEARCH,
+  GET_CURRENT_CONFERENCE
 } from "../constants";
 
 const initialState = {
@@ -14,7 +15,7 @@ const initialState = {
 
 const conferenceReducer = (
   state = initialState,
-  { type, conferences, isLoading, userConferences }
+  { type, conferences, isLoading, userConferences, selectedConference }
 ) => {
   switch (type) {
     case CONFERENCE_SEARCH:
@@ -27,6 +28,12 @@ const conferenceReducer = (
       return {
         ...state,
         userConferences: userConferences,
+        isLoading: isLoading
+      };
+    case GET_CURRENT_CONFERENCE:
+      return {
+        ...state,
+        selectedConference: selectedConference,
         isLoading: isLoading
       };
 
