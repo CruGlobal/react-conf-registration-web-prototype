@@ -12,12 +12,13 @@ class RegisterPage extends Component {
   }
 
   render() {
+    const { loginState, selectedConference, match } = this.props;
     return (
       <>
-        {this.props.loginState ? (
+        {loginState ? (
           <PageContainer>
             <RegisterNavbar />
-            <RegisterSection>{this.props.match.params.confID}</RegisterSection>
+            <RegisterSection>{match.params.confID}</RegisterSection>
 
             <RegisterFooter />
           </PageContainer>
@@ -35,7 +36,8 @@ class RegisterPage extends Component {
 
 const mapStateToProps = state => {
   return {
-    loginState: state.authenticationReducer.loginState
+    loginState: state.authenticationReducer.loginState,
+    selectedConference: state.conferenceReducer.selectedConference
   };
 };
 

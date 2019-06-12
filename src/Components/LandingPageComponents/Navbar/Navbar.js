@@ -80,7 +80,7 @@ export default connect(
 const NavBarContainer = styled.header`
   width: 100%;
   background: #3494c6;
-  color: white;
+  color: #ffffff;
   display: flex;
   justify-content: center;
   border-bottom: 7px solid #2b86b7;
@@ -107,9 +107,9 @@ const MainHeadingContainer = styled(Link)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: white;
+  color: #ffffff;
   :hover {
-    color: white;
+    color: #ffffff;
     text-decoration: none;
   }
 `;
