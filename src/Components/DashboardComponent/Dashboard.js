@@ -30,7 +30,7 @@ class Dashboard extends Component {
 
   render() {
     const { showArchived } = this.state;
-
+    const { userConferences } = this.props;
     return (
       <>
         <div>
@@ -43,8 +43,7 @@ class Dashboard extends Component {
           <DashboardContainer>
             <ContentContainer>
               <p>
-                Showing{" "}
-                <strong>0 of {this.props.userConferences.length}</strong> events
+                Showing <strong>0 of {userConferences.length}</strong> events
               </p>
               <InputContainer>
                 <DashboardButtons>
@@ -61,7 +60,7 @@ class Dashboard extends Component {
                 {showArchived ? (
                   <div>
                     {_.map(this.props.userConferences, conference => {
-                      return <div>{conference.name}</div>;
+                      return <div key={conference.id}>{conference.name}</div>;
                     })}
                   </div>
                 ) : (

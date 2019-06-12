@@ -1,5 +1,12 @@
 import React from "react";
 import styled from "@emotion/styled";
+import {
+  faCalendarAlt,
+  faMapMarkerAlt
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import momentTimezone from "moment-timezone";
+import { Link } from "react-router-dom";
 
 const CardContainer = styled.div`
   padding: 20px;
@@ -18,7 +25,7 @@ const CardName = styled.p`
   color: black;
 `;
 
-const RegisterButton = styled.button`
+const RegisterButton = styled(Link)`
   background: #3494c7;
   border-color: #2f84cd;
   padding: 6px 12px;
@@ -35,13 +42,64 @@ const ButtonContainer = styled.div`
   justify-content: center;
 `;
 
+const DetailContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Icon = styled(FontAwesomeIcon)`
+  margin-right: 5px;
+`;
+
+const DetailText = styled.p`
+  margin: 0;
+`;
+
+const DescriptionText = styled.p`
+  margin: 21px 0 10px 0;
+`;
+
 const Card = ({ cardData }) => {
+  const dateFormater = (date, zone, format) => {
+    if (!format) {
+      format = "MMM D, YYYY h:mm a z";
+    }
+
+    return momentTimezone.tz(date, zone).format(format);
+  };
+
   return (
     <CardContainer>
       <CardName>{cardData.name}</CardName>
-      <p>{cardData.description}</p>
+
+      <DetailContainer>
+        <Icon size="xs" icon={faCalendarAlt} />
+        <DetailText>
+          {dateFormater(
+            cardData.eventStartTime,
+            cardData.eventTimezone,
+            "ddd, MMM D, YYYY"
+          )}{" "}
+          -{" "}
+          {dateFormater(
+            cardData.eventEndTime,
+            cardData.eventTimezone,
+            "ddd, MMM D, YYYY"
+          )}
+        </DetailText>
+      </DetailContainer>
+
+      {cardData.locationName ? (
+        <DetailContainer>
+          <Icon size="xs" icon={faMapMarkerAlt} />
+          <DetailText>{cardData.locationName}</DetailText>
+        </DetailContainer>
+      ) : null}
+      <DescriptionText>{cardData.description}</DescriptionText>
       <ButtonContainer>
-        <RegisterButton>Register</RegisterButton>
+        <RegisterButton to={`/register/${cardData.id}/page/`}>
+          Register
+        </RegisterButton>
       </ButtonContainer>
     </CardContainer>
   );
