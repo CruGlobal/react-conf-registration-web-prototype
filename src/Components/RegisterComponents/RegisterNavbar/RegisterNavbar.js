@@ -1,21 +1,61 @@
 import React from "react";
 import styled from "@emotion/styled";
+import EvtFormater from "../../../Controllers/formatercontroller";
+import {
+  faCalendarAlt,
+  faMapMarkerAlt
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { userLogout } from "../../../actions";
 
-const RegisterNavbar = () => {
+const RegisterNavbar = ({ userLogout }) => {
+  const FORMATER = new EvtFormater();
+
   return (
     <NavbarContainer>
       <NavbarHeader />
       <NavbarSection>
         <TitleContainer>
           <ConferenceTitle>Hello</ConferenceTitle>
-          <SignoutButton>Sign Out</SignoutButton>
+          <SignoutButton onClick={userLogout}>Sign Out</SignoutButton>
         </TitleContainer>
+        <DetailContainer>
+          <ConfDataContainer>
+            <Icon icon={faCalendarAlt} size="xs" />
+            <DetailText>
+              Mon, Oct 17 2016 8:00am - Fri, Oct 21, 2016 5:00pm
+            </DetailText>
+          </ConfDataContainer>
+          <ConfDataContainer>
+            <Icon icon={faMapMarkerAlt} size="xs" />
+            <DetailText>Cru HQ</DetailText>
+          </ConfDataContainer>
+        </DetailContainer>
       </NavbarSection>
     </NavbarContainer>
   );
 };
 
-export default RegisterNavbar;
+const mapStateToProps = state => {
+  return {
+    loginState: state.authenticationReducer.loginState
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogout: () => {
+      dispatch(userLogout());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegisterNavbar);
 
 const NavbarContainer = styled.div`
   width: 100%;
@@ -38,6 +78,23 @@ const NavbarSection = styled.div`
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const DetailContainer = styled.div`
+  margin: 21px 0 10px 0;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ConfDataContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const DetailText = styled.p`
+  margin: 0;
+  color: #fff;
 `;
 
 const ConferenceTitle = styled.h3`
@@ -63,4 +120,9 @@ const SignoutButton = styled.button`
     background-color: #337ab7;
     border-color: #2969a0;
   }
+`;
+
+const Icon = styled(FontAwesomeIcon)`
+  margin-right: 5px;
+  color: #fff;
 `;

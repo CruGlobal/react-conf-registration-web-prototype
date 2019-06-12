@@ -7,7 +7,7 @@ import Card from "./Subcomponents/Card";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 
-const LandingEventContainer = ({ conferences, isLoading }) => {
+const LandingEventContainer = ({ conferences, isLoading, loginState }) => {
   if (!isLoading && conferences.length <= 0) {
     return (
       <Container>
@@ -43,7 +43,13 @@ const LandingEventContainer = ({ conferences, isLoading }) => {
       <Container>
         <CardContainer>
           {_.map(conferences, conference => {
-            return <Card key={conference.id} cardData={conference} />;
+            return (
+              <Card
+                key={conference.id}
+                cardData={conference}
+                loginState={loginState}
+              />
+            );
           })}
         </CardContainer>
       </Container>
@@ -59,6 +65,7 @@ const LandingEventContainer = ({ conferences, isLoading }) => {
 
 const mapStateToProps = state => {
   return {
+    loginState: state.authenticationReducer.loginState,
     conferences: state.conferenceReducer.conferences,
     isLoading: state.conferenceReducer.isLoading
   };

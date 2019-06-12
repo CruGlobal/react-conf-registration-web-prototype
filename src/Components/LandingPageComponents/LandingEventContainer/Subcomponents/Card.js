@@ -1,12 +1,63 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import {
   faCalendarAlt,
   faMapMarkerAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import momentTimezone from "moment-timezone";
 import { Link } from "react-router-dom";
+import EvtFormater from "../../../../Controllers/formatercontroller";
+import LoginModal from "./LoginModal";
+
+const Card = ({ cardData, loginState }) => {
+  const [show, changeShow] = useState(false);
+  const FORMATER = new EvtFormater();
+
+  return (
+    <CardContainer>
+      <CardName>{cardData.name}</CardName>
+
+      <DetailContainer>
+        <Icon size="xs" icon={faCalendarAlt} />
+        <DetailText>
+          {FORMATER.dateFormater(
+            cardData.eventStartTime,
+            cardData.eventTimezone,
+            "ddd, MMM D, YYYY h:00a "
+          )}{" "}
+          -{" "}
+          {FORMATER.dateFormater(
+            cardData.eventEndTime,
+            cardData.eventTimezone,
+            "ddd, MMM D, YYYY h:00a"
+          )}
+        </DetailText>
+      </DetailContainer>
+
+      {cardData.locationName ? (
+        <DetailContainer>
+          <Icon size="xs" icon={faMapMarkerAlt} />
+          <DetailText>{cardData.locationName}</DetailText>
+        </DetailContainer>
+      ) : null}
+      <DescriptionText>{cardData.description}</DescriptionText>
+      <ButtonContainer>
+        {loginState ? (
+          <RegisterButton to={`/register/${cardData.id}/page/`}>
+            Register
+          </RegisterButton>
+        ) : (
+          <RegisterButton onClick={() => changeShow(true)}>
+            Register
+          </RegisterButton>
+        )}
+      </ButtonContainer>
+      <LoginModal changeShow={changeShow} show={show} />
+    </CardContainer>
+  );
+};
+
+export default Card;
 
 const CardContainer = styled.div`
   padding: 20px;
@@ -22,7 +73,7 @@ const CardContainer = styled.div`
 
 const CardName = styled.p`
   font-size: 24px;
-  color: black;
+  color: #333333;
 `;
 
 const RegisterButton = styled(Link)`
@@ -35,6 +86,12 @@ const RegisterButton = styled(Link)`
   font-size: 14px;
   font-weight: 400;
   text-align: center;
+  :hover {
+    text-decoration: none;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2969a0;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -58,51 +115,3 @@ const DetailText = styled.p`
 const DescriptionText = styled.p`
   margin: 21px 0 10px 0;
 `;
-
-const Card = ({ cardData }) => {
-  const dateFormater = (date, zone, format) => {
-    if (!format) {
-      format = "MMM D, YYYY h:mm a z";
-    }
-
-    return momentTimezone.tz(date, zone).format(format);
-  };
-
-  return (
-    <CardContainer>
-      <CardName>{cardData.name}</CardName>
-
-      <DetailContainer>
-        <Icon size="xs" icon={faCalendarAlt} />
-        <DetailText>
-          {dateFormater(
-            cardData.eventStartTime,
-            cardData.eventTimezone,
-            "ddd, MMM D, YYYY h:00a "
-          )}{" "}
-          -{" "}
-          {dateFormater(
-            cardData.eventEndTime,
-            cardData.eventTimezone,
-            "ddd, MMM D, YYYY h:00a"
-          )}
-        </DetailText>
-      </DetailContainer>
-
-      {cardData.locationName ? (
-        <DetailContainer>
-          <Icon size="xs" icon={faMapMarkerAlt} />
-          <DetailText>{cardData.locationName}</DetailText>
-        </DetailContainer>
-      ) : null}
-      <DescriptionText>{cardData.description}</DescriptionText>
-      <ButtonContainer>
-        <RegisterButton to={`/register/${cardData.id}/page/`}>
-          Register
-        </RegisterButton>
-      </ButtonContainer>
-    </CardContainer>
-  );
-};
-
-export default Card;
