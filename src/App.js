@@ -5,6 +5,7 @@ import LandingPage from "./Components/LandingPageComponents/LandingPage/LandingP
 import HelpComponent from "./Components/HelpComponent/HelpComponent";
 import AuthPage from "./Components/AuthComponent/AuthPage";
 import Dashboard from "./Components/DashboardComponent/Dashboard";
+import RegisterPage from "./Components/RegisterComponents/RegisterPage/RegisterPage";
 
 import {
   applicationInit,
@@ -51,6 +52,12 @@ class App extends Component {
           <Route
             path="/eventDashboard"
             render={props => <Dashboard {...props} />}
+          />
+
+          <Route
+            exact
+            path="/register/:confID/page/"
+            render={props => <RegisterPage {...props} />}
           />
 
           <Route

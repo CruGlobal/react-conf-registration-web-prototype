@@ -78,13 +78,13 @@ const Card = ({ cardData }) => {
           {dateFormater(
             cardData.eventStartTime,
             cardData.eventTimezone,
-            "ddd, MMM D, YYYY"
+            "ddd, MMM D, YYYY h:00a "
           )}{" "}
           -{" "}
           {dateFormater(
             cardData.eventEndTime,
             cardData.eventTimezone,
-            "ddd, MMM D, YYYY"
+            "ddd, MMM D, YYYY h:00a"
           )}
         </DetailText>
       </DetailContainer>
