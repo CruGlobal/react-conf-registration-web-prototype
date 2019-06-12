@@ -19,7 +19,7 @@ const AuthPage = ({ match, setcrsToken, setUserProfile }) => {
       const token = localStorage.getItem("crsToken");
       setUserProfile(token);
     } else {
-      setcrsToken("");
+      setTokenLocalStorage("");
     }
   }, [API, match.params.id, setUserProfile, setcrsToken]);
 

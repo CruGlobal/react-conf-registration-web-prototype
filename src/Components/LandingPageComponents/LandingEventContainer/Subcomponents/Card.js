@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import {
   faCalendarAlt,
@@ -7,8 +7,10 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import EvtFormater from "../../../../Controllers/formatercontroller";
+import LoginModal from "./LoginModal";
 
-const Card = ({ cardData }) => {
+const Card = ({ cardData, loginState }) => {
+  const [show, changeShow] = useState(false);
   const FORMATER = new EvtFormater();
 
   return (
@@ -40,10 +42,17 @@ const Card = ({ cardData }) => {
       ) : null}
       <DescriptionText>{cardData.description}</DescriptionText>
       <ButtonContainer>
-        <RegisterButton to={`/register/${cardData.id}/page/`}>
-          Register
-        </RegisterButton>
+        {loginState ? (
+          <RegisterButton to={`/register/${cardData.id}/page/`}>
+            Register
+          </RegisterButton>
+        ) : (
+          <RegisterButton onClick={() => changeShow(true)}>
+            Register
+          </RegisterButton>
+        )}
       </ButtonContainer>
+      <LoginModal changeShow={changeShow} show={show} />
     </CardContainer>
   );
 };
@@ -64,7 +73,7 @@ const CardContainer = styled.div`
 
 const CardName = styled.p`
   font-size: 24px;
-  color: black;
+  color: #333333;
 `;
 
 const RegisterButton = styled(Link)`
