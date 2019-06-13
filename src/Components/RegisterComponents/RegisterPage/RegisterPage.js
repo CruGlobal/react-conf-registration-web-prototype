@@ -89,6 +89,6 @@ const PageContainer = styled.div`
 const RegisterSection = styled.section`
   margin: 20px auto;
   background: #fff;
-  width: 582px;
+  width: 612px;
   padding: 15px;
 `;
