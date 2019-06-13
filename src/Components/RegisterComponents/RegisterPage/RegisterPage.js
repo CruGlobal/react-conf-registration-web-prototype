@@ -84,9 +84,6 @@ const PageContainer = styled.div`
   background: url(${BackgroundImg}) #e7e8e6;
   min-width: 100%;
   min-height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
 `;
 
 const RegisterSection = styled.section`
