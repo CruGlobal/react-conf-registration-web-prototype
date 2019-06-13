@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
+import AddressQuestion from "../../QuestionsComponents/addressQuestion";
 
 const RegisteringContent = () => {
-  return <div>Hello</div>;
+  return <AddressQuestion />;
 };
 
 export default RegisteringContent;
