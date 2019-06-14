@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const CampusContainer = styled.div`
+const NumberContainer = styled.div`
   background: whitet;
   display: flex;
   flex-direction: row;
@@ -21,12 +21,12 @@ const InputField = styled.input`
   margin-bottom: 1em;
   padding: 6px 12px;
   width: 100%;
-  height: 34px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  height: 34px;
 `;
 
-class CampusQuestion extends React.Component {
+class NumberQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,18 +58,19 @@ class CampusQuestion extends React.Component {
   render() {
     return (
       <>
-        <CampusContainer>
-          <Title>Campus</Title>
+        <NumberContainer>
+          <Title>Number</Title>
           <InputField
-            type='text'
-            placeholder='Campus'
-            value={this.state.answerBlock.value}
+            type='number'
+            pattern='[0-9]*'
+            placeholder='Number'
             onChange={this.changeHandler}
+            value={this.state.answerBlock.value}
           />
-        </CampusContainer>
+        </NumberContainer>
       </>
     );
   }
 }
 
-export default CampusQuestion;
+export default NumberQuestion;
