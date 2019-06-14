@@ -4,6 +4,8 @@ import GenderQuestion from "../../QuestionsComponents/genderQuestion";
 import RadioQuestion from "../../QuestionsComponents/radioQuestion";
 import YearQuestion from "../../QuestionsComponents/yearQuestion";
 import SelectQuestion from "../../QuestionsComponents/selectQuestion";
+import TextQuestion from "../../QuestionsComponents/textQuestion";
+import TextAreaQuestion from "../../QuestionsComponents/textAreaQuestion";
 
 const RegisteringContent = () => {
   return (
@@ -13,6 +15,8 @@ const RegisteringContent = () => {
       <RadioQuestion />
       <YearQuestion />
       <SelectQuestion />
+      <TextQuestion />
+      <TextAreaQuestion />
     </>
   );
 };

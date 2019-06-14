@@ -64,7 +64,7 @@ export default class YearQuestion extends React.Component {
   render() {
     return (
       <QuestionContainer>
-        <Title>Gender</Title>
+        <Title>Year in School</Title>
         <Options>
           <Choice>
             <Selector
