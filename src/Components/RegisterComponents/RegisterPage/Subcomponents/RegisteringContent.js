@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
-import Checkbox from "../../QuestionsComponents/checkboxQuestion";
-
+import Name from "../../QuestionsComponents/nameQuestion";
+import Email from "../../QuestionsComponents/emailQuestion";
 const RegisteringContent = () => {
   return (
     <div>
-      <Checkbox />
+      <Email />
     </div>
   );
 };
