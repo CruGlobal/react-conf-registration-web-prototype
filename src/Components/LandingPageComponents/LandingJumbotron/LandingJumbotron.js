@@ -32,7 +32,7 @@ const LandingJumbotron = ({ setConferences, conferences }) => {
     <JumbotronContainer>
       <ContentContainer>
         <JumbotronTitle>Search for an event</JumbotronTitle>
-        <form>
+        <form onSubmit={e => e.preventDefault()}>
           <InputContainer>
             <EventInput
               type="text"
