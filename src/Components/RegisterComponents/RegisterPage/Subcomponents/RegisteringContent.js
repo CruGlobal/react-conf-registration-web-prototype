@@ -1,15 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
-import CampusQuestion from "../../QuestionsComponents/campusQuestion";
-import PhoneQuestion from "../../QuestionsComponents/PhoneQuestion";
-import NumberQuestion from "../../QuestionsComponents/NumberQuestion";
-
+import Name from "../../QuestionsComponents/nameQuestion";
+import Email from "../../QuestionsComponents/emailQuestion";
 const RegisteringContent = () => {
   return (
     <div>
-      <CampusQuestion />
-      <PhoneQuestion />
-      <NumberQuestion />
+      <Email />
     </div>
   );
 };
