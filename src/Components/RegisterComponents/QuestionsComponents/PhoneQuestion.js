@@ -8,6 +8,7 @@ const PhoneContainer = styled.div`
   flex-wrap: wrap;
   font-family: sans-serif;
   font-size: 14px;
+  margin-bottom: 15px;
 `;
 
 const Title = styled.h3`
@@ -61,10 +62,10 @@ class PhoneQuestion extends React.Component {
         <PhoneContainer>
           <Title>Telephone</Title>
           <InputField
-            type='tel'
-            pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
-            name='phoneNumberInput'
-            placeholder='Telephone'
+            type="tel"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            name="phoneNumberInput"
+            placeholder="Telephone"
             onChange={this.changeHandler}
             value={this.state.answerBlock.value}
           />

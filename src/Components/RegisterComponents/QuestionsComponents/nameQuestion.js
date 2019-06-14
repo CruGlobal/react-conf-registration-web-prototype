@@ -4,9 +4,13 @@ const QuestionContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-bottom: 15px;
 `;
-const Question = styled.h6`
-  text-size: 12px;
+const QuestionTitle = styled.h3`
+  font-size: 14px;
+  color: #333;
+  font-weight: 700;
+  font-family: sans-serif;
 `;
 const Format = styled.div`
   width: 100%;
@@ -32,25 +36,51 @@ class NameQuestions extends Component {
         blockId: "",
         id: "",
         registrationId: "",
-        value: ""
+        value: {
+          firstName: "",
+          lastName: ""
+        }
       }
     };
   }
+
+  handleChange = event => {
+    const newValue = this.state.answerBlock.value;
+    // Here we grab the event targets name to know which input field we are changing
+    let key = event.target.name;
+    // We are then grabbing the value from that input field
+    let value = event.target.value;
+    // We then set our copied states value to the new value, depending on which key or input field we are changing
+    newValue[key] = value;
+    // We then set the state of the old value to be the new value
+    this.setState({
+      answerBlock: {
+        ...this.state.answerBlock,
+        value: newValue
+      }
+    });
+  };
   render() {
     return (
       <QuestionContainer>
-        <Question>Name</Question>
+        <QuestionTitle>Name</QuestionTitle>
         <label>
           <Format>
             <InputField
-              show-errors='group'
-              type='text'
-              placeholder='First Name'
+              show-errors="group"
+              type="text"
+              placeholder="First Name"
+              name="firstName"
+              value={this.state.answerBlock.value.firstName}
+              onChange={this.handleChange}
             />
             <InputField
-              show-errors='group'
-              type='text'
-              placeholder='Last Name'
+              show-errors="group"
+              type="text"
+              placeholder="Last Name"
+              name="lastName"
+              value={this.state.answerBlock.value.lastName}
+              onChange={this.handleChange}
             />
           </Format>
         </label>

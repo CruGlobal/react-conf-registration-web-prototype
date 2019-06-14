@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
 const Question = styled.h6`
-  text-size: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: sans-serif;
 `;
 const InputField = styled.input`
   width: 100%;
@@ -17,6 +19,7 @@ const QuestionContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-bottom: 15px;
 `;
 class emailQuestion extends Component {
   constructor(props) {
@@ -35,7 +38,7 @@ class emailQuestion extends Component {
       <QuestionContainer>
         <Question>Email</Question>
         <label>
-          <InputField type='text' placeholder='example@domain.com' />
+          <InputField type="text" placeholder="example@domain.com" />
         </label>
       </QuestionContainer>
     );

@@ -8,6 +8,7 @@ const CampusContainer = styled.div`
   flex-wrap: wrap;
   font-family: sans-serif;
   font-size: 14px;
+  margin-bottom: 15px;
 `;
 
 const Title = styled.h3`
@@ -61,8 +62,8 @@ class CampusQuestion extends React.Component {
         <CampusContainer>
           <Title>Campus</Title>
           <InputField
-            type='text'
-            placeholder='Campus'
+            type="text"
+            placeholder="Campus"
             value={this.state.answerBlock.value}
             onChange={this.changeHandler}
           />

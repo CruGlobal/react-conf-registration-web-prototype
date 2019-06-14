@@ -46,7 +46,7 @@ export default class dateQuestion extends Component {
 
   render() {
     return (
-      <div>
+      <QuestionContainer>
         <Modal
           show={this.state.showModal}
           onHide={() => this.changeShow(false)}
@@ -61,19 +61,24 @@ export default class dateQuestion extends Component {
             <FontAwesomeIcon icon={faCalendarAlt} />
           </CalendarButton>
           <CalendarInput
-            type='text'
-            placeholder='Select a date...'
+            type="text"
+            placeholder="Select a date..."
             value={moment(this.state.date).format("MMM D, YYYY")}
             readOnly={true}
           />
         </InputContainer>
-      </div>
+      </QuestionContainer>
     );
   }
 }
 
 const ModalBody = styled(Modal.Body)`
   margin: 0 auto;
+`;
+
+const QuestionContainer = styled.div`
+  width: 100%;
+  margin-bottom: 15px;
 `;
 
 const CalendarButton = styled.span`
@@ -97,7 +102,7 @@ const CalendarInput = styled.input`
   padding: 6px 12px;
   font-size: 14px;
   border: 1px solid #ccc;
-  width: 518px;
+  width: 100%;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 `;

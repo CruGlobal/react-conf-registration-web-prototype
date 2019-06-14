@@ -2,12 +2,13 @@ import React from "react";
 import styled from "@emotion/styled";
 
 const NumberContainer = styled.div`
-  background: whitet;
+  background: white;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   font-family: sans-serif;
   font-size: 14px;
+  margin-bottom: 15px;
 `;
 
 const Title = styled.h3`
@@ -61,9 +62,9 @@ class NumberQuestion extends React.Component {
         <NumberContainer>
           <Title>Number</Title>
           <InputField
-            type='number'
-            pattern='[0-9]*'
-            placeholder='Number'
+            type="number"
+            pattern="[0-9]*"
+            placeholder="Number"
             onChange={this.changeHandler}
             value={this.state.answerBlock.value}
           />

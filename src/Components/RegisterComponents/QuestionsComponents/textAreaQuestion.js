@@ -33,7 +33,7 @@ export default class TextAreaQuestion extends React.Component {
       <QuestionContainer>
         <Title>{content.title}</Title>
         <Line
-          type='text'
+          type="text"
           placeholder={content.default}
           onChange={this.handleChange}
         />
@@ -49,6 +49,7 @@ const QuestionContainer = styled.div`
   flex-wrap: wrap;
   font-family: sans-serif;
   font-size: 14px;
+  margin-bottom: 15px;
 `;
 
 const Title = styled.div`

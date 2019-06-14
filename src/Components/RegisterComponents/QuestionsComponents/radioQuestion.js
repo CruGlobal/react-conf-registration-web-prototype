@@ -36,12 +36,6 @@ export default class RadioQuestion extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     answerBlock: this.props.answerBlock
-  //   });
-  // }
-
   handleChange = event => {
     this.setState({
       answerBlock: {
@@ -61,14 +55,14 @@ export default class RadioQuestion extends React.Component {
               return (
                 <div key={Choice.value}>
                   <Selector
-                    type='radio'
-                    id='option'
-                    name='radio'
+                    type="radio"
+                    id="option"
+                    name="radio"
                     value={Choice.value}
                     onChange={this.handleChange}
                   />
-                  <label htmlFor='option'>{Choice.value}</label>
-                  <div className='check' />
+                  <label htmlFor="option">{Choice.value}</label>
+                  <div className="check" />
                 </div>
               );
             })}
@@ -87,6 +81,7 @@ const QuestionContainer = styled.div`
   font-family: sans-serif;
   font-size: 14px;
   font-weight: 700;
+  margin-bottom: 15px;
 `;
 
 const Title = styled.div`

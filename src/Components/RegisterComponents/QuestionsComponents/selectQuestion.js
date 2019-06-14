@@ -55,7 +55,7 @@ export default class SelectQuestion extends React.Component {
     return (
       <QuestionContainer>
         <Title>{content.title}</Title>
-        <Option name='select' onChange={this.handleChange}>
+        <Option name="select" onChange={this.handleChange}>
           {_.map(content.choices, Choice => {
             return (
               <option key={Choice.value} value={Choice.value}>
@@ -76,6 +76,7 @@ const QuestionContainer = styled.div`
   flex-wrap: wrap;
   font-family: sans-serif;
   font-size: 14px;
+  margin-bottom: 15px;
 `;
 
 const Title = styled.div`
@@ -85,10 +86,13 @@ const Title = styled.div`
 `;
 
 const Option = styled.select`
-  border-radius: 4px;
   margin-bottom: 1em;
-  padding: 6px 12px;
   width: 100%;
-  border-width: 1px;
-  border-color: rgb(204, 204, 204);
+  height: 34px;
+  padding: 6px 12px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #555;
 `;

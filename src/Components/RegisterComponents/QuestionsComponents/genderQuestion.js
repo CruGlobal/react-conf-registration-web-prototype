@@ -9,6 +9,7 @@ const QuestionContainer = styled.div`
   font-family: sans-serif;
   font-size: 14px;
   font-weight: 700;
+  margin-bottom: 15px;
 `;
 
 const Title = styled.div`
@@ -68,26 +69,26 @@ export default class GenderQuestion extends React.Component {
         <Options>
           <Choice>
             <Selector
-              type='radio'
-              id='m-option'
-              name='gender'
+              type="radio"
+              id="m-option"
+              name="gender"
               value={"M"}
               onChange={this.handleChange}
             />
-            <label htmlFor='m-option'>Male</label>
-            <div className='check' />
+            <label htmlFor="m-option">Male</label>
+            <div className="check" />
           </Choice>
 
           <Choice>
             <Selector
-              type='radio'
-              id='f-option'
-              name='gender'
+              type="radio"
+              id="f-option"
+              name="gender"
               value={"F"}
               onChange={this.handleChange}
             />
-            <label htmlFor='f-option'>Female</label>
-            <div className='check' />
+            <label htmlFor="f-option">Female</label>
+            <div className="check" />
           </Choice>
         </Options>
       </QuestionContainer>

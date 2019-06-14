@@ -33,7 +33,7 @@ export default class TextQuestion extends React.Component {
       <QuestionContainer>
         <Title>{content.title}</Title>
         <Line
-          type='text'
+          type="text"
           placeholder={content.default}
           onChange={this.handleChange}
         />
@@ -49,6 +49,7 @@ const QuestionContainer = styled.div`
   flex-wrap: wrap;
   font-family: sans-serif;
   font-size: 14px;
+  margin-bottom: 15px;
 `;
 
 const Title = styled.div`
@@ -59,9 +60,11 @@ const Title = styled.div`
 
 const Line = styled.input`
   margin-bottom: 1em;
-  padding: 6px 12px;
   width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
   border-radius: 4px;
-  border-width: 1px;
-  border-color: rgb(204, 204, 204);
 `;
