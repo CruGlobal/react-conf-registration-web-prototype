@@ -1,9 +1,14 @@
 import React from "react";
-import styled from "@emotion/styled";
 import AddressQuestion from "../../QuestionsComponents/addressQuestion";
+import GenderQuestion from "../../QuestionsComponents/genderQuestion";
 
 const RegisteringContent = () => {
-  return <AddressQuestion />;
+  return (
+    <>
+      <AddressQuestion />
+      <GenderQuestion />
+    </>
+  );
 };
 
 export default RegisteringContent;

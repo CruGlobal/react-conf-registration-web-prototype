@@ -58,14 +58,67 @@ const Postal = styled.input`
 `;
 
 export default class AddressQuestion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      answerBlock: {
+        blockId: "",
+        id: "",
+        registrantId: "",
+        value: {
+          address1: "",
+          address2: "",
+          city: "",
+          state: "",
+          zip: ""
+        }
+      }
+    };
+  }
+
+  // componentDidMount() {
+  //   this.setState({
+  //     answerBlock: this.props.answerBlock
+  //   });
+  // }
+
+  handleChange = event => {
+    const newValue = this.state.answerBlock.value;
+    let key = event.target.name;
+    let value = event.target.value;
+    newValue[key] = value;
+
+    this.setState({
+      answerBlock: {
+        ...this.state.answerBlock,
+        value: newValue
+      }
+    });
+  };
+
   render() {
     return (
       <QuestionContainer>
         <Title>Address</Title>
-        <Line type='text' placeholder='Address Line 1' />
-        <Line type='text' placeholder='Address Line 2' />
-        <City type='text' placeholder='City' />
-        <State placeholder='State'>
+        <Line
+          type='text'
+          placeholder='Address Line 1'
+          name='add1'
+          onChange={this.handleChange}
+        />
+        <Line
+          type='text'
+          placeholder='Address Line 2'
+          name='add2'
+          onChange={this.handleChange}
+        />
+        <City
+          type='text'
+          placeholder='City'
+          name='city'
+          onChange={this.handleChange}
+        />
+        <State placeholder='State' name='state' onChange={this.handleChange}>
           <option value=''>State</option>
           <option value='AL'>Alabama</option>
           <option value='AK'>Alaska</option>
@@ -119,7 +172,12 @@ export default class AddressQuestion extends React.Component {
           <option value='WI'>Wisconsin</option>
           <option value='WY'>Wyoming</option>
         </State>
-        <Postal type='text' placeholder='Postal Code' />
+        <Postal
+          type='text'
+          placeholder='Postal Code'
+          name='zip'
+          onChange={this.handleChange}
+        />
       </QuestionContainer>
     );
   }
