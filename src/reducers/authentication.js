@@ -23,7 +23,8 @@ const authenticationReducer = (
     case USER_LOGIN:
       return {
         ...state,
-        profile: profile
+        profile: profile,
+        loginState: true
       };
     case SET_CRS_TOKEN:
       return {

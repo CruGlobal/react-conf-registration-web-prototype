@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import styled from "@emotion/styled";
+import _ from "lodash";
 
 const QuestionContainer = styled.div`
   margin-bottom: 15px;
@@ -33,12 +34,26 @@ class InputCheckBoxQuestions extends Component {
     };
   }
 
+  content = {
+    choices: [
+      {
+        value: "Cool"
+      },
+      {
+        value: "Cool Cool"
+      },
+      {
+        value: "Cool Cool Cool"
+      }
+    ]
+  };
+
   handleChange = event => {
     const newValue = this.state.answerBlock.value;
     // Here we grab the event targets name to know which input field we are changing
     let key = event.target.name;
     // We are then grabbing the value from that input field
-    let value = event.target.value;
+    let value = event.target.checked;
     // We then set our copied states value to the new value, depending on which key or input field we are changing
     newValue[key] = value;
     // We then set the state of the old value to be the new value
@@ -47,7 +62,7 @@ class InputCheckBoxQuestions extends Component {
         ...this.state.answerBlock,
         value: {
           ...this.state.answerBlock.value,
-          value: value
+          [key]: value
         }
       }
     });
@@ -55,35 +70,21 @@ class InputCheckBoxQuestions extends Component {
   render() {
     return (
       <QuestionContainer>
-        <QuestionTitle>Question</QuestionTitle>
+        <QuestionTitle>Checkbox Question</QuestionTitle>
         <GridContainer>
-          <div>
-            <input
-              type="checkbox"
-              name="option1"
-              value="Option1"
-              onChange={this.handleChange}
-            />
-            <QuestionValue>Option #1</QuestionValue>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              name="option2"
-              value="Option2"
-              onChange={this.handleChange}
-            />
-            <QuestionValue>Option #2</QuestionValue>
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              name="option3"
-              value="Option3"
-              onChange={this.handleChange}
-            />
-            <QuestionValue>Option #3</QuestionValue>
-          </div>
+          {_.map(this.content.choices, choice => {
+            return (
+              <div key={choice.value}>
+                <input
+                  type="checkbox"
+                  name={choice.value}
+                  onChange={this.handleChange}
+                  checked={this.state.answerBlock.value[choice]}
+                />
+                <QuestionValue>{choice.value}</QuestionValue>
+              </div>
+            );
+          })}
         </GridContainer>
       </QuestionContainer>
     );

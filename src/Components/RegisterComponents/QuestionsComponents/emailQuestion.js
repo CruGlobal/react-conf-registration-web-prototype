@@ -33,12 +33,27 @@ class emailQuestion extends Component {
       }
     };
   }
+
+  changeHandler = event => {
+    this.setState({
+      answerBlock: {
+        ...this.state.answerBlock,
+        value: event.target.value
+      }
+    });
+  };
+
   render() {
     return (
       <QuestionContainer>
         <Question>Email</Question>
         <label>
-          <InputField type="text" placeholder="example@domain.com" />
+          <InputField
+            type="email"
+            placeholder="example@domain.com"
+            value={this.state.answerBlock.value}
+            onChange={this.changeHandler}
+          />
         </label>
       </QuestionContainer>
     );

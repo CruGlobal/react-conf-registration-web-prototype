@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
+import BackButton from "./BackButton";
+import ContinueButton from "./ContinueButton";
 import AddressQuestion from "../../QuestionsComponents/addressQuestion";
 import CampusQuestion from "../../QuestionsComponents/campusQuestion";
 import CheckboxQuestion from "../../QuestionsComponents/checkboxQuestion";
@@ -30,8 +32,18 @@ const RegisteringContent = () => {
       <TextAreaQuestion />
       <TextQuestion />
       <YearQuestion />
+      <ButtonContainer>
+        <BackButton />
+        <ContinueButton />
+      </ButtonContainer>
     </div>
   );
 };
 
 export default RegisteringContent;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;

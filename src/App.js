@@ -29,9 +29,12 @@ class App extends Component {
     // When the component mounts, check localstorage for a crsToken and set it our redux store
     await this.props.getCrsToken();
     // After the above function runs, set the signin status
-    this.setSignInStatus();
+    // this.setSignInStatus();
     // Then we will use the crsToken we set to get our users profile information
     this.props.setUserProfile(this.props.crsToken);
+    if (this.props.profile.error) {
+      console.log("Cool");
+    }
   }
 
   render() {
