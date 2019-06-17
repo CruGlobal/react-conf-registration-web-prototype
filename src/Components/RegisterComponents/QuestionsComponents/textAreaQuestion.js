@@ -19,6 +19,12 @@ export default class TextAreaQuestion extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
+
   handleChange = event => {
     this.setState({
       answerBlock: {
@@ -31,7 +37,7 @@ export default class TextAreaQuestion extends React.Component {
   render() {
     return (
       <QuestionContainer>
-        <Title>{content.title}</Title>
+        <Title>{this.props.blockData.title}</Title>
         <Line
           type="text"
           placeholder={content.default}

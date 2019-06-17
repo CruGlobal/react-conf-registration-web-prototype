@@ -44,6 +44,12 @@ class NameQuestions extends Component {
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
+
   handleChange = event => {
     const newValue = this.state.answerBlock.value;
     // Here we grab the event targets name to know which input field we are changing
@@ -63,7 +69,7 @@ class NameQuestions extends Component {
   render() {
     return (
       <QuestionContainer>
-        <QuestionTitle>Name</QuestionTitle>
+        <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
         <label>
           <Format>
             <InputField

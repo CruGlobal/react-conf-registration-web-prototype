@@ -33,6 +33,11 @@ class emailQuestion extends Component {
       }
     };
   }
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
 
   changeHandler = event => {
     this.setState({
@@ -46,7 +51,7 @@ class emailQuestion extends Component {
   render() {
     return (
       <QuestionContainer>
-        <Question>Email</Question>
+        <Question>{this.props.blockData.title}</Question>
         <label>
           <InputField
             type="email"

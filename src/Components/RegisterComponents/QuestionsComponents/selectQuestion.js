@@ -2,27 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import _ from "lodash";
 
-const content = {
-  title: "Select Test",
-  choices: [
-    {
-      value: "option 1",
-      description: "",
-      operand: "OR"
-    },
-    {
-      value: "option 2",
-      description: "",
-      operand: "OR"
-    },
-    {
-      value: "option 3",
-      description: "",
-      operand: "OR"
-    }
-  ]
-};
-
 export default class SelectQuestion extends React.Component {
   constructor(props) {
     super(props);
@@ -36,11 +15,11 @@ export default class SelectQuestion extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     answerBlock: this.props.answerBlock
-  //   });
-  // }
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
 
   handleChange = event => {
     this.setState({
@@ -54,9 +33,10 @@ export default class SelectQuestion extends React.Component {
   render() {
     return (
       <QuestionContainer>
-        <Title>{content.title}</Title>
+        <Title>{this.props.blockData.title}</Title>
         <Option name="select" onChange={this.handleChange}>
-          {_.map(content.choices, Choice => {
+          <option value={null}>Choose one...</option>
+          {_.map(this.props.blockData.content.choices, Choice => {
             return (
               <option key={Choice.value} value={Choice.value}>
                 {Choice.value}

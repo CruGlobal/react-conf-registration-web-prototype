@@ -1,39 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const QuestionContainer = styled.div`
-  background: white;
-  display: flex;
-  flex-direciton: row;
-  flex-wrap: wrap;
-  font-family: sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 15px;
-`;
-
-const Title = styled.div`
-  margin-bottom: 5px;
-  width: 100%;
-`;
-
-const Options = styled.ul`
-  list-style: none;
-  margin-bottom: 1em;
-  padding: 0px;
-  width: 100%;
-`;
-
-const Choice = styled.li`
-  padding-left: 20px;
-  margin-left: -4px;
-`;
-
-const Selector = styled.input`
-  margin-right: 4px;
-  margin-left: -15px;
-`;
-
 export default class YearQuestion extends React.Component {
   constructor(props) {
     super(props);
@@ -47,11 +14,11 @@ export default class YearQuestion extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     answerBlock: this.props.answerBlock
-  //   });
-  // }
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
 
   handleChange = event => {
     this.setState({
@@ -65,7 +32,7 @@ export default class YearQuestion extends React.Component {
   render() {
     return (
       <QuestionContainer>
-        <Title>Year in School</Title>
+        <Title>{this.props.blockData.title}</Title>
         <Options>
           <Choice>
             <Selector
@@ -131,3 +98,36 @@ export default class YearQuestion extends React.Component {
     );
   }
 }
+
+const QuestionContainer = styled.div`
+  background: white;
+  display: flex;
+  flex-direciton: row;
+  flex-wrap: wrap;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 15px;
+`;
+
+const Title = styled.div`
+  margin-bottom: 5px;
+  width: 100%;
+`;
+
+const Options = styled.ul`
+  list-style: none;
+  margin-bottom: 1em;
+  padding: 0px;
+  width: 100%;
+`;
+
+const Choice = styled.li`
+  padding-left: 20px;
+  margin-left: -4px;
+`;
+
+const Selector = styled.input`
+  margin-right: 4px;
+  margin-left: -15px;
+`;

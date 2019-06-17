@@ -22,6 +22,7 @@ export default class dateQuestion extends Component {
 
   componentDidMount() {
     this.setState({
+      blockData: this.props.blockData,
       answerBlock: {
         ...this.state.answerBlock,
         value: null //moment(this.state.date).format("YYYY-MM-D")
@@ -55,7 +56,7 @@ export default class dateQuestion extends Component {
             <Calendar onChange={this.onChange} value={this.state.date} />
           </ModalBody>
         </Modal>
-        <Prompt>Date</Prompt>
+        <Prompt>{this.props.blockData.title}</Prompt>
         <InputContainer onClick={() => this.changeShow(true)}>
           <CalendarButton>
             <FontAwesomeIcon icon={faCalendarAlt} />

@@ -92,11 +92,11 @@ export default class AddressQuestion extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     answerBlock: this.props.answerBlock
-  //   });
-  // }
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
 
   handleChange = event => {
     const newValue = this.state.answerBlock.value;
@@ -115,7 +115,7 @@ export default class AddressQuestion extends React.Component {
   render() {
     return (
       <QuestionContainer>
-        <Title>Address</Title>
+        <Title>{this.props.blockData.title}</Title>
         <Line
           type="text"
           placeholder="Address Line 1"

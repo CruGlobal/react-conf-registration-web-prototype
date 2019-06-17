@@ -8,6 +8,7 @@ import { Redirect } from "react-router-dom";
 import { selectConference } from "../../../actions";
 import RegisterLanding from "./Subcomponents/RegisterLanding";
 import RegisteringContent from "./Subcomponents/RegisteringContent";
+import _ from "lodash";
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -37,7 +38,9 @@ class RegisterPage extends Component {
             <RegisterNavbar conference={selectedConference} />
             <RegisterSection>
               {this.state.registeringStarted ? (
-                <RegisteringContent />
+                _.map(selectedConference.registrationPages, page => {
+                  return <RegisteringContent key={page.id} pageData={page} />;
+                })
               ) : (
                 <RegisterLanding
                   selectedConference={selectedConference}

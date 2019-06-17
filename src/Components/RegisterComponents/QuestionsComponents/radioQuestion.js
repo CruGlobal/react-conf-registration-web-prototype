@@ -2,27 +2,6 @@ import React from "react";
 import styled from "@emotion/styled";
 import _ from "lodash";
 
-const content = {
-  title: "Radio Test",
-  choices: [
-    {
-      value: "option 1",
-      description: "",
-      operand: "OR"
-    },
-    {
-      value: "option 2",
-      description: "",
-      operand: "OR"
-    },
-    {
-      value: "option 3",
-      description: "",
-      operand: "OR"
-    }
-  ]
-};
-
 export default class RadioQuestion extends React.Component {
   constructor(props) {
     super(props);
@@ -34,6 +13,12 @@ export default class RadioQuestion extends React.Component {
         value: ""
       }
     };
+  }
+
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
   }
 
   handleChange = event => {
@@ -48,10 +33,10 @@ export default class RadioQuestion extends React.Component {
   render() {
     return (
       <QuestionContainer>
-        <Title>{content.title}</Title>
+        <Title>{this.props.blockData.title}</Title>
         <Options>
           <Choice>
-            {_.map(content.choices, Choice => {
+            {_.map(this.props.blockData.content.choices, Choice => {
               return (
                 <div key={Choice.value}>
                   <Selector

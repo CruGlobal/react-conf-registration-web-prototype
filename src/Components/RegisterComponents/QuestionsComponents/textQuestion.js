@@ -1,11 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const content = {
-  title: "Text Test Question",
-  default: "Enter Answer"
-};
-
 export default class TextQuestion extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +12,12 @@ export default class TextQuestion extends React.Component {
         value: ""
       }
     };
+  }
+
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
   }
 
   handleChange = event => {
@@ -31,10 +32,10 @@ export default class TextQuestion extends React.Component {
   render() {
     return (
       <QuestionContainer>
-        <Title>{content.title}</Title>
+        <Title>{this.props.blockData.title}</Title>
         <Line
           type="text"
-          placeholder={content.default}
+          placeholder="Enter Answer"
           onChange={this.handleChange}
         />
       </QuestionContainer>

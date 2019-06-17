@@ -41,11 +41,11 @@ class CampusQuestion extends React.Component {
     };
   }
 
-  //componentDidMount(){
-  //this.setState({
-  //answerBlock: this.props.answerBlock
-  //   })
-  // }
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
 
   changeHandler = event => {
     this.setState({
@@ -60,7 +60,7 @@ class CampusQuestion extends React.Component {
     return (
       <>
         <CampusContainer>
-          <Title>Campus</Title>
+          <Title>{this.props.blockData.title}</Title>
           <InputField
             type="text"
             placeholder="Campus"

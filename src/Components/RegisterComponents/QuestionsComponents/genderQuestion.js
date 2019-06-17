@@ -47,12 +47,11 @@ export default class GenderQuestion extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.setState({
-  //     answerBlock: this.props.answerBlock
-  //   });
-  // }
-
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
   handleChange = event => {
     this.setState({
       answerBlock: {
@@ -65,7 +64,7 @@ export default class GenderQuestion extends React.Component {
   render() {
     return (
       <QuestionContainer>
-        <Title>Gender</Title>
+        <Title>{this.props.blockData.title}</Title>
         <Options>
           <Choice>
             <Selector

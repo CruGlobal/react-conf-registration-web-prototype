@@ -34,6 +34,12 @@ class InputCheckBoxQuestions extends Component {
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
+
   content = {
     choices: [
       {
@@ -70,9 +76,9 @@ class InputCheckBoxQuestions extends Component {
   render() {
     return (
       <QuestionContainer>
-        <QuestionTitle>Checkbox Question</QuestionTitle>
+        <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
         <GridContainer>
-          {_.map(this.content.choices, choice => {
+          {_.map(this.props.blockData.content.choices, choice => {
             return (
               <div key={choice.value}>
                 <input

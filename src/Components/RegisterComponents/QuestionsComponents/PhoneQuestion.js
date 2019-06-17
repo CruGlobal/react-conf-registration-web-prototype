@@ -1,6 +1,56 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+class PhoneQuestion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      answerBlock: {
+        amount: 0,
+        blockid: "",
+        id: "",
+        registrantId: "",
+        value: ""
+      }
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
+
+  changeHandler = event => {
+    this.setState({
+      answerBlock: {
+        ...this.state.answerBlock,
+        value: event.target.value
+      }
+    });
+  };
+
+  render() {
+    return (
+      <>
+        <PhoneContainer>
+          <Title>{this.props.blockData.title}</Title>
+          <InputField
+            type="tel"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            name="phoneNumberInput"
+            placeholder="Telephone"
+            onChange={this.changeHandler}
+            value={this.state.answerBlock.value}
+          />
+        </PhoneContainer>
+      </>
+    );
+  }
+}
+
+export default PhoneQuestion;
+
 const PhoneContainer = styled.div`
   background: whitet;
   display: flex;
@@ -26,53 +76,3 @@ const InputField = styled.input`
   border: 1px solid #ccc;
   height: 34px;
 `;
-
-class PhoneQuestion extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      answerBlock: {
-        amount: 0,
-        blockid: "",
-        id: "",
-        registrantId: "",
-        value: ""
-      }
-    };
-  }
-
-  //componentDidMount(){
-  //this.setState({
-  //answerBlock: this.props.answerBlock
-  //   })
-  // }
-
-  changeHandler = event => {
-    this.setState({
-      answerBlock: {
-        ...this.state.answerBlock,
-        value: event.target.value
-      }
-    });
-  };
-
-  render() {
-    return (
-      <>
-        <PhoneContainer>
-          <Title>Telephone</Title>
-          <InputField
-            type="tel"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-            name="phoneNumberInput"
-            placeholder="Telephone"
-            onChange={this.changeHandler}
-            value={this.state.answerBlock.value}
-          />
-        </PhoneContainer>
-      </>
-    );
-  }
-}
-
-export default PhoneQuestion;

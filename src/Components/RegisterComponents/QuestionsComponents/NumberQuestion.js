@@ -1,6 +1,55 @@
 import React from "react";
 import styled from "@emotion/styled";
 
+class NumberQuestion extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      answerBlock: {
+        amount: 0,
+        blockid: "",
+        id: "",
+        registrantId: "",
+        value: ""
+      }
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      blockData: this.props.blockData
+    });
+  }
+
+  changeHandler = event => {
+    this.setState({
+      answerBlock: {
+        ...this.state.answerBlock,
+        value: event.target.value
+      }
+    });
+  };
+
+  render() {
+    return (
+      <>
+        <NumberContainer>
+          <Title>{this.props.blockData.title}</Title>
+          <InputField
+            type="number"
+            pattern="[0-9]*"
+            placeholder="Number"
+            onChange={this.changeHandler}
+            value={this.state.answerBlock.value}
+          />
+        </NumberContainer>
+      </>
+    );
+  }
+}
+
+export default NumberQuestion;
+
 const NumberContainer = styled.div`
   background: white;
   display: flex;
@@ -26,52 +75,3 @@ const InputField = styled.input`
   border: 1px solid #ccc;
   height: 34px;
 `;
-
-class NumberQuestion extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      answerBlock: {
-        amount: 0,
-        blockid: "",
-        id: "",
-        registrantId: "",
-        value: ""
-      }
-    };
-  }
-
-  //componentDidMount(){
-  //this.setState({
-  //answerBlock: this.props.answerBlock
-  //   })
-  // }
-
-  changeHandler = event => {
-    this.setState({
-      answerBlock: {
-        ...this.state.answerBlock,
-        value: event.target.value
-      }
-    });
-  };
-
-  render() {
-    return (
-      <>
-        <NumberContainer>
-          <Title>Number</Title>
-          <InputField
-            type="number"
-            pattern="[0-9]*"
-            placeholder="Number"
-            onChange={this.changeHandler}
-            value={this.state.answerBlock.value}
-          />
-        </NumberContainer>
-      </>
-    );
-  }
-}
-
-export default NumberQuestion;
