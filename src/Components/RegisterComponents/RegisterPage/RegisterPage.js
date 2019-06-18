@@ -8,14 +8,13 @@ import { Redirect } from "react-router-dom";
 import { selectConference } from "../../../actions";
 import RegisterLanding from "./Subcomponents/RegisterLanding";
 import RegisteringContent from "./Subcomponents/RegisteringContent";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      registeringStarted: false
-    };
+    this.state = {};
   }
   componentDidMount() {
     const { getSelectedConference, match } = this.props;
@@ -23,29 +22,89 @@ class RegisterPage extends Component {
     getSelectedConference(token, match.params.confID);
   }
 
-  changeRegistering = () => {
-    this.setState({
-      registeringStarted: true
-    });
-  };
-
   render() {
-    const { loginState, selectedConference } = this.props;
+    const { loginState, selectedConference, match } = this.props;
+
     return (
       <>
         {loginState ? (
           <PageContainer>
             <RegisterNavbar conference={selectedConference} />
             <RegisterSection>
-              {this.state.registeringStarted ? (
+              {match.params.pageID ? (
+                <PageSelectorSection>
+                  {_.map(selectedConference.registrationPages, page => {
+                    const PageButton = styled.div`
+                      background: ${match.params.pageID === page.id
+                        ? "#337AB7"
+                        : "#d6d6d6"};
+                      width: 170px;
+                      height: 45px;
+                      font-size: 14px;
+                      color: ${match.params.pageID === page.id
+                        ? "#ffffff"
+                        : "#156692"};
+                      padding: 0 10px;
+                      display: block;
+                      white-space: nowrap;
+                      margin-bottom: 3px;
+                      display: flex;
+                      align-items: center;
+                    `;
+
+                    const Circle = styled.span`
+                      width: 26px;
+                      height: 26px;
+                      border: 2px solid
+                        ${match.params.pageID === page.id
+                          ? "#ffffff"
+                          : "#156692"};
+                      color: ${match.params.pageID === page.id
+                        ? "#ffffff"
+                        : "#156692"};
+                      line-height: 20px;
+                      margin-right: 5px;
+                      border-radius: 55px;
+                      font-size: 14px;
+                      text-align: center;
+                      font-weight: 700;
+                      font-family: sans-serif;
+                      display: inline-block;
+                    `;
+                    return (
+                      <PageLink
+                        key={page.id}
+                        to={`/register/${selectedConference.id}/page/${
+                          page.id
+                        }?reg=`}
+                      >
+                        <PageButton>
+                          <Circle>
+                            {_.indexOf(
+                              selectedConference.registrationPages,
+                              page
+                            ) + 1}
+                          </Circle>
+                          {page.title}
+                        </PageButton>
+                      </PageLink>
+                    );
+                  })}
+                </PageSelectorSection>
+              ) : null}
+
+              {match.params.pageID ? (
                 _.map(selectedConference.registrationPages, page => {
-                  return <RegisteringContent key={page.id} pageData={page} />;
+                  return (
+                    <RegisteringContent
+                      match={match}
+                      key={page.id}
+                      pageData={page}
+                    />
+                  );
                 })
               ) : (
-                <RegisterLanding
-                  selectedConference={selectedConference}
-                  changeRegistering={this.changeRegistering}
-                />
+                <RegisterLanding />
               )}
             </RegisterSection>
             <RegisterFooter />
@@ -94,4 +153,25 @@ const RegisterSection = styled.section`
   background: #fff;
   width: 612px;
   padding: 15px;
+`;
+
+const PageSelectorSection = styled.div`
+  width: 200px;
+  float: left;
+  position: absolute;
+  margin-left: -230px;
+  background: #fff;
+  padding: 10px 0;
+  margin-top: -14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+`;
+
+const PageLink = styled(Link)`
+  :hover {
+    text-decoration: none;
+  }
 `;

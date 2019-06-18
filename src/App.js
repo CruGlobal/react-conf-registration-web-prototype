@@ -64,6 +64,11 @@ class App extends Component {
           />
 
           <Route
+            path="/register/:confID/page/:pageID"
+            render={props => <RegisterPage {...props} />}
+          />
+
+          <Route
             exact
             path="/auth/"
             render={props => <AuthPage {...props} />}

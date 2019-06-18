@@ -81,7 +81,7 @@ const NavbarHeader = styled.header`
 `;
 
 const NavbarSection = styled.div`
-  width: 582px;
+  width: 612px;
   padding: 15px;
   margin: 0 auto;
   background: #156692;

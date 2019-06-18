@@ -1,89 +1,164 @@
 import React from "react";
 import styled from "@emotion/styled";
 import EvtFormater from "../../../../Controllers/formatercontroller";
+import UUIDController from "../../../../Controllers/uuidcontroller";
+import { Link } from "react-router-dom";
+import _ from "lodash";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { connect } from "react-redux";
 
 const FORMATER = new EvtFormater();
+const UUID = new UUIDController();
 
-const RegisterLanding = ({ selectedConference, changeRegistering }) => {
+const newUUID = UUID.createUUID();
+
+const RegisterLanding = ({ selectedConference, isLoading }) => {
+  // Render Correct buttons depending on selectedConference results
+  // We have the null value because before Redux sets the selected conference
+  // If it tries to render a link to the next page, react throws an error because selectedConference is not set yet
+  const RenderButtons = () => {
+    if (selectedConference.registrantTypes === null) {
+      return (
+        <ButtonContainer>
+          <RegisterButton>Loading</RegisterButton>
+        </ButtonContainer>
+      );
+    } else if (selectedConference.registrantTypes.length > 1) {
+      return (
+        <MultipleTypeContainer>
+          {_.map(selectedConference.registrantTypes, registrantType => {
+            return (
+              <RegistrantRowContainer key={registrantType.id}>
+                <RegisterTypeTitle>{registrantType.name}</RegisterTypeTitle>
+                <RegisterTypeTotal>${registrantType.cost}.00</RegisterTypeTotal>
+                <RegisterTypeButton>Register</RegisterTypeButton>
+              </RegistrantRowContainer>
+            );
+          })}
+        </MultipleTypeContainer>
+      );
+    } else {
+      return (
+        <ButtonContainer>
+          <Link
+            to={
+              selectedConference
+                ? `/register/${selectedConference.id}/page/${
+                    selectedConference.registrationPages[0].id
+                  }?reg=${newUUID}`
+                : "/"
+            }
+          >
+            <RegisterButton>Register</RegisterButton>
+          </Link>
+        </ButtonContainer>
+      );
+    }
+  };
+
   return (
     <>
-      <TitleContainer>
-        <WelcomeTitle>Welcome</WelcomeTitle>
-      </TitleContainer>
-      <DescriptionText>{selectedConference.description}</DescriptionText>
-      <DetailContainer>
-        <TitleContainer>
-          <DetailTitle>Event Dates</DetailTitle>
-        </TitleContainer>
-        <DescriptionText>
-          {FORMATER.dateFormater(
-            selectedConference.eventStartTime,
-            selectedConference.eventTimezone,
-            "ddd, MMM D, YYYY h:mma "
-          )}{" "}
-          -{" "}
-          {FORMATER.dateFormater(
-            selectedConference.eventEndTime,
-            selectedConference.eventTimezone,
-            "ddd, MMM D, YYYY h:mma"
-          )}
-        </DescriptionText>
-      </DetailContainer>
-      {!selectedConference.locationAddress &&
-      !selectedConference.locationName &&
-      !selectedConference.locationCity &&
-      !selectedConference.locationState &&
-      !selectedConference.locationZipCode ? null : (
-        <DetailContainer>
+      {isLoading ? (
+        <LoadingContainer>
+          <span>Loading... </span>
+          <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+        </LoadingContainer>
+      ) : (
+        <>
           <TitleContainer>
-            <DetailTitle>Event Location</DetailTitle>
+            <WelcomeTitle>Welcome</WelcomeTitle>
           </TitleContainer>
-          <DescriptionText>
-            {selectedConference.locationName} <br />
-            {selectedConference.locationAddress} <br />
-            {selectedConference.locationCity},{selectedConference.locationState}{" "}
-            {selectedConference.locationZipCode}
-          </DescriptionText>
-        </DetailContainer>
-      )}
-      <DetailContainer>
-        <TitleContainer>
-          <DetailTitle>Registration Window</DetailTitle>
-        </TitleContainer>
-        <DescriptionText>
-          {FORMATER.dateFormater(
-            selectedConference.registrationStartTime,
-            selectedConference.eventTimezone,
-            "ddd, MMM D, YYYY h:mma z"
-          )}{" "}
-          -{" "}
-          {FORMATER.dateFormater(
-            selectedConference.registrationEndTime,
-            selectedConference.eventTimezone,
-            "ddd, MMM D, YYYY h:mma z"
+          <DescriptionText>{selectedConference.description}</DescriptionText>
+          <DetailContainer>
+            <TitleContainer>
+              <DetailTitle>Event Dates</DetailTitle>
+            </TitleContainer>
+            <DescriptionText>
+              {FORMATER.dateFormater(
+                selectedConference.eventStartTime,
+                selectedConference.eventTimezone,
+                "ddd, MMM D, YYYY h:mma "
+              )}{" "}
+              -{" "}
+              {FORMATER.dateFormater(
+                selectedConference.eventEndTime,
+                selectedConference.eventTimezone,
+                "ddd, MMM D, YYYY h:mma"
+              )}
+            </DescriptionText>
+          </DetailContainer>
+          {!selectedConference.locationAddress &&
+          !selectedConference.locationName &&
+          !selectedConference.locationCity &&
+          !selectedConference.locationState &&
+          !selectedConference.locationZipCode ? null : (
+            <DetailContainer>
+              <TitleContainer>
+                <DetailTitle>Event Location</DetailTitle>
+              </TitleContainer>
+              <DescriptionText>
+                {selectedConference.locationName} <br />
+                {selectedConference.locationAddress} <br />
+                {selectedConference.locationCity},
+                {selectedConference.locationState}{" "}
+                {selectedConference.locationZipCode}
+              </DescriptionText>
+            </DetailContainer>
           )}
-        </DescriptionText>
-      </DetailContainer>
-      <DetailContainer>
-        <TitleContainer>
-          <DetailTitle>Contact Info</DetailTitle>
-        </TitleContainer>
-        <DescriptionText>
-          {selectedConference.contactPersonName}
-          <br />
-          <a href={`mailto:${selectedConference.contactPersonEmail}`}>
-            {selectedConference.contactPersonEmail}
-          </a>
-        </DescriptionText>
-      </DetailContainer>
-      <ButtonContainer>
-        <RegisterButton onClick={changeRegistering}>Register</RegisterButton>
-      </ButtonContainer>
+          <DetailContainer>
+            <TitleContainer>
+              <DetailTitle>Registration Window</DetailTitle>
+            </TitleContainer>
+            <DescriptionText>
+              {FORMATER.dateFormater(
+                selectedConference.registrationStartTime,
+                selectedConference.eventTimezone,
+                "ddd, MMM D, YYYY h:mma z"
+              )}{" "}
+              -{" "}
+              {FORMATER.dateFormater(
+                selectedConference.registrationEndTime,
+                selectedConference.eventTimezone,
+                "ddd, MMM D, YYYY h:mma z"
+              )}
+            </DescriptionText>
+          </DetailContainer>
+          <DetailContainer>
+            <TitleContainer>
+              <DetailTitle>Contact Info</DetailTitle>
+            </TitleContainer>
+            <DescriptionText>
+              {selectedConference.contactPersonName}
+              <br />
+              <a href={`mailto:${selectedConference.contactPersonEmail}`}>
+                {selectedConference.contactPersonEmail}
+              </a>
+            </DescriptionText>
+          </DetailContainer>
+          {RenderButtons()}
+        </>
+      )}
     </>
   );
 };
 
-export default RegisterLanding;
+const mapStateToProps = state => {
+  return {
+    loginState: state.authenticationReducer.loginState,
+    isLoading: state.conferenceReducer.isLoading,
+    selectedConference: state.conferenceReducer.selectedConference
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RegisterLanding);
 
 const WelcomeTitle = styled.h2`
   color: #00a651;
@@ -95,6 +170,12 @@ const TitleContainer = styled.div`
   border-bottom: 2px solid #e9e9e9;
   padding-bottom: 4px;
   margin-bottom: 22px;
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const DetailContainer = styled.div`
@@ -110,6 +191,11 @@ const DetailContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+`;
+
+const MultipleTypeContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const DetailTitle = styled.h2`
@@ -136,4 +222,40 @@ const RegisterButton = styled.button`
   border-color: #4cae4c;
   color: #fff;
   margin: 0 auto;
+`;
+
+const RegistrantRowContainer = styled.div`
+  display: flex;
+  padding: 10px 5px;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dddddd;
+  :last-child {
+    border-bottom: none;
+  }
+`;
+
+const RegisterTypeButton = styled.button`
+  background: #00a651;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  font-weight: 600;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 3px;
+  color: #fff;
+  border-color: #4cae4c;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid transparent;
+`;
+
+const RegisterTypeTitle = styled.h4`
+  font-size: 14px;
+  color: #333;
+`;
+
+const RegisterTypeTotal = styled(RegisterTypeTitle)`
+  margin-left: auto;
+  padding-right: 20px;
 `;

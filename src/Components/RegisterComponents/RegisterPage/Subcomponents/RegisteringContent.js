@@ -60,8 +60,12 @@ class RegisteringContent extends Component {
   };
 
   render() {
-    const { pageData } = this.props;
-    return (
+    const { pageData, match } = this.props;
+    console.log(match);
+    if (match.params.pageID === pageData.id) {
+      console.log("Match");
+    }
+    return match.params.pageID === pageData.id ? (
       <div>
         <TitleContainer>
           <WelcomeTitle>{pageData.title}</WelcomeTitle>
@@ -75,7 +79,7 @@ class RegisteringContent extends Component {
           <ContinueButton />
         </ButtonContainer>
       </div>
-    );
+    ) : null;
   }
 }
 
