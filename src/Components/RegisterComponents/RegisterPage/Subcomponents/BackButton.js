@@ -1,10 +1,16 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const BackButton = () => {
+const BackButton = ({ history }) => {
   return (
     <div>
-      <Button>Go Back</Button>
+      <Button
+        onClick={() => {
+          history.goBack();
+        }}
+      >
+        Go Back
+      </Button>
     </div>
   );
 };

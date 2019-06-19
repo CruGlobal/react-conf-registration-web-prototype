@@ -170,7 +170,7 @@ class RegisteringContent extends Component {
         )}
 
         <ButtonContainer>
-          <BackButton />
+          <BackButton history={this.props.history} />
           <ContinueButton />
         </ButtonContainer>
       </div>

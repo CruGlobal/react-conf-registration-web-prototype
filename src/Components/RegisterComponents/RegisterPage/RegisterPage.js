@@ -114,6 +114,7 @@ class RegisterPage extends Component {
               _.map(selectedConference.registrationPages, page => {
                 return (
                   <RegisteringContent
+                    history={history}
                     match={match}
                     key={page.id}
                     pageData={page}
