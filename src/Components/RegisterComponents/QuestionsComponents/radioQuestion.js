@@ -21,6 +21,14 @@ export default class RadioQuestion extends React.Component {
     });
   }
 
+  componentWillReceiveProps() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    }
+  }
+
   handleChange = event => {
     this.setState({
       answerBlock: {
@@ -43,6 +51,7 @@ export default class RadioQuestion extends React.Component {
                     type="radio"
                     id="option"
                     name="radio"
+                    checked={Choice.value === this.state.answerBlock.value}
                     value={Choice.value}
                     onChange={this.handleChange}
                   />

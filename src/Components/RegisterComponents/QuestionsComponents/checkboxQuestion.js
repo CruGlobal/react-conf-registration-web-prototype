@@ -40,19 +40,13 @@ class InputCheckBoxQuestions extends Component {
     });
   }
 
-  content = {
-    choices: [
-      {
-        value: "Cool"
-      },
-      {
-        value: "Cool Cool"
-      },
-      {
-        value: "Cool Cool Cool"
-      }
-    ]
-  };
+  componentWillReceiveProps() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    }
+  }
 
   handleChange = event => {
     const newValue = this.state.answerBlock.value;
@@ -85,7 +79,7 @@ class InputCheckBoxQuestions extends Component {
                   type="checkbox"
                   name={choice.value}
                   onChange={this.handleChange}
-                  checked={this.state.answerBlock.value[choice]}
+                  checked={this.state.answerBlock.value[choice.value]}
                 />
                 <QuestionValue>{choice.value}</QuestionValue>
               </div>

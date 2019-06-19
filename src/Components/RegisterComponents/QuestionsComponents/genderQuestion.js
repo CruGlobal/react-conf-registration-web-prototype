@@ -46,12 +46,20 @@ export default class GenderQuestion extends React.Component {
       }
     };
   }
-
   componentDidMount() {
     this.setState({
       blockData: this.props.blockData
     });
   }
+
+  componentWillReceiveProps() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    }
+  }
+
   handleChange = event => {
     this.setState({
       answerBlock: {
@@ -72,6 +80,7 @@ export default class GenderQuestion extends React.Component {
               id="m-option"
               name="gender"
               value={"M"}
+              checked={this.state.answerBlock.value === "M"}
               onChange={this.handleChange}
             />
             <label htmlFor="m-option">Male</label>
@@ -85,6 +94,7 @@ export default class GenderQuestion extends React.Component {
               name="gender"
               value={"F"}
               onChange={this.handleChange}
+              checked={this.state.answerBlock.value === "F"}
             />
             <label htmlFor="f-option">Female</label>
             <div className="check" />

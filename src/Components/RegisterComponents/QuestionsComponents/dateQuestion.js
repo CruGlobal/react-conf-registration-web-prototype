@@ -22,12 +22,16 @@ export default class dateQuestion extends Component {
 
   componentDidMount() {
     this.setState({
-      blockData: this.props.blockData,
-      answerBlock: {
-        ...this.state.answerBlock,
-        value: null //moment(this.state.date).format("YYYY-MM-D")
-      }
+      blockData: this.props.blockData
     });
+  }
+
+  componentWillReceiveProps() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    }
   }
 
   onChange = date =>
@@ -64,7 +68,7 @@ export default class dateQuestion extends Component {
           <CalendarInput
             type="text"
             placeholder="Select a date..."
-            value={moment(this.state.date).format("MMM D, YYYY")}
+            value={moment(this.state.answerBlock.value).format("MMM D, YYYY")}
             readOnly={true}
           />
         </InputContainer>

@@ -24,54 +24,149 @@ class RegisteringContent extends Component {
     this.state = {};
   }
 
-  renderAnswerBlocks = blocks => {
+  filterCurrentRegistrant(currentData) {
+    const data = _.filter(
+      currentData.registrants,
+      registrant => registrant.id === currentData.primaryRegistrantId
+    );
+    return data;
+  }
+
+  renderAnswerBlocks = (blocks, currentData) => {
+    const currentUser = this.filterCurrentRegistrant(currentData);
+
+    const answerValue = _.filter(
+      currentUser[0].answers,
+      answer => answer.blockId === blocks.id
+    );
     switch (blocks.type) {
       case "nameQuestion":
-        return <NameQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <NameQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "emailQuestion":
-        return <EmailQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <EmailQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "addressQuestion":
-        return <AddressQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <AddressQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "campusQuestion":
-        return <CampusQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <CampusQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "checkboxQuestion":
-        return <CheckboxQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <CheckboxQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "dateQuestion":
-        return <DateQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <DateQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "genderQuestion":
-        return <GenderQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <GenderQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "numberQuestion":
-        return <NumberQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <NumberQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "phoneQuestion":
-        return <PhoneQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <PhoneQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "radioQuestion":
-        return <RadioQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <RadioQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "selectQuestion":
-        return <SelectQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <SelectQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "textareaQuestion":
-        return <TextAreaQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <TextAreaQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "textQuestion":
-        return <TextQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <TextQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       case "yearInSchoolQuestion":
-        return <YearQuestion key={blocks.id} blockData={blocks} />;
+        return (
+          <YearQuestion
+            key={blocks.id}
+            blockData={blocks}
+            answer={answerValue[0]}
+          />
+        );
       default:
         return <div />;
     }
   };
 
   render() {
-    const { pageData, match } = this.props;
-    console.log(match);
-    if (match.params.pageID === pageData.id) {
-      console.log("Match");
-    }
+    const { pageData, match, currentData } = this.props;
+
     return match.params.pageID === pageData.id ? (
       <div>
         <TitleContainer>
           <WelcomeTitle>{pageData.title}</WelcomeTitle>
         </TitleContainer>
         {_.map(pageData.blocks, answerBlock =>
-          this.renderAnswerBlocks(answerBlock)
+          this.renderAnswerBlocks(answerBlock, currentData)
         )}
 
         <ButtonContainer>

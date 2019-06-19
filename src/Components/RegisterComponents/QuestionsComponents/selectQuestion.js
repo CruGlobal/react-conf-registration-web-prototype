@@ -21,6 +21,14 @@ export default class SelectQuestion extends React.Component {
     });
   }
 
+  componentWillReceiveProps() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    }
+  }
+
   handleChange = event => {
     this.setState({
       answerBlock: {
@@ -34,7 +42,11 @@ export default class SelectQuestion extends React.Component {
     return (
       <QuestionContainer>
         <Title>{this.props.blockData.title}</Title>
-        <Option name="select" onChange={this.handleChange}>
+        <Option
+          name="select"
+          onChange={this.handleChange}
+          value={this.state.answerBlock.value}
+        >
           <option value={null}>Choose one...</option>
           {_.map(this.props.blockData.content.choices, Choice => {
             return (

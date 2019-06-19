@@ -13,11 +13,18 @@ export default class YearQuestion extends React.Component {
       }
     };
   }
-
   componentDidMount() {
     this.setState({
       blockData: this.props.blockData
     });
+  }
+
+  componentWillReceiveProps() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    }
   }
 
   handleChange = event => {
@@ -40,6 +47,7 @@ export default class YearQuestion extends React.Component {
               id="fresh-option"
               name="yearInSchool"
               value="Freshman"
+              checked={this.state.answerBlock.value === "Freshman"}
               onChange={this.handleChange}
             />
             <label htmlFor="fresh-option">Freshman</label>
@@ -53,6 +61,7 @@ export default class YearQuestion extends React.Component {
               name="yearInSchool"
               value="Sophomore"
               onChange={this.handleChange}
+              checked={this.state.answerBlock.value === "Sophomore"}
             />
             <label htmlFor="soph-option">Sophomore</label>
             <div className="check" />
@@ -65,6 +74,7 @@ export default class YearQuestion extends React.Component {
               name="yearInSchool"
               value="Junior"
               onChange={this.handleChange}
+              checked={this.state.answerBlock.value === "Junior"}
             />
             <label htmlFor="jr-option">Junior</label>
             <div className="check" />
@@ -77,6 +87,7 @@ export default class YearQuestion extends React.Component {
               name="yearInSchool"
               value="Senior"
               onChange={this.handleChange}
+              checked={this.state.answerBlock.value === "Senior"}
             />
             <label htmlFor="senior-option">Senior</label>
             <div className="check" />
@@ -89,6 +100,7 @@ export default class YearQuestion extends React.Component {
               name="yearInSchool"
               value="Graduate Student"
               onChange={this.handleChange}
+              checked={this.state.answerBlock.value === "Graduate Student"}
             />
             <label htmlFor="g-option">Graduate Student</label>
             <div className="check" />

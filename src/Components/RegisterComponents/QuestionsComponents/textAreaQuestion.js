@@ -25,6 +25,14 @@ export default class TextAreaQuestion extends React.Component {
     });
   }
 
+  componentWillReceiveProps() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    }
+  }
+
   handleChange = event => {
     this.setState({
       answerBlock: {
@@ -40,6 +48,7 @@ export default class TextAreaQuestion extends React.Component {
         <Title>{this.props.blockData.title}</Title>
         <Line
           type="text"
+          value={this.state.answerBlock.value}
           placeholder={content.default}
           onChange={this.handleChange}
         />

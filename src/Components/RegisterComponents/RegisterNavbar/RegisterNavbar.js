@@ -6,7 +6,6 @@ import {
   faMapMarkerAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { userLogout } from "../../../actions";
 

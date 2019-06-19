@@ -1,15 +1,22 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "@emotion/styled";
 import Navbar from "../LandingPageComponents/Navbar/Navbar";
 import Footer from "../LandingPageComponents/Footer/Footer";
-import { Redirect } from "react-router";
 
-const HelpComponent = ({ signedIn }) => {
-  document.title = "Help | Event Registration Tool";
+class HelpComponent extends Component {
+  componentDidMount() {
+    document.title = "Help | Event Registration Tool";
+  }
 
-  return (
-    <>
-      {signedIn ? (
+  componentWillUpdate() {
+    if (!this.props.signedIn) {
+      this.props.history.push("/");
+    }
+  }
+
+  render() {
+    return (
+      <>
         <>
           <Navbar />
           <Container>
@@ -24,16 +31,10 @@ const HelpComponent = ({ signedIn }) => {
           </Container>
           <Footer />
         </>
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/"
-          }}
-        />
-      )}
-    </>
-  );
-};
+      </>
+    );
+  }
+}
 
 export default HelpComponent;
 

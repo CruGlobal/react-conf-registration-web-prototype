@@ -98,6 +98,13 @@ export default class AddressQuestion extends React.Component {
     });
   }
 
+  componentWillReceiveProps() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    }
+  }
   handleChange = event => {
     const newValue = this.state.answerBlock.value;
     let key = event.target.name;
@@ -120,6 +127,7 @@ export default class AddressQuestion extends React.Component {
           type="text"
           placeholder="Address Line 1"
           name="address1"
+          value={this.state.answerBlock.value.address1}
           onChange={this.handleChange}
         />
         <Line
@@ -127,14 +135,21 @@ export default class AddressQuestion extends React.Component {
           placeholder="Address Line 2"
           name="address2"
           onChange={this.handleChange}
+          value={this.state.answerBlock.value.address2}
         />
         <City
           type="text"
           placeholder="City"
           name="city"
           onChange={this.handleChange}
+          value={this.state.answerBlock.value.city}
         />
-        <State placeholder="State" name="state" onChange={this.handleChange}>
+        <State
+          placeholder="State"
+          name="state"
+          onChange={this.handleChange}
+          value={this.state.answerBlock.value.state}
+        >
           <option value="">State</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
@@ -193,6 +208,7 @@ export default class AddressQuestion extends React.Component {
           placeholder="Postal Code"
           name="zip"
           onChange={this.handleChange}
+          value={this.state.answerBlock.value.zip}
         />
       </QuestionContainer>
     );

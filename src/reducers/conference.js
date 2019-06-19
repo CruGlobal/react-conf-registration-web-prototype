@@ -2,7 +2,8 @@ import {
   CONFERENCE_SEARCH,
   IS_LOADING,
   USER_CONFERENCE_SEARCH,
-  GET_CURRENT_CONFERENCE
+  GET_CURRENT_CONFERENCE,
+  GET_CURRENT_REGISTRANT
 } from "../constants";
 
 const initialState = {
@@ -55,20 +56,42 @@ const initialState = {
     registrationCount: null,
     registrationEndTime: null,
     registrationOpen: null,
-    registrationPages: [{ id: "" }],
+    registrationPages: [{ id: "", blocks: [] }],
     registrationStartTime: null,
     relayLogin: null,
     rideshareEmailContent: null,
     rideshareEnabled: null
   },
-  currentRegistration: {},
+  currentRegistration: {
+    primaryRegistrantId: "",
+    registrants: [
+      {
+        answers: [
+          {
+            amount: 0,
+            blockId: "",
+            id: "",
+            registrantId: ""
+          }
+        ],
+        id: ""
+      }
+    ]
+  },
   userConferences: [],
   isLoading: false
 };
 
 const conferenceReducer = (
   state = initialState,
-  { type, conferences, isLoading, userConferences, selectedConference }
+  {
+    type,
+    conferences,
+    isLoading,
+    userConferences,
+    selectedConference,
+    currentRegistration
+  }
 ) => {
   switch (type) {
     case CONFERENCE_SEARCH:
@@ -90,6 +113,12 @@ const conferenceReducer = (
         isLoading: isLoading
       };
 
+    case GET_CURRENT_REGISTRANT:
+      return {
+        ...state,
+        currentRegistration: currentRegistration,
+        isLoading: false
+      };
     case IS_LOADING:
       return {
         ...state,

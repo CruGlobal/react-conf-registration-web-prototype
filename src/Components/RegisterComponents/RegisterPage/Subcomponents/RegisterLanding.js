@@ -13,7 +13,11 @@ const UUID = new UUIDController();
 
 const newUUID = UUID.createUUID();
 
-const RegisterLanding = ({ selectedConference, isLoading }) => {
+const RegisterLanding = ({
+  selectedConference,
+  isLoading,
+  currentRegistration
+}) => {
   // Render Correct buttons depending on selectedConference results
   // We have the null value because before Redux sets the selected conference
   // If it tries to render a link to the next page, react throws an error because selectedConference is not set yet
@@ -32,7 +36,13 @@ const RegisterLanding = ({ selectedConference, isLoading }) => {
               <RegistrantRowContainer key={registrantType.id}>
                 <RegisterTypeTitle>{registrantType.name}</RegisterTypeTitle>
                 <RegisterTypeTotal>${registrantType.cost}.00</RegisterTypeTotal>
-                <RegisterTypeButton>Register</RegisterTypeButton>
+                <Link
+                  to={`/register/${selectedConference.id}/page/${
+                    selectedConference.registrationPages[0].id
+                  }?reg=${currentRegistration.primaryRegistrantId}`}
+                >
+                  <RegisterTypeButton>Register</RegisterTypeButton>
+                </Link>
               </RegistrantRowContainer>
             );
           })}
@@ -42,13 +52,9 @@ const RegisterLanding = ({ selectedConference, isLoading }) => {
       return (
         <ButtonContainer>
           <Link
-            to={
-              selectedConference
-                ? `/register/${selectedConference.id}/page/${
-                    selectedConference.registrationPages[0].id
-                  }?reg=${newUUID}`
-                : "/"
-            }
+            to={`/register/${selectedConference.id}/page/${
+              selectedConference.registrationPages[0].id
+            }?reg=${currentRegistration.primaryRegistrantId}`}
           >
             <RegisterButton>Register</RegisterButton>
           </Link>
@@ -78,13 +84,13 @@ const RegisterLanding = ({ selectedConference, isLoading }) => {
               {FORMATER.dateFormater(
                 selectedConference.eventStartTime,
                 selectedConference.eventTimezone,
-                "ddd, MMM D, YYYY h:mma "
+                "MMM D, YYYY h:mma "
               )}{" "}
               -{" "}
               {FORMATER.dateFormater(
                 selectedConference.eventEndTime,
                 selectedConference.eventTimezone,
-                "ddd, MMM D, YYYY h:mma"
+                "MMM D, YYYY h:mma"
               )}
             </DescriptionText>
           </DetailContainer>
@@ -114,13 +120,13 @@ const RegisterLanding = ({ selectedConference, isLoading }) => {
               {FORMATER.dateFormater(
                 selectedConference.registrationStartTime,
                 selectedConference.eventTimezone,
-                "ddd, MMM D, YYYY h:mma z"
+                "MMM D, YYYY h:mma z"
               )}{" "}
               -{" "}
               {FORMATER.dateFormater(
                 selectedConference.registrationEndTime,
                 selectedConference.eventTimezone,
-                "ddd, MMM D, YYYY h:mma z"
+                "MMM D, YYYY h:mma z"
               )}
             </DescriptionText>
           </DetailContainer>
@@ -131,9 +137,11 @@ const RegisterLanding = ({ selectedConference, isLoading }) => {
             <DescriptionText>
               {selectedConference.contactPersonName}
               <br />
-              <a href={`mailto:${selectedConference.contactPersonEmail}`}>
+              <EmailText
+                href={`mailto:${selectedConference.contactPersonEmail}`}
+              >
                 {selectedConference.contactPersonEmail}
-              </a>
+              </EmailText>
             </DescriptionText>
           </DetailContainer>
           {RenderButtons()}
@@ -147,7 +155,8 @@ const mapStateToProps = state => {
   return {
     loginState: state.authenticationReducer.loginState,
     isLoading: state.conferenceReducer.isLoading,
-    selectedConference: state.conferenceReducer.selectedConference
+    selectedConference: state.conferenceReducer.selectedConference,
+    currentRegistration: state.conferenceReducer.currentRegistration
   };
 };
 
@@ -204,6 +213,11 @@ const DetailTitle = styled.h2`
   margin-top: 5px;
 `;
 
+const EmailText = styled.a`
+  color: #337ab7;
+  text-decoration: none;
+`;
+
 const DescriptionText = styled.p`
   font-size: 14px;
   font-family: sans-serif;
@@ -251,11 +265,12 @@ const RegisterTypeButton = styled.button`
 `;
 
 const RegisterTypeTitle = styled.h4`
-  font-size: 14px;
+  font-size: 18px;
   color: #333;
 `;
 
 const RegisterTypeTotal = styled(RegisterTypeTitle)`
+  font-size: 16px;
   margin-left: auto;
   padding-right: 20px;
 `;

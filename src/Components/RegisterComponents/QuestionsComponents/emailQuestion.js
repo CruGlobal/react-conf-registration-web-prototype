@@ -39,6 +39,14 @@ class emailQuestion extends Component {
     });
   }
 
+  componentWillReceiveProps() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    }
+  }
+
   changeHandler = event => {
     this.setState({
       answerBlock: {

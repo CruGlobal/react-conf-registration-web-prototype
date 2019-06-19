@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import styled from "@emotion/styled";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import LandingPage from "./Components/LandingPageComponents/LandingPage/LandingPage";
 import HelpComponent from "./Components/HelpComponent/HelpComponent";
 import AuthPage from "./Components/AuthComponent/AuthPage";
@@ -25,16 +25,26 @@ class App extends Component {
     }
   };
 
+  reload = () => {
+    const current = this.props.history.location.pathname;
+
+    this.props.history.replace(`/reload`);
+    setTimeout(() => {
+      this.props.history.replace(current);
+    });
+  };
+
+  componentWillMount() {
+    this.reload();
+  }
+
   async componentDidMount() {
     // When the component mounts, check localstorage for a crsToken and set it our redux store
     await this.props.getCrsToken();
     // After the above function runs, set the signin status
-    // this.setSignInStatus();
+
     // Then we will use the crsToken we set to get our users profile information
     this.props.setUserProfile(this.props.crsToken);
-    if (this.props.profile.error) {
-      console.log("Cool");
-    }
   }
 
   render() {
@@ -43,40 +53,46 @@ class App extends Component {
     return (
       // This is where we do our routing
       // Dependent on the route, we will render the required component
-      <Router>
-        <Switch>
-          <Route exact path="/" render={props => <LandingPage {...props} />} />
 
-          <Route
-            path="/help"
-            render={props => <HelpComponent signedIn={loginState} {...props} />}
-          />
+      <Switch>
+        <Route path="/reload" component={null} key="reload" />
+        <Route exact path="/" component={props => <LandingPage {...props} />} />
 
-          <Route
-            path="/eventDashboard"
-            render={props => <Dashboard {...props} />}
-          />
+        <Route
+          path="/help"
+          component={(props, history) => (
+            <HelpComponent signedIn={loginState} {...props} {...history} />
+          )}
+        />
 
-          <Route
-            exact
-            path="/register/:confID/page/"
-            render={props => <RegisterPage {...props} />}
-          />
+        <Route
+          path="/eventDashboard"
+          component={props => <Dashboard {...props} />}
+        />
 
-          <Route
-            path="/register/:confID/page/:pageID"
-            render={props => <RegisterPage {...props} />}
-          />
+        <Route
+          exact
+          path="/register/:confID/page/"
+          component={(props, history) => (
+            <RegisterPage {...props} {...history} />
+          )}
+        />
 
-          <Route
-            exact
-            path="/auth/"
-            render={props => <AuthPage {...props} />}
-          />
+        <Route
+          path="/register/:confID/page/:pageID"
+          component={(props, history) => (
+            <RegisterPage {...props} {...history} />
+          )}
+        />
 
-          <Route path="/auth/:id" render={props => <AuthPage {...props} />} />
-        </Switch>
-      </Router>
+        <Route
+          exact
+          path="/auth/"
+          component={props => <AuthPage {...props} />}
+        />
+
+        <Route path="/auth/:id" component={props => <AuthPage {...props} />} />
+      </Switch>
     );
   }
 }
@@ -106,7 +122,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+);
