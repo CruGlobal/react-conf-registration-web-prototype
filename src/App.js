@@ -79,7 +79,7 @@ class App extends Component {
         />
 
         <Route
-          path="/register/:confID/page/:pageID"
+          path="/register/:confID/page/:pageID/:regID"
           component={(props, history) => (
             <RegisterPage {...props} {...history} />
           )}

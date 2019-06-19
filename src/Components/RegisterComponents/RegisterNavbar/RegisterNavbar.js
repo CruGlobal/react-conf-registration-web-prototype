@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
 import { userLogout } from "../../../actions";
 
-const RegisterNavbar = ({ userLogout, conference }) => {
+const RegisterNavbar = ({ userLogout, conference, history }) => {
   const FORMATER = new EvtFormater();
 
   return (
@@ -18,7 +18,14 @@ const RegisterNavbar = ({ userLogout, conference }) => {
       <NavbarSection>
         <TitleContainer>
           <ConferenceTitle>{conference.name}</ConferenceTitle>
-          <SignoutButton onClick={userLogout}>Sign Out</SignoutButton>
+          <SignoutButton
+            onClick={() => {
+              userLogout();
+              history.push("/");
+            }}
+          >
+            Sign Out
+          </SignoutButton>
         </TitleContainer>
         <DetailContainer>
           <ConfDataContainer>

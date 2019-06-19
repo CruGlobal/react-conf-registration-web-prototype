@@ -48,16 +48,20 @@ class NameQuestions extends Component {
     this.setState({
       blockData: this.props.blockData
     });
-    // this.timer = setInterval(
-    //   () =>
-    //     this.getCurrentRegistration(
-    //       `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
-    //         this.state.answerBlock.id
-    //       }`,
-    //       localStorage.getItem("crsToken")
-    //     ),
-    //   15000
-    // );
+    this.timer = setInterval(
+      () =>
+        this.getCurrentRegistration(
+          `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
+            this.state.answerBlock.id
+          }`,
+          localStorage.getItem("crsToken")
+        ),
+      30000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   getCurrentRegistration = (url, authToken) => {
@@ -101,6 +105,7 @@ class NameQuestions extends Component {
       }
     });
   };
+
   render() {
     return (
       <QuestionContainer>

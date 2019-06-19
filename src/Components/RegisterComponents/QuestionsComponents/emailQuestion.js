@@ -37,6 +37,20 @@ class emailQuestion extends Component {
     this.setState({
       blockData: this.props.blockData
     });
+    this.timer = setInterval(
+      () =>
+        this.getCurrentRegistration(
+          `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
+            this.state.answerBlock.id
+          }`,
+          localStorage.getItem("crsToken")
+        ),
+      30000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   componentWillReceiveProps() {
@@ -53,6 +67,23 @@ class emailQuestion extends Component {
         ...this.state.answerBlock,
         value: event.target.value
       }
+    });
+  };
+
+  getCurrentRegistration = (url, authToken) => {
+    return fetch(url, {
+      method: "PUT", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, cors, *same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `${authToken}`
+      },
+      redirect: "follow", // manual, *follow, error
+      referrer: "no-referrer", // no-referrer, *client
+      body: JSON.stringify(this.state.answerBlock)
     });
   };
 

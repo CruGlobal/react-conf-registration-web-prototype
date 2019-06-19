@@ -34,12 +34,17 @@ class RegisterPage extends Component {
   }
 
   render() {
-    const { selectedConference, currentRegistration, match } = this.props;
+    const {
+      selectedConference,
+      currentRegistration,
+      match,
+      history
+    } = this.props;
 
     return (
       <>
         <PageContainer>
-          <RegisterNavbar conference={selectedConference} />
+          <RegisterNavbar conference={selectedConference} history={history} />
           <RegisterSection>
             {match.params.pageID ? (
               <PageSelectorSection>
@@ -86,9 +91,9 @@ class RegisterPage extends Component {
                   return (
                     <PageLink
                       key={page.id}
-                      to={`/register/${selectedConference.id}/page/${
-                        page.id
-                      }?reg=${currentRegistration.primaryRegistrantId}`}
+                      to={`/register/${selectedConference.id}/page/${page.id}/${
+                        currentRegistration.primaryRegistrantId
+                      }`}
                     >
                       <PageButton>
                         <Circle>

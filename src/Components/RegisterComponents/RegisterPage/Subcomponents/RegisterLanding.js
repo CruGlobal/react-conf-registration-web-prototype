@@ -39,7 +39,7 @@ const RegisterLanding = ({
                 <Link
                   to={`/register/${selectedConference.id}/page/${
                     selectedConference.registrationPages[0].id
-                  }?reg=${currentRegistration.primaryRegistrantId}`}
+                  }/${currentRegistration.primaryRegistrantId}`}
                 >
                   <RegisterTypeButton>Register</RegisterTypeButton>
                 </Link>
@@ -54,7 +54,7 @@ const RegisterLanding = ({
           <Link
             to={`/register/${selectedConference.id}/page/${
               selectedConference.registrationPages[0].id
-            }?reg=${currentRegistration.primaryRegistrantId}`}
+            }/${currentRegistration.primaryRegistrantId}`}
           >
             <RegisterButton>Register</RegisterButton>
           </Link>
