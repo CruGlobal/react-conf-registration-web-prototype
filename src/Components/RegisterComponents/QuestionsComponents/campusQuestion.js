@@ -1,36 +1,11 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const CampusContainer = styled.div`
-  background: whitet;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  font-family: sans-serif;
-  font-size: 14px;
-  margin-bottom: 15px;
-`;
-
-const Title = styled.h3`
-  margin-bottom: 5px;
-  width: 100%;
-  font-weight: 700;
-  font-size: 14px;
-`;
-
-const InputField = styled.input`
-  margin-bottom: 1em;
-  padding: 6px 12px;
-  width: 100%;
-  height: 34px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-`;
-
 class CampusQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      valueChanged: false,
       answerBlock: {
         amount: 0,
         blockid: "",
@@ -45,16 +20,16 @@ class CampusQuestion extends React.Component {
     this.setState({
       blockData: this.props.blockData
     });
-    this.timer = setInterval(
-      () =>
+    this.timer = setInterval(() => {
+      if (this.state.valueChanged) {
         this.getCurrentRegistration(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
-        ),
-      30000
-    );
+        );
+      } 
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -71,6 +46,7 @@ class CampusQuestion extends React.Component {
 
   changeHandler = event => {
     this.setState({
+      valueChanged: true,
       answerBlock: {
         ...this.state.answerBlock,
         value: event.target.value
@@ -79,6 +55,9 @@ class CampusQuestion extends React.Component {
   };
 
   getCurrentRegistration = (url, authToken) => {
+    this.setState({
+      valueChanged: false
+    });
     return fetch(url, {
       method: "PUT", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
@@ -113,3 +92,29 @@ class CampusQuestion extends React.Component {
 }
 
 export default CampusQuestion;
+
+const CampusContainer = styled.div`
+  background: whitet;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-family: sans-serif;
+  font-size: 14px;
+  margin-bottom: 15px;
+`;
+
+const Title = styled.h3`
+  margin-bottom: 5px;
+  width: 100%;
+  font-weight: 700;
+  font-size: 14px;
+`;
+
+const InputField = styled.input`
+  margin-bottom: 1em;
+  padding: 6px 12px;
+  width: 100%;
+  height: 34px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+`;

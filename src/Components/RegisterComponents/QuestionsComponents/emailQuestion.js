@@ -1,30 +1,11 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
-const Question = styled.h6`
-  font-size: 14px;
-  font-weight: 700;
-  font-family: sans-serif;
-`;
-const InputField = styled.input`
-  width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
 
-const QuestionContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-`;
 class emailQuestion extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      valueChanged: false,
       answerBlock: {
         blockId: "",
         id: "",
@@ -33,20 +14,21 @@ class emailQuestion extends Component {
       }
     };
   }
+
   componentDidMount() {
     this.setState({
       blockData: this.props.blockData
     });
-    this.timer = setInterval(
-      () =>
+    this.timer = setInterval(() => {
+      if (this.state.valueChanged) {
         this.getCurrentRegistration(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
-        ),
-      30000
-    );
+        );
+      } 
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -63,6 +45,7 @@ class emailQuestion extends Component {
 
   changeHandler = event => {
     this.setState({
+      valueChanged: true,
       answerBlock: {
         ...this.state.answerBlock,
         value: event.target.value
@@ -71,6 +54,9 @@ class emailQuestion extends Component {
   };
 
   getCurrentRegistration = (url, authToken) => {
+    this.setState({
+      valueChanged: false
+    });
     return fetch(url, {
       method: "PUT", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
@@ -104,3 +90,25 @@ class emailQuestion extends Component {
   }
 }
 export default emailQuestion;
+
+const Question = styled.h6`
+  font-size: 14px;
+  font-weight: 700;
+  font-family: sans-serif;
+`;
+const InputField = styled.input`
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const QuestionContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+`;

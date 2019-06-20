@@ -1,10 +1,16 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const ContinueButton = () => {
+const ContinueButton = ({ match, currentData, history }) => {
   return (
     <div>
-      <Button>Continue</Button>
+      <Button
+        onClick={() => {
+          history.push(`/register/${match.params.confID}/page/`);
+        }}
+      >
+        Continue
+      </Button>
     </div>
   );
 };

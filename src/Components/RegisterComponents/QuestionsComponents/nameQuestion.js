@@ -32,6 +32,7 @@ class NameQuestions extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      valueChanged: false,
       answerBlock: {
         blockId: "",
         id: "",
@@ -48,16 +49,16 @@ class NameQuestions extends Component {
     this.setState({
       blockData: this.props.blockData
     });
-    this.timer = setInterval(
-      () =>
+    this.timer = setInterval(() => {
+      if (this.state.valueChanged) {
         this.getCurrentRegistration(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
-        ),
-      30000
-    );
+        );
+      } 
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -65,6 +66,9 @@ class NameQuestions extends Component {
   }
 
   getCurrentRegistration = (url, authToken) => {
+    this.setState({
+      valueChanged: false
+    });
     return fetch(url, {
       method: "PUT", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
@@ -99,6 +103,7 @@ class NameQuestions extends Component {
     newValue[key] = value;
     // We then set the state of the old value to be the new value
     this.setState({
+      valueChanged: true,
       answerBlock: {
         ...this.state.answerBlock,
         value: newValue

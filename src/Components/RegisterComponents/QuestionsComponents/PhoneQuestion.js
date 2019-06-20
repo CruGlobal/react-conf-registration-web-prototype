@@ -5,6 +5,7 @@ class PhoneQuestion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      valueChanged: false,
       answerBlock: {
         amount: 0,
         blockid: "",
@@ -19,16 +20,16 @@ class PhoneQuestion extends React.Component {
     this.setState({
       blockData: this.props.blockData
     });
-    this.timer = setInterval(
-      () =>
+    this.timer = setInterval(() => {
+      if (this.state.valueChanged) {
         this.getCurrentRegistration(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
-        ),
-      30000
-    );
+        );
+      } 
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -45,6 +46,7 @@ class PhoneQuestion extends React.Component {
 
   changeHandler = event => {
     this.setState({
+      valueChanged: true,
       answerBlock: {
         ...this.state.answerBlock,
         value: event.target.value
@@ -53,6 +55,9 @@ class PhoneQuestion extends React.Component {
   };
 
   getCurrentRegistration = (url, authToken) => {
+    this.setState({
+      valueChanged: false
+    });
     return fetch(url, {
       method: "PUT", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin

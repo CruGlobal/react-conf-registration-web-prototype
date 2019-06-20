@@ -8,6 +8,7 @@ import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 export default class dateQuestion extends Component {
   state = {
+    valueChanged: false,
     answerBlock: {
       amount: 0,
       blockId: "",
@@ -24,16 +25,16 @@ export default class dateQuestion extends Component {
     this.setState({
       blockData: this.props.blockData
     });
-    this.timer = setInterval(
-      () =>
+    this.timer = setInterval(() => {
+      if (this.state.valueChanged) {
         this.getCurrentRegistration(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
-        ),
-      30000
-    );
+        );
+      } 
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -50,6 +51,7 @@ export default class dateQuestion extends Component {
 
   onChange = date =>
     this.setState({
+      valueChanged: true,
       date: date,
       answerBlock: {
         ...this.state.answerBlock,
@@ -64,6 +66,9 @@ export default class dateQuestion extends Component {
   }
 
   getCurrentRegistration = (url, authToken) => {
+    this.setState({
+      valueChanged: false
+    });
     return fetch(url, {
       method: "PUT", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin

@@ -3,28 +3,11 @@ import React, { Component } from "react";
 import styled from "@emotion/styled";
 import _ from "lodash";
 
-const QuestionContainer = styled.div`
-  margin-bottom: 15px;
-`;
-const GridContainer = styled.div`
-  grid-template-columns: repeat(1, 1fr);
-  font-size: 14px;
-`;
-const QuestionTitle = styled.h6`
-  font-size: 14px;
-  font-weight: 700;
-  font-family: sans-serif;
-`;
-const QuestionValue = styled.label`
-  margin-left: 5px;
-  font-family: sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-`;
 class InputCheckBoxQuestions extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      valueChanged: false,
       answerBlock: {
         blockId: "",
         id: "",
@@ -38,16 +21,16 @@ class InputCheckBoxQuestions extends Component {
     this.setState({
       blockData: this.props.blockData
     });
-    this.timer = setInterval(
-      () =>
+    this.timer = setInterval(() => {
+      if (this.state.valueChanged) {
         this.getCurrentRegistration(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
-        ),
-      30000
-    );
+        );
+      }
+    }, 15000);
   }
 
   componentWillUnmount() {
@@ -72,6 +55,7 @@ class InputCheckBoxQuestions extends Component {
     newValue[key] = value;
     // We then set the state of the old value to be the new value
     this.setState({
+      valueChanged: true,
       answerBlock: {
         ...this.state.answerBlock,
         value: {
@@ -83,6 +67,9 @@ class InputCheckBoxQuestions extends Component {
   };
 
   getCurrentRegistration = (url, authToken) => {
+    this.setState({
+      valueChanged: false
+    });
     return fetch(url, {
       method: "PUT", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
@@ -110,7 +97,6 @@ class InputCheckBoxQuestions extends Component {
                 <input
                   type="checkbox"
                   name={choice.value}
-                  value={this.state.answerBlock.value[choice.value]}
                   onChange={this.handleChange}
                   checked={this.state.answerBlock.value[choice.value]}
                 />
@@ -125,3 +111,22 @@ class InputCheckBoxQuestions extends Component {
 }
 
 export default InputCheckBoxQuestions;
+
+const QuestionContainer = styled.div`
+  margin-bottom: 15px;
+`;
+const GridContainer = styled.div`
+  grid-template-columns: repeat(1, 1fr);
+  font-size: 14px;
+`;
+const QuestionTitle = styled.h6`
+  font-size: 14px;
+  font-weight: 700;
+  font-family: sans-serif;
+`;
+const QuestionValue = styled.label`
+  margin-left: 5px;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+`;

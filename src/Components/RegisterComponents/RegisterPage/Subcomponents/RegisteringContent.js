@@ -158,7 +158,7 @@ class RegisteringContent extends Component {
   };
 
   render() {
-    const { pageData, match, currentData } = this.props;
+    const { pageData, match, currentData, history } = this.props;
 
     return match.params.pageID === pageData.id ? (
       <div>
@@ -170,8 +170,12 @@ class RegisteringContent extends Component {
         )}
 
         <ButtonContainer>
-          <BackButton history={this.props.history} />
-          <ContinueButton />
+          <BackButton history={history} />
+          <ContinueButton
+            match={match}
+            currentData={currentData}
+            history={history}
+          />
         </ButtonContainer>
       </div>
     ) : null;
