@@ -176,9 +176,19 @@ class RegisteringContent extends Component {
           <WelcomeTitle>{pageData.title}</WelcomeTitle>
         </TitleContainer>
         {this.state.hasLoaded ? (
-          _.map(pageData.blocks, answerBlock =>
-            this.renderAnswerBlocks(answerBlock, currentData)
-          )
+          <>
+            {_.map(pageData.blocks, answerBlock =>
+              this.renderAnswerBlocks(answerBlock, currentData)
+            )}
+            <ButtonContainer>
+              <BackButton history={history} />
+              <ContinueButton
+                match={match}
+                currentData={currentData}
+                history={history}
+              />
+            </ButtonContainer>
+          </>
         ) : (
           <LoadingContainer>
             {" "}
@@ -186,15 +196,6 @@ class RegisteringContent extends Component {
             <FontAwesomeIcon icon={faSpinner} spin size="3x" />
           </LoadingContainer>
         )}
-
-        <ButtonContainer>
-          <BackButton history={history} />
-          <ContinueButton
-            match={match}
-            currentData={currentData}
-            history={history}
-          />
-        </ButtonContainer>
       </div>
     ) : null;
   }
