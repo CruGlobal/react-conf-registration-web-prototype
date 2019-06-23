@@ -33,7 +33,7 @@ export default class dateQuestion extends Component {
           }`,
           localStorage.getItem("crsToken")
         );
-      } 
+      }
     }, 15000);
   }
 

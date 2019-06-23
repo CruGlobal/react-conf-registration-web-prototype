@@ -17,18 +17,28 @@ import TextQuestion from "../../QuestionsComponents/textQuestion";
 import YearQuestion from "../../QuestionsComponents/yearQuestion";
 import NumberQuestion from "../../QuestionsComponents/NumberQuestion";
 import _ from "lodash";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class RegisteringContent extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      hasLoaded: false
+    };
+  }
+
+  componentWillReceiveProps() {
+    this.setState({
+      hasLoaded: true
+    });
   }
 
   filterCurrentRegistrant(currentData) {
-    const data = _.filter(
-      currentData.registrants,
-      registrant => registrant.id === currentData.primaryRegistrantId
+    const data = currentData.registrants.filter(
+      registrant => registrant.id === this.props.match.params.regID
     );
+
     return data;
   }
 
@@ -165,8 +175,16 @@ class RegisteringContent extends Component {
         <TitleContainer>
           <WelcomeTitle>{pageData.title}</WelcomeTitle>
         </TitleContainer>
-        {_.map(pageData.blocks, answerBlock =>
-          this.renderAnswerBlocks(answerBlock, currentData)
+        {this.state.hasLoaded ? (
+          _.map(pageData.blocks, answerBlock =>
+            this.renderAnswerBlocks(answerBlock, currentData)
+          )
+        ) : (
+          <LoadingContainer>
+            {" "}
+            <h3>Loading...</h3>
+            <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+          </LoadingContainer>
         )}
 
         <ButtonContainer>
@@ -200,4 +218,14 @@ const TitleContainer = styled.div`
   border-bottom: 2px solid #e9e9e9;
   padding-bottom: 4px;
   margin-bottom: 22px;
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  > h3 {
+    margin-right: 10px;
+  }
 `;

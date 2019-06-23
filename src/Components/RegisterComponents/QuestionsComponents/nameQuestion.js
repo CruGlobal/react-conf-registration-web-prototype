@@ -1,38 +1,12 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
-const QuestionContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-`;
-const QuestionTitle = styled.h3`
-  font-size: 14px;
-  color: #333;
-  font-weight: 700;
-  font-family: sans-serif;
-`;
-const Format = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-const InputField = styled.input`
-  width: 260px;
-  height: 34px;
-  padding: 6px 12px;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
+
 class NameQuestions extends Component {
   constructor(props) {
     super(props);
     this.state = {
       valueChanged: false,
+      disabled: false,
       answerBlock: {
         blockId: "",
         id: "",
@@ -51,13 +25,20 @@ class NameQuestions extends Component {
     });
     this.timer = setInterval(() => {
       if (this.state.valueChanged) {
+        this.setState({
+          disabled: true
+        });
         this.getCurrentRegistration(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
-        );
-      } 
+        ).then(() => {
+          this.setState({
+            disabled: false
+          });
+        });
+      }
     }, 15000);
   }
 
@@ -123,6 +104,7 @@ class NameQuestions extends Component {
               placeholder="First Name"
               name="firstName"
               value={this.state.answerBlock.value.firstName}
+              disabled={this.state.disabled}
               onChange={this.handleChange}
             />
             <InputField
@@ -132,6 +114,7 @@ class NameQuestions extends Component {
               name="lastName"
               value={this.state.answerBlock.value.lastName}
               onChange={this.handleChange}
+              disabled={this.state.disabled}
             />
           </Format>
         </label>
@@ -140,3 +123,32 @@ class NameQuestions extends Component {
   }
 }
 export default NameQuestions;
+
+const QuestionContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+`;
+const QuestionTitle = styled.h3`
+  font-size: 14px;
+  color: #333;
+  font-weight: 700;
+  font-family: sans-serif;
+`;
+const Format = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+const InputField = styled.input`
+  width: 260px;
+  height: 34px;
+  padding: 6px 12px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;

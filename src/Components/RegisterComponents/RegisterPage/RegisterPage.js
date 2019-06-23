@@ -25,12 +25,18 @@ class RegisterPage extends Component {
     getSelectedConference(token, match.params.confID);
     getCurrentRegistrant(token, match.params.confID);
   }
-  componentDidMount() {}
 
-  componentDidUpdate() {
-    if (!this.state.loginState) {
-      this.props.history.push("/");
-    }
+  async componentWillReceiveProps() {
+    await this.setState(
+      {
+        loginState: this.props.loginState
+      },
+      () => {
+        if (!this.state.loginState) {
+          this.props.history.push("/");
+        }
+      }
+    );
   }
 
   render() {
