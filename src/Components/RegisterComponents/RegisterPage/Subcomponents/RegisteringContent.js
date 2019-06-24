@@ -16,7 +16,7 @@ import TextAreaQuestion from "../../QuestionsComponents/textAreaQuestion";
 import TextQuestion from "../../QuestionsComponents/textQuestion";
 import YearQuestion from "../../QuestionsComponents/yearQuestion";
 import NumberQuestion from "../../QuestionsComponents/NumberQuestion";
-import _ from "lodash";
+
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -45,10 +45,10 @@ class RegisteringContent extends Component {
   renderAnswerBlocks = (blocks, currentData) => {
     const currentUser = this.filterCurrentRegistrant(currentData);
 
-    const answerValue = _.filter(
-      currentUser[0].answers,
+    const answerValue = currentUser[0].answers.filter(
       answer => answer.blockId === blocks.id
     );
+
     switch (blocks.type) {
       case "nameQuestion":
         return (
@@ -177,7 +177,7 @@ class RegisteringContent extends Component {
         </TitleContainer>
         {this.state.hasLoaded ? (
           <>
-            {_.map(pageData.blocks, answerBlock =>
+            {pageData.blocks.map(answerBlock =>
               this.renderAnswerBlocks(answerBlock, currentData)
             )}
             <ButtonContainer>
