@@ -14,7 +14,7 @@ const Card = ({ cardData, loginState }) => {
   const FORMATER = new EvtFormater();
 
   return (
-    <CardContainer>
+    <CardContainer data-testid="Card">
       <CardName>{cardData.name}</CardName>
 
       <DetailContainer>
