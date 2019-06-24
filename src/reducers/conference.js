@@ -3,7 +3,8 @@ import {
   IS_LOADING,
   USER_CONFERENCE_SEARCH,
   GET_CURRENT_CONFERENCE,
-  GET_CURRENT_REGISTRANT
+  GET_CURRENT_REGISTRANT,
+  DELETE_CURRENT_REGISTRANT
 } from "../constants";
 
 const initialState = {
@@ -114,6 +115,13 @@ const conferenceReducer = (
       };
 
     case GET_CURRENT_REGISTRANT:
+      return {
+        ...state,
+        currentRegistration: currentRegistration,
+        isLoading: false
+      };
+
+    case DELETE_CURRENT_REGISTRANT:
       return {
         ...state,
         currentRegistration: currentRegistration,

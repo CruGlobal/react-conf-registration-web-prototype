@@ -56,7 +56,12 @@ const RegisterButtons = ({ selectedConference, currentRegistration }) => {
         >
           <ContinueButton>Continue</ContinueButton>
         </Link>
-        <StartOverModal show={show} changeShow={changeShow} />
+        <StartOverModal
+          show={show}
+          changeShow={changeShow}
+          selectedConference={selectedConference}
+          primaryRegistrantId={currentRegistration.primaryRegistrantId}
+        />
       </ButtonContainer>
     );
   } else {

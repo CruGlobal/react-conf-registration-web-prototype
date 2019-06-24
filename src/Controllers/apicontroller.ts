@@ -7,6 +7,7 @@ class APIController {
   USER_CONFERENCES = "conferences/";
   CONFERENCES = "conferences/";
   CURRENT_REGISTRATION = "registrations/current";
+  REGISTRANTS = "registrants/";
 
   // This will get all the conferences by search query
   getConferences = (url: string) => {
@@ -102,6 +103,24 @@ class APIController {
   getCurrentRegistration = (url: string, authToken: string) => {
     return fetch(url, {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, cors, *same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `${authToken}`
+      },
+      redirect: "follow", // manual, *follow, error
+      referrer: "no-referrer" // no-referrer, *client
+    }).then(response => {
+      return response;
+    });
+  };
+
+  deleteCurrentRegistration = (url: string, authToken: string) => {
+    return fetch(url, {
+      method: "DELETE", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, cors, *same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
       credentials: "same-origin", // include, *same-origin, omit

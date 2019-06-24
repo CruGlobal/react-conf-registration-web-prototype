@@ -1,8 +1,18 @@
 import React from "react";
 import styled from "@emotion/styled";
 import Modal from "react-bootstrap/Modal";
+import { DeleteCurrentRegistrant } from "../../../../actions/";
+import { connect } from "react-redux";
 
-const LoginModal = ({ changeShow, show }) => {
+const StartOverModal = ({
+  changeShow,
+  show,
+  selectedConference,
+  primaryRegistrantId,
+  deleteCurrentRegistrant
+}) => {
+  let token = localStorage.getItem("crsToken");
+
   return (
     <Modal show={show} onHide={() => changeShow(false)} size="lg">
       <Modal.Header closeButton>
@@ -15,13 +25,38 @@ const LoginModal = ({ changeShow, show }) => {
       </ModalContentContainer>
       <Modal.Footer>
         <CancelButton onClick={() => changeShow(false)}>Cancel</CancelButton>
-        <StartOverButton>Start Over</StartOverButton>
+        <StartOverButton
+          onClick={() => {
+            deleteCurrentRegistrant(
+              token,
+              selectedConference.id,
+              primaryRegistrantId
+            );
+          }}
+        >
+          Start Over
+        </StartOverButton>
       </Modal.Footer>
     </Modal>
   );
 };
 
-export default LoginModal;
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteCurrentRegistrant: (authToken, confID, regID) => {
+      dispatch(DeleteCurrentRegistrant(authToken, confID, regID));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StartOverModal);
 
 const ModalContentContainer = styled(Modal.Body)`
   display: flex;
