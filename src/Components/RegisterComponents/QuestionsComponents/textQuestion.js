@@ -27,7 +27,7 @@ export default class TextQuestion extends React.Component {
           }`,
           localStorage.getItem("crsToken")
         );
-      } 
+      }
     }, 15000);
   }
 
@@ -112,4 +112,5 @@ const Line = styled.input`
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
+  color: #555;
 `;

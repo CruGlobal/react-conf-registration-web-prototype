@@ -33,7 +33,7 @@ export default class AddressQuestion extends React.Component {
           }`,
           localStorage.getItem("crsToken")
         );
-      } 
+      }
     }, 15000);
   }
 
@@ -198,7 +198,6 @@ const Title = styled.div`
 
 const Line = styled.input`
   margin-bottom: 1em;
-
   width: 100%;
   height: 34px;
   padding: 6px 12px;
@@ -206,12 +205,12 @@ const Line = styled.input`
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
+  color: #555;
 `;
 
 const City = styled.input`
   font-size: 14px;
   margin-bottom: 1em;
-
   width: 276px;
   height: 34px;
   padding: 6px 12px;
@@ -219,6 +218,7 @@ const City = styled.input`
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
+  color: #555;
 `;
 
 const State = styled.select`
@@ -250,4 +250,5 @@ const Postal = styled.input`
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
+  color: #555;
 `;

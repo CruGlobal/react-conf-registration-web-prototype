@@ -28,7 +28,7 @@ class CampusQuestion extends React.Component {
           }`,
           localStorage.getItem("crsToken")
         );
-      } 
+      }
     }, 15000);
   }
 
@@ -117,4 +117,5 @@ const InputField = styled.input`
   height: 34px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  color: #555;
 `;

@@ -28,7 +28,7 @@ class PhoneQuestion extends React.Component {
           }`,
           localStorage.getItem("crsToken")
         );
-      } 
+      }
     }, 15000);
   }
 
@@ -119,4 +119,5 @@ const InputField = styled.input`
   border-radius: 4px;
   border: 1px solid #ccc;
   height: 34px;
+  color: #555;
 `;

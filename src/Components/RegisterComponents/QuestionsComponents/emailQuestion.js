@@ -27,7 +27,7 @@ class emailQuestion extends Component {
           }`,
           localStorage.getItem("crsToken")
         );
-      } 
+      }
     }, 15000);
   }
 
@@ -104,6 +104,7 @@ const InputField = styled.input`
   background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
+  color: #555;
 `;
 
 const QuestionContainer = styled.div`

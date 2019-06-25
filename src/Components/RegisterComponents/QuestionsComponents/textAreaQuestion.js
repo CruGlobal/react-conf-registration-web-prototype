@@ -32,7 +32,7 @@ export default class TextAreaQuestion extends React.Component {
           }`,
           localStorage.getItem("crsToken")
         );
-      } 
+      }
     }, 15000);
   }
 
@@ -116,4 +116,5 @@ const Line = styled.textarea`
   border-radius: 4px;
   border-width: 1px;
   border-color: rgb(204, 204, 204);
+  color: #555;
 `;
