@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-
 import styled from "@emotion/styled";
-import _ from "lodash";
 
 class InputCheckBoxQuestions extends Component {
   constructor(props) {
@@ -91,7 +89,7 @@ class InputCheckBoxQuestions extends Component {
       <QuestionContainer>
         <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
         <GridContainer>
-          {_.map(this.props.blockData.content.choices, choice => {
+          {this.props.blockData.content.choices.map(choice => {
             return (
               <div key={choice.value}>
                 <input
