@@ -1,14 +1,17 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "@emotion/styled";
+import UUIDController from "../../../Controllers/uuidcontroller";
+const UUID = new UUIDController();
+let newID = UUID.createUUID();
 
-class NumberQuestion extends React.Component {
+class NumberQuestion extends Component {
   constructor(props) {
     super(props);
     this.state = {
       valueChanged: false,
       answerBlock: {
         amount: 0,
-        blockid: "",
+        blockId: "",
         id: "",
         registrantId: "",
         value: 0
@@ -40,6 +43,16 @@ class NumberQuestion extends React.Component {
     if (this.props.answer) {
       this.setState({
         answerBlock: this.props.answer
+      });
+    } else {
+      this.setState({
+        valueChanged: true,
+        answerBlock: {
+          ...this.state.answerBlock,
+          blockId: this.props.blockData.id,
+          id: newID,
+          registrantId: this.props.currentUser[0].id
+        }
       });
     }
   }

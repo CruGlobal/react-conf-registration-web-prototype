@@ -28,6 +28,15 @@ class RegisteringContent extends Component {
     };
   }
 
+  componentDidMount() {
+    const { conference } = this.props;
+    if (conference.name) {
+      document.title = `${
+        conference.name
+      } - Register | Event Registration Tool`;
+    }
+  }
+
   componentWillReceiveProps() {
     this.setState({
       hasLoaded: true
@@ -56,6 +65,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "emailQuestion":
@@ -64,14 +74,17 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
+
       case "addressQuestion":
         return (
           <AddressQuestion
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "campusQuestion":
@@ -80,6 +93,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "checkboxQuestion":
@@ -88,6 +102,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "dateQuestion":
@@ -96,6 +111,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "genderQuestion":
@@ -104,6 +120,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "numberQuestion":
@@ -112,6 +129,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "phoneQuestion":
@@ -120,6 +138,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "radioQuestion":
@@ -128,6 +147,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "selectQuestion":
@@ -136,6 +156,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "textareaQuestion":
@@ -144,6 +165,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "textQuestion":
@@ -152,6 +174,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       case "yearInSchoolQuestion":
@@ -160,6 +183,7 @@ class RegisteringContent extends Component {
             key={blocks.id}
             blockData={blocks}
             answer={answerValue[0]}
+            currentUser={currentUser}
           />
         );
       default:

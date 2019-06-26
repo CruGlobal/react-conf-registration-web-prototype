@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import EvtFormater from "../../../../Controllers/formatercontroller";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +9,14 @@ import RegisterButtons from "./RegisterButtons";
 const FORMATER = new EvtFormater();
 
 const RegisterLanding = ({ selectedConference, isLoading }) => {
+  useEffect(() => {
+    if (selectedConference.name) {
+      document.title = `${
+        selectedConference.name
+      } - Register | Event Registration Tool`;
+    }
+  }, [selectedConference]);
+
   return (
     <>
       {isLoading ? (

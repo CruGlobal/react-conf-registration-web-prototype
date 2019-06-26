@@ -1,19 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
 import StartOverModal from "./StartOverModal";
 import { Link } from "react-router-dom";
-
-// import UUIDController from "../../../../Controllers/uuidcontroller";
-// const UUID = new UUIDController();
-// const newUUID = UUID.createUUID();
+import { UpdateCurrentRegistration } from "../../../../actions";
+import UUIDController from "../../../../Controllers/uuidcontroller";
+const UUID = new UUIDController();
+const newRegistrationId = UUID.createUUID();
 
 // Render Correct buttons depending on selectedConference results
 // We have the null value because before Redux sets the selected conference
 // If it tries to render a link to the next page, react throws an error because selectedConference is not set yet
-const RegisterButtons = ({ selectedConference, currentRegistration }) => {
+const RegisterButtons = ({
+  selectedConference,
+  currentRegistration,
+  updateCurrentRegistrant,
+  crsToken
+}) => {
   const [show, changeShow] = useState(false);
+  const [currentData, updateCurrentValue] = useState(currentRegistration);
+  const [hasUpdated, changeUpdated] = useState(false);
 
+  useEffect(() => {
+    if (hasUpdated) {
+      updateCurrentRegistrant(
+        crsToken,
+        currentRegistration.id,
+        selectedConference.id,
+        currentData
+      );
+
+      changeUpdated(false);
+    }
+  }, [
+    crsToken,
+    currentData,
+    currentRegistration.id,
+    currentRegistration.primaryRegistrantId,
+    hasUpdated,
+    selectedConference.id,
+    selectedConference.registrationPages,
+    updateCurrentRegistrant
+  ]);
+
+  const createNewCurrent = async registrantTypeId => {
+    await updateCurrentValue({
+      ...currentData,
+      registrants: [
+        {
+          id: newRegistrationId,
+          registrantTypeId: registrantTypeId,
+          registrationId: currentRegistration.id,
+          answers: []
+        }
+      ]
+    });
+    changeUpdated(true);
+  };
   if (selectedConference.registrantTypes === null) {
     return (
       <ButtonContainer>
@@ -67,13 +110,13 @@ const RegisterButtons = ({ selectedConference, currentRegistration }) => {
   } else {
     return (
       <ButtonContainer>
-        <Link
-          to={`/register/${selectedConference.id}/page/${
-            selectedConference.registrationPages[0].id
-          }/${currentRegistration.primaryRegistrantId}`}
+        <RegisterButton
+          onClick={() =>
+            createNewCurrent(selectedConference.registrantTypes[0].id)
+          }
         >
-          <RegisterButton>Register</RegisterButton>
-        </Link>
+          Register
+        </RegisterButton>
       </ButtonContainer>
     );
   }
@@ -82,12 +125,19 @@ const RegisterButtons = ({ selectedConference, currentRegistration }) => {
 const mapStateToProps = state => {
   return {
     selectedConference: state.conferenceReducer.selectedConference,
-    currentRegistration: state.conferenceReducer.currentRegistration
+    currentRegistration: state.conferenceReducer.currentRegistration,
+    crsToken: state.authenticationReducer.crsToken
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    updateCurrentRegistrant: (authToken, userId, confID, currentData) => {
+      dispatch(
+        UpdateCurrentRegistration(authToken, userId, confID, currentData)
+      );
+    }
+  };
 };
 
 export default connect(

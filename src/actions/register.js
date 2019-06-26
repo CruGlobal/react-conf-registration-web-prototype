@@ -121,3 +121,58 @@ const deleteCurrentRegistrant = async (dispatch, authToken, confID, regID) => {
     isLoading: true
   });
 };
+
+export const UpdateCurrentRegistration = (
+  authToken,
+  userId,
+  confID,
+  currentData
+) => {
+  return dispatch => {
+    dispatch({
+      type: IS_LOADING,
+      isLoading: true
+    });
+    updateCurrentRegistration(dispatch, authToken, userId, confID, currentData);
+  };
+};
+
+const updateCurrentRegistration = (
+  dispatch,
+  authToken,
+  userId,
+  confID,
+  currentData
+) => {
+  try {
+    API.updateRegistration(
+      `${API.BASE_URL}${API.REGISTRATIONS}${userId}`,
+      authToken,
+      currentData
+    ).then(() => {
+      API.getCurrentRegistration(
+        `${API.BASE_URL}${API.CONFERENCES}${confID}/${
+          API.CURRENT_REGISTRATION
+        }`,
+        authToken
+      )
+        .then(res => res.json())
+        .then(response => {
+          dispatch({
+            type: GET_CURRENT_REGISTRANT,
+            currentRegistration: response,
+            isLoading: false
+          });
+        });
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_CURRENT_REGISTRANT,
+      currentRegistration: {}
+    });
+  }
+  dispatch({
+    type: IS_LOADING,
+    isLoading: true
+  });
+};

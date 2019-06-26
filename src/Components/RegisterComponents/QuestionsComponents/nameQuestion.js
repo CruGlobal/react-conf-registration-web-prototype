@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
+import UUIDController from "../../../Controllers/uuidcontroller";
+const UUID = new UUIDController();
+let newID = UUID.createUUID();
 
 class NameQuestions extends Component {
   constructor(props) {
@@ -10,7 +13,7 @@ class NameQuestions extends Component {
       answerBlock: {
         blockId: "",
         id: "",
-        registrationId: "",
+        registrantId: "",
         value: {
           firstName: "",
           lastName: ""
@@ -70,6 +73,16 @@ class NameQuestions extends Component {
     if (this.props.answer) {
       this.setState({
         answerBlock: this.props.answer
+      });
+    } else {
+      this.setState({
+        valueChanged: true,
+        answerBlock: {
+          ...this.state.answerBlock,
+          blockId: this.props.blockData.id,
+          id: newID,
+          registrantId: this.props.currentUser[0].id
+        }
       });
     }
   }

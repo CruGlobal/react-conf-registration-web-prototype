@@ -1,12 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "@emotion/styled";
+import UUIDController from "../../../Controllers/uuidcontroller";
+const UUID = new UUIDController();
+let newID = UUID.createUUID();
 
-const content = {
-  title: "Text Test Question",
-  default: "Enter Answer"
-};
-
-export default class TextAreaQuestion extends React.Component {
+export default class TextAreaQuestion extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,6 +42,16 @@ export default class TextAreaQuestion extends React.Component {
     if (this.props.answer) {
       this.setState({
         answerBlock: this.props.answer
+      });
+    } else {
+      this.setState({
+        valueChanged: true,
+        answerBlock: {
+          ...this.state.answerBlock,
+          blockId: this.props.blockData.id,
+          id: newID,
+          registrantId: this.props.currentUser[0].id
+        }
       });
     }
   }
@@ -85,7 +93,7 @@ export default class TextAreaQuestion extends React.Component {
         <Line
           type="text"
           value={this.state.answerBlock.value}
-          placeholder={content.default}
+          placeholder="Enter Answer"
           onChange={this.handleChange}
         />
       </QuestionContainer>

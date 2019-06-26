@@ -124,6 +124,7 @@ class RegisterPage extends Component {
                     match={match}
                     key={page.id}
                     pageData={page}
+                    conference={selectedConference}
                     currentData={currentRegistration}
                   />
                 );

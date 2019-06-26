@@ -8,6 +8,7 @@ class APIController {
   CONFERENCES = "conferences/";
   CURRENT_REGISTRATION = "registrations/current";
   REGISTRANTS = "registrants/";
+  REGISTRATIONS = "registrations/";
 
   // This will get all the conferences by search query
   getConferences = (url: string) => {

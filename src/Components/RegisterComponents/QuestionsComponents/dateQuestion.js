@@ -5,6 +5,9 @@ import moment from "moment";
 import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import UUIDController from "../../../Controllers/uuidcontroller";
+const UUID = new UUIDController();
+let newID = UUID.createUUID();
 
 export default class dateQuestion extends Component {
   state = {
@@ -13,7 +16,7 @@ export default class dateQuestion extends Component {
       amount: 0,
       blockId: "",
       id: "",
-      registrationId: "",
+      registrantId: "",
       value: ""
     },
     showModal: false,
@@ -45,6 +48,17 @@ export default class dateQuestion extends Component {
     if (this.props.answer) {
       this.setState({
         answerBlock: this.props.answer
+      });
+    } else {
+      this.setState({
+        valueChanged: true,
+        answerBlock: {
+          ...this.state.answerBlock,
+          blockId: this.props.blockData.id,
+          id: newID,
+          registrantId: this.props.currentUser[0].id,
+          value: moment(this.state.date).format("YYYY-MM-D")
+        }
       });
     }
   }
