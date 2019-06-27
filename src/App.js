@@ -53,7 +53,6 @@ class App extends Component {
     return (
       // This is where we do our routing
       // Dependent on the route, we will render the required component
-
       <Switch>
         <Route path="/reload" component={null} key="reload" />
         <Route exact path="/" component={props => <LandingPage {...props} />} />

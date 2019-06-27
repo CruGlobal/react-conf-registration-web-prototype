@@ -74,13 +74,14 @@ const RegisterButtons = ({
             <RegistrantRowContainer key={registrantType.id}>
               <RegisterTypeTitle>{registrantType.name}</RegisterTypeTitle>
               <RegisterTypeTotal>${registrantType.cost}.00</RegisterTypeTotal>
-              <Link
-                to={`/register/${selectedConference.id}/page/${
-                  selectedConference.registrationPages[0].id
-                }/${currentRegistration.primaryRegistrantId}`}
+
+              <RegisterTypeButton
+                onClick={() => {
+                  createNewCurrent(registrantType.id);
+                }}
               >
-                <RegisterTypeButton>Register</RegisterTypeButton>
-              </Link>
+                Register
+              </RegisterTypeButton>
             </RegistrantRowContainer>
           );
         })}
