@@ -2,16 +2,53 @@ import React from "react";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
 
-const ContinueButton = ({ match, currentData, history, isSaving }) => {
+const ContinueButton = ({ match, conference, history, isSaving }) => {
+  let nextPage = "";
+  const currentPage = conference.registrationPages.filter(
+    Pages => Pages.id === match.params.pageID
+  );
+  const CurrentPageIndex = conference.registrationPages.indexOf(currentPage[0]);
+
+  const HasNextPage = () => {
+    if (
+      conference.registrationPages.indexOf(currentPage[0]) + 1 !==
+      conference.registrationPages.length
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const CalculatePage = () => {
+    if (conference.registrationPages.length > 1 && !isSaving) {
+      if (HasNextPage()) {
+        nextPage = `/register/${match.params.confID}/page/${
+          conference.registrationPages[CurrentPageIndex + 1].id
+        }/${match.params.regID}`;
+        return "NEXT PAGE";
+      } else if (!HasNextPage()) {
+        nextPage = `/reviewRegistration/${match.params.confID}`;
+        return "CONTINUE";
+      }
+    } else if (isSaving) {
+      return "SAVING";
+    }
+  };
+
+  const GoToNextPage = () => {
+    history.push(nextPage);
+  };
+
   return (
     <div>
       <Button
         disabled={isSaving}
         onClick={() => {
-          history.push(`/register/${match.params.confID}/page/`);
+          GoToNextPage();
         }}
       >
-        {isSaving ? "SAVING" : "CONTINUE"}
+        {CalculatePage()}
       </Button>
     </div>
   );

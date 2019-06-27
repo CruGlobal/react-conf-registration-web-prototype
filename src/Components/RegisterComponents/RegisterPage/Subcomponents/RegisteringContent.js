@@ -192,7 +192,7 @@ class RegisteringContent extends Component {
   };
 
   render() {
-    const { pageData, match, currentData, history } = this.props;
+    const { pageData, match, currentData, history, conference } = this.props;
 
     return match.params.pageID === pageData.id ? (
       <div>
@@ -205,10 +205,14 @@ class RegisteringContent extends Component {
               this.renderAnswerBlocks(answerBlock, currentData)
             )}
             <ButtonContainer>
-              <BackButton history={history} />
+              <BackButton
+                history={history}
+                match={match}
+                conference={conference}
+              />
               <ContinueButton
                 match={match}
-                currentData={currentData}
+                conference={conference}
                 history={history}
               />
             </ButtonContainer>

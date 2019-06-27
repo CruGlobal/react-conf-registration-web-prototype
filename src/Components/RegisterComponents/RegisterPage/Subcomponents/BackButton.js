@@ -1,13 +1,32 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { connect } from "react-redux";
 
-const BackButton = ({ history }) => {
+const BackButton = ({ conference, match, history, isSaving }) => {
+  const currentPage = conference.registrationPages.filter(
+    Pages => Pages.id === match.params.pageID
+  );
+
+  const CurrentPageIndex = conference.registrationPages.indexOf(currentPage[0]);
+
+  const CalculatePage = () => {
+    if (CurrentPageIndex === 0) {
+      history.push(`/register/${match.params.confID}/page/`);
+    } else {
+      history.push(
+        `/register/${match.params.confID}/page/${
+          conference.registrationPages[CurrentPageIndex - 1].id
+        }/${match.params.regID}`
+      );
+    }
+  };
   return (
     <div>
       <Button
         onClick={() => {
-          history.goBack();
+          CalculatePage();
         }}
+        disabled={isSaving}
       >
         Go Back
       </Button>
@@ -15,7 +34,20 @@ const BackButton = ({ history }) => {
   );
 };
 
-export default BackButton;
+const mapStateToProps = state => {
+  return {
+    isSaving: state.conferenceReducer.isSaving
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BackButton);
 
 const Button = styled.button`
   background: #f4f4f4;
