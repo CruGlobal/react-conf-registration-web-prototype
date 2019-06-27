@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
+import { connect } from "react-redux";
+import { isSaving } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
-export default class TextQuestion extends Component {
+class TextQuestion extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +32,7 @@ export default class TextQuestion extends Component {
           }`,
           localStorage.getItem("crsToken")
         );
+        this.props.IsSaving(true);
       }
     }, 15000);
   }
@@ -82,6 +85,8 @@ export default class TextQuestion extends Component {
       redirect: "follow", // manual, *follow, error
       referrer: "no-referrer", // no-referrer, *client
       body: JSON.stringify(this.state.answerBlock)
+    }).then(() => {
+      this.props.IsSaving(false);
     });
   };
 
@@ -99,6 +104,23 @@ export default class TextQuestion extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    IsSaving: boolean => {
+      dispatch(isSaving(boolean));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TextQuestion);
 
 const QuestionContainer = styled.div`
   background: white;

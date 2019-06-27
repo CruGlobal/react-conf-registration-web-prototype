@@ -1,5 +1,6 @@
 import {
   IS_LOADING,
+  IS_SAVING,
   GET_CURRENT_CONFERENCE,
   GET_CURRENT_REGISTRANT
 } from "../constants";
@@ -175,4 +176,13 @@ const updateCurrentRegistration = (
     type: IS_LOADING,
     isLoading: true
   });
+};
+
+export const isSaving = boolean => {
+  return dispatch => {
+    dispatch({
+      type: IS_SAVING,
+      isSaving: boolean
+    });
+  };
 };

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
+import { connect } from "react-redux";
+import { isSaving } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
@@ -30,6 +32,7 @@ class InputCheckBoxQuestions extends Component {
           }`,
           localStorage.getItem("crsToken")
         );
+        this.props.IsSaving(true);
       }
     }, 15000);
   }
@@ -94,6 +97,8 @@ class InputCheckBoxQuestions extends Component {
       redirect: "follow", // manual, *follow, error
       referrer: "no-referrer", // no-referrer, *client
       body: JSON.stringify(this.state.answerBlock)
+    }).then(() => {
+      this.props.IsSaving(false);
     });
   };
 
@@ -121,7 +126,22 @@ class InputCheckBoxQuestions extends Component {
   }
 }
 
-export default InputCheckBoxQuestions;
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    IsSaving: boolean => {
+      dispatch(isSaving(boolean));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InputCheckBoxQuestions);
 
 const QuestionContainer = styled.div`
   margin-bottom: 15px;

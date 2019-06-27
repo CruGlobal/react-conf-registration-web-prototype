@@ -1,21 +1,36 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { connect } from "react-redux";
 
-const ContinueButton = ({ match, currentData, history }) => {
+const ContinueButton = ({ match, currentData, history, isSaving }) => {
   return (
     <div>
       <Button
+        disabled={isSaving}
         onClick={() => {
           history.push(`/register/${match.params.confID}/page/`);
         }}
       >
-        Continue
+        {isSaving ? "SAVING" : "CONTINUE"}
       </Button>
     </div>
   );
 };
 
-export default ContinueButton;
+const mapStateToProps = state => {
+  return {
+    isSaving: state.conferenceReducer.isSaving
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContinueButton);
 
 const Button = styled.button`
   background: #00a651;

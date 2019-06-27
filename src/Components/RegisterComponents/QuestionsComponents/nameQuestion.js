@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
+import { connect } from "react-redux";
+import { isSaving } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
@@ -9,7 +11,6 @@ class NameQuestions extends Component {
     super(props);
     this.state = {
       valueChanged: false,
-      disabled: false,
       answerBlock: {
         blockId: "",
         id: "",
@@ -36,11 +37,8 @@ class NameQuestions extends Component {
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
-        ).then(() => {
-          this.setState({
-            disabled: false
-          });
-        });
+        );
+        this.props.IsSaving(true);
       }
     }, 15000);
   }
@@ -66,6 +64,8 @@ class NameQuestions extends Component {
       redirect: "follow", // manual, *follow, error
       referrer: "no-referrer", // no-referrer, *client
       body: JSON.stringify(this.state.answerBlock)
+    }).then(() => {
+      this.props.IsSaving(false);
     });
   };
 
@@ -117,7 +117,6 @@ class NameQuestions extends Component {
               placeholder="First Name"
               name="firstName"
               value={this.state.answerBlock.value.firstName}
-              disabled={this.state.disabled}
               onChange={this.handleChange}
             />
             <InputField
@@ -127,7 +126,6 @@ class NameQuestions extends Component {
               name="lastName"
               value={this.state.answerBlock.value.lastName}
               onChange={this.handleChange}
-              disabled={this.state.disabled}
             />
           </Format>
         </label>
@@ -135,7 +133,23 @@ class NameQuestions extends Component {
     );
   }
 }
-export default NameQuestions;
+
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    IsSaving: boolean => {
+      dispatch(isSaving(boolean));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NameQuestions);
 
 const QuestionContainer = styled.div`
   width: 100%;

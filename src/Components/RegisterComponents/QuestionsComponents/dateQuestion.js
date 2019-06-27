@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
+import { connect } from "react-redux";
+import { isSaving } from "../../../actions/";
 import Calendar from "react-calendar";
 import moment from "moment";
 import Modal from "react-bootstrap/Modal";
@@ -9,7 +11,7 @@ import UUIDController from "../../../Controllers/uuidcontroller";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
-export default class dateQuestion extends Component {
+class DateQuestion extends Component {
   state = {
     valueChanged: false,
     answerBlock: {
@@ -36,6 +38,7 @@ export default class dateQuestion extends Component {
           }`,
           localStorage.getItem("crsToken")
         );
+        this.props.IsSaving(true);
       }
     }, 15000);
   }
@@ -96,6 +99,8 @@ export default class dateQuestion extends Component {
       redirect: "follow", // manual, *follow, error
       referrer: "no-referrer", // no-referrer, *client
       body: JSON.stringify(this.state.answerBlock)
+    }).then(() => {
+      this.props.IsSaving(false);
     });
   };
 
@@ -126,6 +131,23 @@ export default class dateQuestion extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    IsSaving: boolean => {
+      dispatch(isSaving(boolean));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DateQuestion);
 
 const ModalBody = styled(Modal.Body)`
   margin: 0 auto;

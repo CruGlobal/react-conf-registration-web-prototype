@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
+import { connect } from "react-redux";
+import { isSaving } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
@@ -31,6 +33,7 @@ class PhoneQuestion extends Component {
           }`,
           localStorage.getItem("crsToken")
         );
+        this.props.IsSaving(true);
       }
     }, 15000);
   }
@@ -84,6 +87,8 @@ class PhoneQuestion extends Component {
       redirect: "follow", // manual, *follow, error
       referrer: "no-referrer", // no-referrer, *client
       body: JSON.stringify(this.state.answerBlock)
+    }).then(() => {
+      this.props.IsSaving(false);
     });
   };
 
@@ -106,7 +111,22 @@ class PhoneQuestion extends Component {
   }
 }
 
-export default PhoneQuestion;
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    IsSaving: boolean => {
+      dispatch(isSaving(boolean));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PhoneQuestion);
 
 const PhoneContainer = styled.div`
   background: whitet;
