@@ -3,12 +3,13 @@ import styled from "@emotion/styled";
 import { connect } from "react-redux";
 
 const BackButton = ({ conference, match, history, isSaving }) => {
+  // Filter through our pages to find the current page we are on
   const currentPage = conference.registrationPages.filter(
     Pages => Pages.id === match.params.pageID
   );
-
+  // Find the index number we are currently on
   const CurrentPageIndex = conference.registrationPages.indexOf(currentPage[0]);
-
+  // We use this to calculate which page we want to route to
   const CalculatePage = () => {
     if (CurrentPageIndex === 0) {
       history.push(`/register/${match.params.confID}/page/`);

@@ -211,9 +211,9 @@ class RegisteringContent extends Component {
                 conference={conference}
               />
               <ContinueButton
+                history={history}
                 match={match}
                 conference={conference}
-                history={history}
               />
             </ButtonContainer>
           </>

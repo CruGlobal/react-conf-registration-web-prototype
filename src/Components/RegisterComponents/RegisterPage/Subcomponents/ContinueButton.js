@@ -3,12 +3,16 @@ import styled from "@emotion/styled";
 import { connect } from "react-redux";
 
 const ContinueButton = ({ match, conference, history, isSaving }) => {
+  // Create a variable with an empty value, will be used to set the route we wish to push too
   let nextPage = "";
+  // Filter through our pages to find the current page we are on
   const currentPage = conference.registrationPages.filter(
     Pages => Pages.id === match.params.pageID
   );
+  // Find the index number we are currently on
   const CurrentPageIndex = conference.registrationPages.indexOf(currentPage[0]);
 
+  // If the index of current page + 1 does not equal the total length of all the pages, then it has a next page
   const HasNextPage = () => {
     if (
       conference.registrationPages.indexOf(currentPage[0]) + 1 !==
@@ -20,7 +24,9 @@ const ContinueButton = ({ match, conference, history, isSaving }) => {
     }
   };
 
+  // We use this to calculate which page we want to route to and what text to render
   const CalculatePage = () => {
+    // If the amount of pages is greater than one and is not currently saving check if it has a next page
     if (conference.registrationPages.length > 1 && !isSaving) {
       if (HasNextPage()) {
         nextPage = `/register/${match.params.confID}/page/${
@@ -33,9 +39,14 @@ const ContinueButton = ({ match, conference, history, isSaving }) => {
       }
     } else if (isSaving) {
       return "SAVING";
+    } else {
+      // If the page is not saving and it's length is one, than the next page will be the review page
+      nextPage = `/reviewRegistration/${match.params.confID}`;
+      return "CONTINUE";
     }
   };
 
+  // When the Button is clicked, pushed to the next page which is decided by the functions above
   const GoToNextPage = () => {
     history.push(nextPage);
   };
