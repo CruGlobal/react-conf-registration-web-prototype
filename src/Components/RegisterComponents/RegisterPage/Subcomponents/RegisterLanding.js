@@ -38,13 +38,13 @@ const RegisterLanding = ({ selectedConference, isLoading }) => {
               {FORMATER.dateFormater(
                 selectedConference.eventStartTime,
                 selectedConference.eventTimezone,
-                "MMM D, YYYY h:mma "
+                "MMM D, YYYY h:mma z"
               )}{" "}
               -{" "}
               {FORMATER.dateFormater(
                 selectedConference.eventEndTime,
                 selectedConference.eventTimezone,
-                "MMM D, YYYY h:mma"
+                "MMM D, YYYY h:mma z"
               )}
             </DescriptionText>
           </DetailContainer>

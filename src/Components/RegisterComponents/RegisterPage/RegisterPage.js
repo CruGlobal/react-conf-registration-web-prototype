@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import RegisterNavbar from "../RegisterNavbar/RegisterNavbar";
 import RegisterFooter from "../RegisterFooter/RegisterFooter";
-import styled from "@emotion/styled";
-import BackgroundImg from "../../../img/rough_diagonal.png";
-import { connect } from "react-redux";
-
-import { selectConference, GetCurrentRegistrant } from "../../../actions";
 import RegisterLanding from "./Subcomponents/RegisterLanding";
 import RegisteringContent from "./Subcomponents/RegisteringContent";
+import styled from "@emotion/styled";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import _ from "lodash";
+import { selectConference, GetCurrentRegistrant } from "../../../actions";
+import BackgroundImg from "../../../img/rough_diagonal.png";
 
 const RegisterPage = ({
   getSelectedConference,
