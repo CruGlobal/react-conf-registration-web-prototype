@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { connect } from "react-redux";
 import { isSaving } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
+import PropTypes from "prop-types";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
@@ -150,6 +151,21 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(NameQuestions);
+
+NameQuestions.propTypes = {
+  getCurrentRegistration: PropTypes.func,
+  handleChange: PropTypes.func,
+  IsSaving: PropTypes.func,
+  answer: PropTypes.shape({
+    blockId: PropTypes.string,
+    id: PropTypes.string,
+    registrantId: PropTypes.string,
+    value: PropTypes.shape({
+      firstName: PropTypes.string,
+      lastName: PropTypes.string
+    })
+  })
+};
 
 const QuestionContainer = styled.div`
   width: 100%;

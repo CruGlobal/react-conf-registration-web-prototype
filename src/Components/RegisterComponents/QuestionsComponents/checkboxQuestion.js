@@ -114,7 +114,7 @@ class InputCheckBoxQuestions extends Component {
                   type="checkbox"
                   name={choice.value}
                   onChange={this.handleChange}
-                  checked={this.state.answerBlock.value[choice.value]}
+                  checked={this.state.answerBlock.value[choice.value] || false}
                 />
                 <QuestionValue>{choice.value}</QuestionValue>
               </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import RegisterNavbar from "../RegisterNavbar/RegisterNavbar";
 import RegisterFooter from "../RegisterFooter/RegisterFooter";
 import RegisterLanding from "./Subcomponents/RegisterLanding";
@@ -20,30 +20,23 @@ const RegisterPage = ({
   currentRegistration,
   crsToken
 }) => {
-  const [loginState, changeLoginState] = useState(true);
-
   useEffect(() => {
     if (crsToken) {
       getSelectedConference(crsToken, match.params.confID);
       getCurrentRegistrant(crsToken, match.params.confID);
     }
 
-    if (LoginState) {
-      changeLoginState(LoginState);
+    if (!LoginState) {
+      history.push("/");
     }
   }, [
     LoginState,
     crsToken,
     getCurrentRegistrant,
     getSelectedConference,
+    history,
     match.params.confID
   ]);
-
-  useEffect(() => {
-    if (!loginState) {
-      history.push("/");
-    }
-  }, [history, loginState]);
 
   return (
     <>
