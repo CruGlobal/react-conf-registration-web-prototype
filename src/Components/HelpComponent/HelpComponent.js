@@ -1,40 +1,38 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import Navbar from "../LandingPageComponents/Navbar/Navbar";
 import Footer from "../LandingPageComponents/Footer/Footer";
 
-class HelpComponent extends Component {
-  componentDidMount() {
+const HelpComponent = ({ signedIn, history }) => {
+  useEffect(() => {
     document.title = "Help | Event Registration Tool";
-  }
+  }, []);
 
-  componentWillUpdate() {
-    if (!this.props.signedIn) {
-      this.props.history.push("/");
+  useEffect(() => {
+    if (!signedIn) {
+      history.push("/");
     }
-  }
+  }, [history, signedIn]);
 
-  render() {
-    return (
+  return (
+    <>
       <>
-        <>
-          <Navbar />
-          <Container>
-            <HelpTitle>Help</HelpTitle>
-            <p>
-              For questions/suggestions regarding the Event Registration Tool,
-              please email{" "}
-              <SupportLink href="mailto:support@eventregistrationtool.com">
-                support@eventregistrationtool.com{" "}
-              </SupportLink>{" "}
-            </p>
-          </Container>
-          <Footer />
-        </>
+        <Navbar />
+        <Container>
+          <HelpTitle>Help</HelpTitle>
+          <p>
+            For questions/suggestions regarding the Event Registration Tool,
+            please email{" "}
+            <SupportLink href="mailto:support@eventregistrationtool.com">
+              support@eventregistrationtool.com{" "}
+            </SupportLink>{" "}
+          </p>
+        </Container>
+        <Footer />
       </>
-    );
-  }
-}
+    </>
+  );
+};
 
 export default HelpComponent;
 

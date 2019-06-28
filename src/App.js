@@ -7,24 +7,11 @@ import AuthPage from "./Components/AuthComponent/AuthPage";
 import Dashboard from "./Components/DashboardComponent/Dashboard";
 import RegisterPage from "./Components/RegisterComponents/RegisterPage/RegisterPage";
 
-import {
-  applicationInit,
-  successfulLogin,
-  failedLogin,
-  userLogin
-} from "./actions";
+import { applicationInit, userLogin } from "./actions";
 
 import { connect } from "react-redux";
 
 class App extends Component {
-  setSignInStatus = () => {
-    if (localStorage.getItem("crsToken")) {
-      this.props.successfulLogin();
-    } else {
-      this.props.failedLogin();
-    }
-  };
-
   reload = () => {
     const current = this.props.history.location.pathname;
 
@@ -41,8 +28,6 @@ class App extends Component {
   async componentDidMount() {
     // When the component mounts, check localstorage for a crsToken and set it our redux store
     await this.props.getCrsToken();
-    // After the above function runs, set the signin status
-
     // Then we will use the crsToken we set to get our users profile information
     this.props.setUserProfile(this.props.crsToken);
   }
@@ -110,13 +95,6 @@ const mapDispatchToProps = dispatch => {
     },
     getCrsToken: () => {
       dispatch(applicationInit());
-    },
-    successfulLogin: () => {
-      dispatch(successfulLogin());
-    },
-
-    failedLogin: () => {
-      dispatch(failedLogin());
     }
   };
 };

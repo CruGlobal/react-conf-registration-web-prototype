@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import BackButton from "./BackButton";
 import ContinueButton from "./ContinueButton";
@@ -20,39 +20,39 @@ import NumberQuestion from "../../QuestionsComponents/NumberQuestion";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-class RegisteringContent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hasLoaded: false
-    };
-  }
+const RegisteringContent = ({
+  pageData,
+  match,
+  currentData,
+  history,
+  conference
+}) => {
+  const [hasLoaded, changeHasLoaded] = useState(false);
 
-  componentDidMount() {
-    const { conference } = this.props;
+  useEffect(() => {
     if (conference.name) {
       document.title = `${
         conference.name
       } - Register | Event Registration Tool`;
     }
-  }
+  }, [conference.name]);
 
-  componentWillReceiveProps() {
-    this.setState({
-      hasLoaded: true
-    });
-  }
+  useEffect(() => {
+    if (currentData && pageData) {
+      changeHasLoaded(true);
+    }
+  }, [currentData, pageData]);
 
-  filterCurrentRegistrant(currentData) {
+  const filterCurrentRegistrant = currentData => {
     const data = currentData.registrants.filter(
-      registrant => registrant.id === this.props.match.params.regID
+      registrant => registrant.id === match.params.regID
     );
 
     return data;
-  }
+  };
 
-  renderAnswerBlocks = (blocks, currentData) => {
-    const currentUser = this.filterCurrentRegistrant(currentData);
+  const renderAnswerBlocks = (blocks, currentData) => {
+    const currentUser = filterCurrentRegistrant(currentData);
 
     const answerValue = currentUser[0].answers.filter(
       answer => answer.blockId === blocks.id
@@ -191,43 +191,39 @@ class RegisteringContent extends Component {
     }
   };
 
-  render() {
-    const { pageData, match, currentData, history, conference } = this.props;
-
-    return match.params.pageID === pageData.id ? (
-      <div>
-        <TitleContainer>
-          <WelcomeTitle>{pageData.title}</WelcomeTitle>
-        </TitleContainer>
-        {this.state.hasLoaded ? (
-          <>
-            {pageData.blocks.map(answerBlock =>
-              this.renderAnswerBlocks(answerBlock, currentData)
-            )}
-            <ButtonContainer>
-              <BackButton
-                history={history}
-                match={match}
-                conference={conference}
-              />
-              <ContinueButton
-                history={history}
-                match={match}
-                conference={conference}
-              />
-            </ButtonContainer>
-          </>
-        ) : (
-          <LoadingContainer>
-            {" "}
-            <h3>Loading...</h3>
-            <FontAwesomeIcon icon={faSpinner} spin size="3x" />
-          </LoadingContainer>
-        )}
-      </div>
-    ) : null;
-  }
-}
+  return match.params.pageID === pageData.id ? (
+    <div>
+      <TitleContainer>
+        <WelcomeTitle>{pageData.title}</WelcomeTitle>
+      </TitleContainer>
+      {hasLoaded ? (
+        <>
+          {pageData.blocks.map(answerBlock =>
+            renderAnswerBlocks(answerBlock, currentData)
+          )}
+          <ButtonContainer>
+            <BackButton
+              history={history}
+              match={match}
+              conference={conference}
+            />
+            <ContinueButton
+              history={history}
+              match={match}
+              conference={conference}
+            />
+          </ButtonContainer>
+        </>
+      ) : (
+        <LoadingContainer>
+          {" "}
+          <h3>Loading...</h3>
+          <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+        </LoadingContainer>
+      )}
+    </div>
+  ) : null;
+};
 
 export default RegisteringContent;
 

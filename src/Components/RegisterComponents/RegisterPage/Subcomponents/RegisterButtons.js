@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { connect } from "react-redux";
 import StartOverModal from "./StartOverModal";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { UpdateCurrentRegistration } from "../../../../actions";
 import UUIDController from "../../../../Controllers/uuidcontroller";

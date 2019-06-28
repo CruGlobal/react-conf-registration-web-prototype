@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import RegisterNavbar from "../RegisterNavbar/RegisterNavbar";
 import RegisterFooter from "../RegisterFooter/RegisterFooter";
 import styled from "@emotion/styled";
@@ -11,140 +11,137 @@ import RegisteringContent from "./Subcomponents/RegisteringContent";
 import { Link } from "react-router-dom";
 import _ from "lodash";
 
-class RegisterPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loginState: true
-    };
-  }
+const RegisterPage = ({
+  getSelectedConference,
+  getCurrentRegistrant,
+  match,
+  LoginState,
+  history,
+  selectedConference,
+  currentRegistration,
+  crsToken
+}) => {
+  const [loginState, changeLoginState] = useState(true);
 
-  async componentWillMount() {
-    const { getSelectedConference, getCurrentRegistrant, match } = this.props;
-    const token = localStorage.getItem("crsToken");
-    getSelectedConference(token, match.params.confID);
-    getCurrentRegistrant(token, match.params.confID);
-  }
+  useEffect(() => {
+    if (crsToken) {
+      getSelectedConference(crsToken, match.params.confID);
+      getCurrentRegistrant(crsToken, match.params.confID);
+    }
 
-  async componentWillReceiveProps() {
-    await this.setState(
-      {
-        loginState: this.props.loginState
-      },
-      () => {
-        if (!this.state.loginState) {
-          this.props.history.push("/");
-        }
-      }
-    );
-  }
+    if (LoginState) {
+      changeLoginState(LoginState);
+    }
+  }, [
+    LoginState,
+    crsToken,
+    getCurrentRegistrant,
+    getSelectedConference,
+    match.params.confID
+  ]);
 
-  render() {
-    const {
-      selectedConference,
-      currentRegistration,
-      match,
-      history
-    } = this.props;
+  useEffect(() => {
+    if (!loginState) {
+      history.push("/");
+    }
+  }, [history, loginState]);
 
-    return (
-      <>
-        <PageContainer>
-          <RegisterNavbar conference={selectedConference} history={history} />
-          <RegisterSection>
-            {match.params.pageID ? (
-              <PageSelectorSection>
-                {_.map(selectedConference.registrationPages, page => {
-                  const PageButton = styled.div`
-                    background: ${match.params.pageID === page.id
-                      ? "#337AB7"
-                      : "#d6d6d6"};
-                    width: 170px;
-                    height: 45px;
-                    font-size: 14px;
-                    color: ${match.params.pageID === page.id
-                      ? "#ffffff"
-                      : "#156692"};
-                    padding: 0 10px;
-                    display: block;
-                    white-space: nowrap;
-                    margin-bottom: 3px;
-                    display: flex;
-                    align-items: center;
-                  `;
+  return (
+    <>
+      <PageContainer>
+        <RegisterNavbar conference={selectedConference} history={history} />
+        <RegisterSection>
+          {match.params.pageID ? (
+            <PageSelectorSection>
+              {_.map(selectedConference.registrationPages, page => {
+                const PageButton = styled.div`
+                  background: ${match.params.pageID === page.id
+                    ? "#337AB7"
+                    : "#d6d6d6"};
+                  width: 170px;
+                  height: 45px;
+                  font-size: 14px;
+                  color: ${match.params.pageID === page.id
+                    ? "#ffffff"
+                    : "#156692"};
+                  padding: 0 10px;
+                  display: block;
+                  white-space: nowrap;
+                  margin-bottom: 3px;
+                  display: flex;
+                  align-items: center;
+                `;
 
-                  const Circle = styled.span`
-                    width: 26px;
-                    height: 26px;
-                    border: 2px solid
-                      ${match.params.pageID === page.id ? "#ffffff" : "#156692"};
-                    color: ${match.params.pageID === page.id
-                      ? "#ffffff"
-                      : "#156692"};
-                    line-height: 20px;
-                    margin-right: 5px;
-                    border-radius: 55px;
-                    font-size: 14px;
-                    text-align: center;
-                    font-weight: 700;
-                    font-family: sans-serif;
-                    display: inline-block;
-                  `;
+                const Circle = styled.span`
+                  width: 26px;
+                  height: 26px;
+                  border: 2px solid
+                    ${match.params.pageID === page.id ? "#ffffff" : "#156692"};
+                  color: ${match.params.pageID === page.id
+                    ? "#ffffff"
+                    : "#156692"};
+                  line-height: 20px;
+                  margin-right: 5px;
+                  border-radius: 55px;
+                  font-size: 14px;
+                  text-align: center;
+                  font-weight: 700;
+                  font-family: sans-serif;
+                  display: inline-block;
+                `;
 
-                  if (page.blocks.length === 0) {
-                    return null;
-                  }
-                  return (
-                    <PageLink
-                      key={page.id}
-                      to={`/register/${selectedConference.id}/page/${page.id}/${
-                        currentRegistration.primaryRegistrantId
-                      }`}
-                    >
-                      <PageButton>
-                        <Circle>
-                          {_.indexOf(
-                            selectedConference.registrationPages,
-                            page
-                          ) + 1}
-                        </Circle>
-                        {page.title}
-                      </PageButton>
-                    </PageLink>
-                  );
-                })}
-              </PageSelectorSection>
-            ) : null}
-
-            {match.params.pageID ? (
-              _.map(selectedConference.registrationPages, page => {
+                if (page.blocks.length === 0) {
+                  return null;
+                }
                 return (
-                  <RegisteringContent
-                    history={history}
-                    match={match}
+                  <PageLink
                     key={page.id}
-                    pageData={page}
-                    conference={selectedConference}
-                    currentData={currentRegistration}
-                  />
+                    to={`/register/${selectedConference.id}/page/${page.id}/${
+                      currentRegistration.primaryRegistrantId
+                    }`}
+                  >
+                    <PageButton>
+                      <Circle>
+                        {_.indexOf(selectedConference.registrationPages, page) +
+                          1}
+                      </Circle>
+                      {page.title}
+                    </PageButton>
+                  </PageLink>
                 );
-              })
-            ) : (
-              <RegisterLanding />
-            )}
-          </RegisterSection>
-          <RegisterFooter />
-        </PageContainer>
-      </>
-    );
-  }
-}
+              })}
+            </PageSelectorSection>
+          ) : null}
+
+          {match.params.pageID ? (
+            _.map(selectedConference.registrationPages, page => {
+              return (
+                <RegisteringContent
+                  history={history}
+                  match={match}
+                  key={page.id}
+                  pageData={page}
+                  conference={selectedConference}
+                  currentData={currentRegistration}
+                />
+              );
+            })
+          ) : (
+            <RegisterLanding />
+          )}
+        </RegisterSection>
+        <RegisterFooter />
+      </PageContainer>
+    </>
+  );
+};
 
 const mapStateToProps = state => {
   return {
-    loginState: state.authenticationReducer.loginState,
+    LoginState: state.authenticationReducer.loginState,
     selectedConference: state.conferenceReducer.selectedConference,
-    currentRegistration: state.conferenceReducer.currentRegistration
+    currentRegistration: state.conferenceReducer.currentRegistration,
+    crsToken: state.authenticationReducer.crsToken
   };
 };
 
