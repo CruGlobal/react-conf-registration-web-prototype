@@ -30,9 +30,6 @@ class NameQuestions extends Component {
     });
     this.timer = setInterval(() => {
       if (this.state.valueChanged) {
-        this.setState({
-          disabled: true
-        });
         this.getCurrentRegistration(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id

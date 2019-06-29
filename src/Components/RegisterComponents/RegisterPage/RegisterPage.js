@@ -25,10 +25,6 @@ const RegisterPage = ({
       getSelectedConference(crsToken, match.params.confID);
       getCurrentRegistrant(crsToken, match.params.confID);
     }
-
-    if (!LoginState) {
-      history.push("/");
-    }
   }, [
     LoginState,
     crsToken,
