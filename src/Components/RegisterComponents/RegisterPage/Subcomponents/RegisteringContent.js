@@ -218,7 +218,7 @@ const RegisteringContent = ({
         <LoadingContainer>
           {" "}
           <h3>Loading...</h3>
-          <FontAwesomeIcon icon={faSpinner} spin size="3x" />
+          <FontAwesomeIcon icon={faSpinner} spin size='3x' />
         </LoadingContainer>
       )}
     </div>
