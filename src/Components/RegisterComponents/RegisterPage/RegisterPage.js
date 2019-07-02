@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Component } from "react";
 import RegisterNavbar from "../RegisterNavbar/RegisterNavbar";
 import RegisterFooter from "../RegisterFooter/RegisterFooter";
 import RegisterLanding from "./Subcomponents/RegisterLanding";
@@ -10,119 +10,121 @@ import _ from "lodash";
 import { selectConference, GetCurrentRegistrant } from "../../../actions";
 import BackgroundImg from "../../../img/rough_diagonal.png";
 
-const RegisterPage = ({
-  getSelectedConference,
-  getCurrentRegistrant,
-  match,
-  LoginState,
-  history,
-  selectedConference,
-  currentRegistration,
-  crsToken
-}) => {
-  useEffect(() => {
-    if (crsToken) {
-      getSelectedConference(crsToken, match.params.confID);
-      getCurrentRegistrant(crsToken, match.params.confID);
-    }
-  }, [
-    LoginState,
-    crsToken,
-    getCurrentRegistrant,
-    getSelectedConference,
-    history,
-    match.params.confID
-  ]);
+class RegisterPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataRecieved: false
+    };
+  }
+  componentDidMount() {
+    let token = localStorage.getItem("crsToken");
+    const { getCurrentRegistrant, getSelectedConference, match } = this.props;
 
-  return (
-    <>
-      <PageContainer>
-        <RegisterNavbar conference={selectedConference} history={history} />
-        <RegisterSection>
-          {match.params.pageID ? (
-            <PageSelectorSection>
-              {_.map(selectedConference.registrationPages, page => {
-                const PageButton = styled.div`
-                  background: ${match.params.pageID === page.id
-                    ? "#337AB7"
-                    : "#d6d6d6"};
-                  width: 170px;
-                  height: 45px;
-                  font-size: 14px;
-                  color: ${match.params.pageID === page.id
-                    ? "#ffffff"
-                    : "#156692"};
-                  padding: 0 10px;
-                  display: block;
-                  white-space: nowrap;
-                  margin-bottom: 3px;
-                  display: flex;
-                  align-items: center;
-                `;
+    getCurrentRegistrant(token, match.params.confID);
 
-                const Circle = styled.span`
-                  width: 26px;
-                  height: 26px;
-                  border: 2px solid
-                    ${match.params.pageID === page.id ? "#ffffff" : "#156692"};
-                  color: ${match.params.pageID === page.id
-                    ? "#ffffff"
-                    : "#156692"};
-                  line-height: 20px;
-                  margin-right: 5px;
-                  border-radius: 55px;
-                  font-size: 14px;
-                  text-align: center;
-                  font-weight: 700;
-                  font-family: sans-serif;
-                  display: inline-block;
-                `;
+    getSelectedConference(token, match.params.confID);
+  }
 
-                if (page.blocks.length === 0) {
-                  return null;
-                }
+  render() {
+    const {
+      selectedConference,
+      history,
+      match,
+      currentRegistration
+    } = this.props;
+    return (
+      <>
+        <PageContainer>
+          <RegisterNavbar conference={selectedConference} history={history} />
+          <RegisterSection>
+            {match.params.pageID ? (
+              <PageSelectorSection>
+                {_.map(selectedConference.registrationPages, page => {
+                  const PageButton = styled.div`
+                    background: ${match.params.pageID === page.id
+                      ? "#337AB7"
+                      : "#d6d6d6"};
+                    width: 170px;
+                    height: 45px;
+                    font-size: 14px;
+                    color: ${match.params.pageID === page.id
+                      ? "#ffffff"
+                      : "#156692"};
+                    padding: 0 10px;
+                    display: block;
+                    white-space: nowrap;
+                    margin-bottom: 3px;
+                    display: flex;
+                    align-items: center;
+                  `;
+
+                  const Circle = styled.span`
+                    width: 26px;
+                    height: 26px;
+                    border: 2px solid
+                      ${match.params.pageID === page.id ? "#ffffff" : "#156692"};
+                    color: ${match.params.pageID === page.id
+                      ? "#ffffff"
+                      : "#156692"};
+                    line-height: 20px;
+                    margin-right: 5px;
+                    border-radius: 55px;
+                    font-size: 14px;
+                    text-align: center;
+                    font-weight: 700;
+                    font-family: sans-serif;
+                    display: inline-block;
+                  `;
+
+                  if (page.blocks.length === 0) {
+                    return null;
+                  }
+                  return (
+                    <PageLink
+                      key={page.id}
+                      to={`/register/${selectedConference.id}/page/${page.id}/${
+                        currentRegistration.primaryRegistrantId
+                      }`}
+                    >
+                      <PageButton>
+                        <Circle>
+                          {_.indexOf(
+                            selectedConference.registrationPages,
+                            page
+                          ) + 1}
+                        </Circle>
+                        {page.title}
+                      </PageButton>
+                    </PageLink>
+                  );
+                })}
+              </PageSelectorSection>
+            ) : null}
+
+            {match.params.pageID ? (
+              _.map(selectedConference.registrationPages, page => {
                 return (
-                  <PageLink
+                  <RegisteringContent
+                    history={history}
+                    match={match}
                     key={page.id}
-                    to={`/register/${selectedConference.id}/page/${page.id}/${
-                      currentRegistration.primaryRegistrantId
-                    }`}
-                  >
-                    <PageButton>
-                      <Circle>
-                        {_.indexOf(selectedConference.registrationPages, page) +
-                          1}
-                      </Circle>
-                      {page.title}
-                    </PageButton>
-                  </PageLink>
+                    pageData={page}
+                    conference={selectedConference}
+                    currentData={currentRegistration}
+                  />
                 );
-              })}
-            </PageSelectorSection>
-          ) : null}
-
-          {match.params.pageID ? (
-            _.map(selectedConference.registrationPages, page => {
-              return (
-                <RegisteringContent
-                  history={history}
-                  match={match}
-                  key={page.id}
-                  pageData={page}
-                  conference={selectedConference}
-                  currentData={currentRegistration}
-                />
-              );
-            })
-          ) : (
-            <RegisterLanding />
-          )}
-        </RegisterSection>
-        <RegisterFooter />
-      </PageContainer>
-    </>
-  );
-};
+              })
+            ) : (
+              <RegisterLanding />
+            )}
+          </RegisterSection>
+          <RegisterFooter />
+        </PageContainer>
+      </>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {

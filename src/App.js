@@ -12,17 +12,17 @@ import { applicationInit, userLogin } from "./actions";
 import { connect } from "react-redux";
 
 class App extends Component {
-  reload = () => {
-    const current = this.props.history.location.pathname;
+  // reload = () => {
+  //   const current = this.props.history.location.pathname;
 
-    this.props.history.replace(`/reload`);
-    setTimeout(() => {
-      this.props.history.replace(current);
-    });
-  };
+  //   this.props.history.replace(`/reload`);
+  //   setTimeout(() => {
+  //     this.props.history.replace(current);
+  //   });
+  // };
 
   componentWillMount() {
-    this.reload();
+    // this.reload();
   }
 
   async componentDidMount() {
