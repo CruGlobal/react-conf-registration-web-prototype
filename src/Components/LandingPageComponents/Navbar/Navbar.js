@@ -33,14 +33,14 @@ const Navbar = ({ profile, loginState, userLogout }) => {
   return (
     <NavBarContainer>
       <NavBar>
-        <MainHeadingContainer to="/">
-          <FontAwesomeIcon icon={faUsers} size="3x" />
+        <MainHeadingContainer to='/'>
+          <FontAwesomeIcon icon={faUsers} size='3x' />
           <NavBarTitle>Event Registration Tool</NavBarTitle>
         </MainHeadingContainer>
         <ButtonContainer>
           {loginState ? (
             <>
-              <DashboardButton data-testid="signed-in-title">
+              <DashboardButton data-testid='signed-in-title'>
                 Hello <strong>{profile.firstName}</strong>
               </DashboardButton>
               <StyledDropDownButton userLogout={userLogout} />
@@ -48,7 +48,7 @@ const Navbar = ({ profile, loginState, userLogout }) => {
           ) : (
             <>
               <DashboardButton
-                data-testid="unsigned-in-title"
+                data-testid='unsigned-in-title'
                 onClick={() => changeShow(true)}
               >
                 EVENT DASHBOARD
@@ -88,6 +88,7 @@ const NavBarContainer = styled.header`
   display: flex;
   justify-content: center;
   border-bottom: 7px solid #2b86b7;
+  padding: 0px 22px;
 `;
 
 const NavBar = styled.nav`
@@ -130,4 +131,7 @@ const NavBarTitle = styled.h3`
   font-size: 36px;
   text-decoration: none;
   margin: 0 10px;
+  @media screen and (max-width: 768px) {
+    font-size: 22px;
+  }
 `;

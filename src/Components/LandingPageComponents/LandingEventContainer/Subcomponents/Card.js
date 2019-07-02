@@ -14,11 +14,11 @@ const Card = ({ cardData, loginState }) => {
   const FORMATER = new EvtFormater();
 
   return (
-    <CardContainer data-testid="Card">
+    <CardContainer data-testid='Card'>
       <CardName>{cardData.name}</CardName>
 
       <DetailContainer>
-        <Icon size="xs" icon={faCalendarAlt} />
+        <Icon size='xs' icon={faCalendarAlt} />
         <DetailText>
           {FORMATER.dateFormater(
             cardData.eventStartTime,
@@ -36,7 +36,7 @@ const Card = ({ cardData, loginState }) => {
 
       {cardData.locationName ? (
         <DetailContainer>
-          <Icon size="xs" icon={faMapMarkerAlt} />
+          <Icon size='xs' icon={faMapMarkerAlt} />
           <DetailText>{cardData.locationName}</DetailText>
         </DetailContainer>
       ) : null}
@@ -67,6 +67,9 @@ const CardContainer = styled.div`
   display: inline-block;
   vertical-align: top;
   margin-bottom: 10px;
+  @media screen and (max-width: 1129px) {
+    width: 100%;
+  }
 `;
 
 const CardName = styled.p`
