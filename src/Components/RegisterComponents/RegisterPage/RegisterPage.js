@@ -8,7 +8,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectConference, GetCurrentRegistrant } from "../../../actions";
 import BackgroundImg from "../../../img/rough_diagonal.png";
-import _ from "lodash";
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -39,7 +38,7 @@ class RegisterPage extends Component {
         <RegisterSection>
           {match.params.pageID ? (
             <PageSelectorSection>
-              {_.map(selectedConference.registrationPages, page => {
+              {selectedConference.registrationPages.map(page => {
                 const PageButton = styled.div`
                   background: ${match.params.pageID === page.id
                     ? "#337AB7"
@@ -88,8 +87,7 @@ class RegisterPage extends Component {
                   >
                     <PageButton>
                       <Circle>
-                        {_.indexOf(selectedConference.registrationPages, page) +
-                          1}
+                        {selectedConference.registrationPages.indexOf(page) + 1}
                       </Circle>
                       {page.title}
                     </PageButton>
@@ -100,7 +98,7 @@ class RegisterPage extends Component {
           ) : null}
 
           {match.params.pageID ? (
-            _.map(selectedConference.registrationPages, page => {
+            selectedConference.registrationPages.map(page => {
               return (
                 <RegisteringContent
                   history={history}

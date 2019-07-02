@@ -51,7 +51,7 @@ const RegisterReviewPage = ({
           <tbody>
             <tr>
               <td> </td>
-              <td>{selectedConference.registrationPages[0].blocks[0].title}</td>
+              {/* <td>{selectedConference.registrationPages[0].blocks[0].title}</td> */}
               <td> </td>
               <td> </td>
             </tr>
