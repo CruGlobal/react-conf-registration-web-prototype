@@ -6,25 +6,13 @@ import HelpComponent from "./Components/HelpComponent/HelpComponent";
 import AuthPage from "./Components/AuthComponent/AuthPage";
 import Dashboard from "./Components/DashboardComponent/Dashboard";
 import RegisterPage from "./Components/RegisterComponents/RegisterPage/RegisterPage";
+import RegisterReviewPage from "./Components/RegisterComponents/RegisterPage/RegisterReviewPage";
 
 import { applicationInit, userLogin } from "./actions";
 
 import { connect } from "react-redux";
 
 class App extends Component {
-  // reload = () => {
-  //   const current = this.props.history.location.pathname;
-
-  //   this.props.history.replace(`/reload`);
-  //   setTimeout(() => {
-  //     this.props.history.replace(current);
-  //   });
-  // };
-
-  componentWillMount() {
-    // this.reload();
-  }
-
   async componentDidMount() {
     // When the component mounts, check localstorage for a crsToken and set it our redux store
     await this.props.getCrsToken();
@@ -39,7 +27,6 @@ class App extends Component {
       // This is where we do our routing
       // Dependent on the route, we will render the required component
       <Switch>
-        <Route path="/reload" component={null} key="reload" />
         <Route exact path="/" component={props => <LandingPage {...props} />} />
 
         <Route
@@ -76,6 +63,11 @@ class App extends Component {
         />
 
         <Route path="/auth/:id" component={props => <AuthPage {...props} />} />
+
+        <Route
+          path="/reviewRegistration/:confID"
+          component={props => <RegisterReviewPage {...props} />}
+        />
       </Switch>
     );
   }
