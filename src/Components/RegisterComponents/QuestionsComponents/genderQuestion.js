@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { connect } from "react-redux";
 import { isSaving } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
+import Required from "../RegisterPage/Subcomponents/Required";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
@@ -93,7 +94,10 @@ class GenderQuestion extends Component {
   render() {
     return (
       <QuestionContainer>
-        <Title>{this.props.blockData.title}</Title>
+        <TitleContainer>
+          <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
+          <Required isRequired={this.props.blockData.required} />
+        </TitleContainer>
         <Options>
           <Choice>
             <Selector
@@ -154,7 +158,12 @@ const QuestionContainer = styled.div`
   margin-bottom: 15px;
 `;
 
-const Title = styled.div`
+const TitleContainer = styled.span`
+  display: flex;
+  flex-direction: row;
+`;
+
+const QuestionTitle = styled.div`
   margin-bottom: 5px;
   width: 100%;
 `;

@@ -8,6 +8,7 @@ import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import UUIDController from "../../../Controllers/uuidcontroller";
+import Required from "../RegisterPage/Subcomponents/Required";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
@@ -115,7 +116,10 @@ class DateQuestion extends Component {
             <Calendar onChange={this.onChange} value={this.state.date} />
           </ModalBody>
         </Modal>
-        <Prompt>{this.props.blockData.title}</Prompt>
+        <TitleContainer>
+          <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
+          <Required isRequired={this.props.blockData.required} />
+        </TitleContainer>
         <InputContainer onClick={() => this.changeShow(true)}>
           <CalendarButton>
             <FontAwesomeIcon icon={faCalendarAlt} />
@@ -158,6 +162,11 @@ const QuestionContainer = styled.div`
   margin-bottom: 15px;
 `;
 
+const TitleContainer = styled.span`
+  display: flex;
+  flex-direction: row;
+`;
+
 const CalendarButton = styled.span`
   padding: 6px 12px;
   font-size: 14px;
@@ -192,7 +201,7 @@ const InputContainer = styled.div`
   justify-content: center;
 `;
 
-const Prompt = styled.p`
+const QuestionTitle = styled.p`
   font-size: 14px;
   color: #333;
   font-weight: 700;

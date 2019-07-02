@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { isSaving } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
 import PropTypes from "prop-types";
+import Required from "../RegisterPage/Subcomponents/Required";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
@@ -106,7 +107,10 @@ class NameQuestions extends Component {
   render() {
     return (
       <QuestionContainer>
-        <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
+        <TitleContainer>
+          <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
+          <Required isRequired={this.props.blockData.required} />
+        </TitleContainer>
         <label>
           <Format>
             <InputField
@@ -169,6 +173,11 @@ const QuestionContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+`;
+
+const TitleContainer = styled.span`
+  display: flex;
+  flex-direction: row;
 `;
 const QuestionTitle = styled.h3`
   font-size: 14px;
