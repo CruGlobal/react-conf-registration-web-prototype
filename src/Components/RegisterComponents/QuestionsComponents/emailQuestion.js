@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { connect } from "react-redux";
 import { isSaving } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
+import Required from "../RegisterPage/Subcomponents/Required";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
@@ -94,7 +95,10 @@ class EmailQuestion extends Component {
   render() {
     return (
       <QuestionContainer>
-        <Question>{this.props.blockData.title}</Question>
+        <TitleContainer>
+          <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
+          <Required isRequired={this.props.blockData.required} />
+        </TitleContainer>
         <label>
           <InputField
             type="email"
@@ -125,11 +129,17 @@ export default connect(
   mapDispatchToProps
 )(EmailQuestion);
 
-const Question = styled.h6`
+const QuestionTitle = styled.h6`
   font-size: 14px;
   font-weight: 700;
   font-family: sans-serif;
 `;
+
+const TitleContainer = styled.span`
+  display: flex;
+  flex-direction: row;
+`;
+
 const InputField = styled.input`
   width: 100%;
   height: 34px;

@@ -13,19 +13,6 @@ import { applicationInit, userLogin } from "./actions";
 import { connect } from "react-redux";
 
 class App extends Component {
-  reload = () => {
-    const current = this.props.history.location.pathname;
-
-    this.props.history.replace(`/reload`);
-    setTimeout(() => {
-      this.props.history.replace(current);
-    });
-  };
-
-  componentWillMount() {
-    this.reload();
-  }
-
   async componentDidMount() {
     // When the component mounts, check localstorage for a crsToken and set it our redux store
     await this.props.getCrsToken();
@@ -40,31 +27,30 @@ class App extends Component {
       // This is where we do our routing
       // Dependent on the route, we will render the required component
       <Switch>
-        <Route path='/reload' component={null} key='reload' />
-        <Route exact path='/' component={props => <LandingPage {...props} />} />
+        <Route exact path="/" component={props => <LandingPage {...props} />} />
 
         <Route
-          path='/help'
+          path="/help"
           component={(props, history) => (
             <HelpComponent signedIn={loginState} {...props} {...history} />
           )}
         />
 
         <Route
-          path='/eventDashboard'
+          path="/eventDashboard"
           component={props => <Dashboard {...props} />}
         />
 
         <Route
           exact
-          path='/register/:confID/page/'
+          path="/register/:confID/page/"
           component={(props, history) => (
             <RegisterPage {...props} {...history} />
           )}
         />
 
         <Route
-          path='/register/:confID/page/:pageID/:regID'
+          path="/register/:confID/page/:pageID/:regID"
           component={(props, history) => (
             <RegisterPage {...props} {...history} />
           )}
@@ -72,14 +58,14 @@ class App extends Component {
 
         <Route
           exact
-          path='/auth/'
+          path="/auth/"
           component={props => <AuthPage {...props} />}
         />
 
-        <Route path='/auth/:id' component={props => <AuthPage {...props} />} />
+        <Route path="/auth/:id" component={props => <AuthPage {...props} />} />
 
         <Route
-          path='/reviewRegistration/:confID'
+          path="/reviewRegistration/:confID"
           component={props => <RegisterReviewPage {...props} />}
         />
       </Switch>

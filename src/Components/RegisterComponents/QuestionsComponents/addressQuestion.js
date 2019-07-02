@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
 import { isSaving } from "../../../actions/";
+import Required from "../RegisterPage/Subcomponents/Required";
 import UUIDController from "../../../Controllers/uuidcontroller";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
@@ -106,7 +107,10 @@ class AddressQuestion extends Component {
   render() {
     return (
       <QuestionContainer>
-        <Title>{this.props.blockData.title}</Title>
+        <TitleContainer>
+          <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
+          <Required isRequired={this.props.blockData.required} />
+        </TitleContainer>
         <Line
           type="text"
           placeholder="Address Line 1"
@@ -226,10 +230,15 @@ const QuestionContainer = styled.div`
   margin-bottom: 15px;
 `;
 
-const Title = styled.div`
+const QuestionTitle = styled.div`
   margin-bottom: 5px;
   width: 100%;
   font-weight: 700;
+`;
+
+const TitleContainer = styled.span`
+  display: flex;
+  flex-direction: row;
 `;
 
 const Line = styled.input`
@@ -262,7 +271,7 @@ const State = styled.select`
   margin-bottom: 1em;
   padding: 6px 12px;
   width: 123px;
-  margin-left: 15px;
+  margin-left: 30px;
   margin-right: 15px;
   height: 34px;
   padding: 6px 12px;

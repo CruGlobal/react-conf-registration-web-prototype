@@ -62,11 +62,18 @@ const setCurrentRegistrant = async (dispatch, confID, authToken) => {
     )
       .then(res => res.json())
       .then(response => {
-        dispatch({
-          type: GET_CURRENT_REGISTRANT,
-          currentRegistration: response,
-          isLoading: false
-        });
+        if (response.error) {
+          API.createNewRegistration(
+            `${API.BASE_URL}${API.CONFERENCES}${confID}/registrations}`,
+            authToken
+          );
+        } else {
+          dispatch({
+            type: GET_CURRENT_REGISTRANT,
+            currentRegistration: response,
+            isLoading: false
+          });
+        }
       });
   } catch (err) {
     dispatch({

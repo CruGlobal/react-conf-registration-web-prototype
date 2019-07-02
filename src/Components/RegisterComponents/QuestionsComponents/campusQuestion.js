@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { connect } from "react-redux";
 import { isSaving } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
+import Required from "../RegisterPage/Subcomponents/Required";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
@@ -96,7 +97,10 @@ class CampusQuestion extends Component {
     return (
       <>
         <CampusContainer>
-          <Title>{this.props.blockData.title}</Title>
+          <TitleContainer>
+            <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
+            <Required isRequired={this.props.blockData.required} />
+          </TitleContainer>
           <InputField
             type="text"
             placeholder="Campus"
@@ -136,7 +140,12 @@ const CampusContainer = styled.div`
   margin-bottom: 15px;
 `;
 
-const Title = styled.h3`
+const TitleContainer = styled.span`
+  display: flex;
+  flex-direction: row;
+`;
+
+const QuestionTitle = styled.h3`
   margin-bottom: 5px;
   width: 100%;
   font-weight: 700;
