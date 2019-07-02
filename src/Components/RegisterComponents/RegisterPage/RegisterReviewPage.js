@@ -5,7 +5,6 @@ import BackgroundImg from "../../../img/rough_diagonal.png";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
 import { selectConference, GetCurrentRegistrant } from "../../../actions";
-import Table from "react-bootstrap/Table";
 
 const RegisterReviewPage = ({
   LoginState,
@@ -18,19 +17,26 @@ const RegisterReviewPage = ({
   getCurrentRegistrant
 }) => {
   //if not logged in, history.push them to / to the homepage
-  //   useEffect(() => {
-  //     if (crsToken) {
-  //       getSelectedConference(crsToken, match.params.confID);
-  //       getCurrentRegistrant(crsToken, match.params.confID);
-  //     }
-  //   }, [
-  //     LoginState,
-  //     crsToken,
-  //     getCurrentRegistrant,
-  //     getSelectedConference,
-  //     history,
-  //     match.params.confID
-  //   ]);
+  useEffect(() => {
+    if (crsToken) {
+      getSelectedConference(crsToken, match.params.confID);
+      getCurrentRegistrant(crsToken, match.params.confID);
+    }
+  }, [
+    LoginState,
+    crsToken,
+    getCurrentRegistrant,
+    getSelectedConference,
+    history,
+    match.params.confID
+  ]);
+
+  //I want to only run this when it's finished loading from the API
+  const reviewTable = generateReview(
+    selectedConference.registrationPages[0].blocks, //TODO: map through all reg pages
+    currentRegistration.registrants[0].answers
+  );
+  console.log(reviewTable);
 
   return (
     <PageContainer>
@@ -40,22 +46,21 @@ const RegisterReviewPage = ({
           <WelcomeTitle>Registration Review</WelcomeTitle>
         </TitleContainer>
         <Table>
-          <thead>
-            <tr>
-              <th> </th>
-              <th>Registrant</th>
-              <th> </th>
-              <th> </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td> </td>
-              <td>{selectedConference.registrationPages[0].blocks[0].title}</td>
-              <td> </td>
-              <td> </td>
-            </tr>
-          </tbody>
+          <Thead>
+            <Row>
+              <Chead>Registrant</Chead>
+            </Row>
+          </Thead>
+          <Tbody>
+            {reviewTable.map(item => {
+              return (
+                <Row>
+                  <Cell>{item ? item.q : null}</Cell>
+                  <Cell>{item ? JSON.stringify(item.a) : null}</Cell>
+                </Row>
+              );
+            })}
+          </Tbody>
         </Table>
         <TitleContainer>
           <WelcomeTitle>Summary</WelcomeTitle>
@@ -68,6 +73,19 @@ const RegisterReviewPage = ({
       <RegisterFooter />
     </PageContainer>
   );
+};
+
+const generateReview = (questions, answers) => {
+  return questions.map(question => {
+    const temp = answers.find(answer => answer.blockId === question.id);
+    if (temp) {
+      return {
+        q: question.title,
+        a: temp.value
+      };
+    }
+    return null;
+  });
 };
 
 const mapStateToProps = state => {
@@ -147,3 +165,15 @@ const ConfirmButton = styled.button`
     border-color: #398439;
   }
 `;
+
+const Table = styled.div``;
+
+const Thead = styled.div``;
+
+const Tbody = styled.div``;
+
+const Chead = styled.div``;
+
+const Row = styled.div``;
+
+const Cell = styled.div``;
