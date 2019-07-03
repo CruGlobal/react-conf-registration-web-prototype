@@ -18,11 +18,17 @@ class RegisterPage extends Component {
   }
   componentDidMount() {
     let token = localStorage.getItem("crsToken");
-    const { getCurrentRegistrant, getSelectedConference, match } = this.props;
+    const {
+      getCurrentRegistrant,
+      getSelectedConference,
+      match,
+      dataChanged
+    } = this.props;
+    if (dataChanged) {
+      getCurrentRegistrant(token, match.params.confID);
 
-    getCurrentRegistrant(token, match.params.confID);
-
-    getSelectedConference(token, match.params.confID);
+      getSelectedConference(token, match.params.confID);
+    }
   }
 
   render() {
@@ -125,7 +131,8 @@ const mapStateToProps = state => {
     LoginState: state.authenticationReducer.loginState,
     selectedConference: state.conferenceReducer.selectedConference,
     currentRegistration: state.conferenceReducer.currentRegistration,
-    crsToken: state.authenticationReducer.crsToken
+    crsToken: state.authenticationReducer.crsToken,
+    dataChanged: state.conferenceReducer.dataChanged
   };
 };
 

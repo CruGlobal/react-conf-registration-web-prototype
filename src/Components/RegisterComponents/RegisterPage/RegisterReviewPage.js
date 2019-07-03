@@ -56,7 +56,9 @@ const RegisterReviewPage = ({
               return (
                 <Row>
                   <Cell>{item ? item.q : null}</Cell>
-                  <Cell>{item ? JSON.stringify(item.a) : null}</Cell>
+                  <AnswerCell>
+                    {item ? JSON.stringify(item.a) : null}
+                  </AnswerCell>
                 </Row>
               );
             })}
@@ -174,6 +176,13 @@ const Tbody = styled.div``;
 
 const Chead = styled.div``;
 
-const Row = styled.div``;
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 
 const Cell = styled.div``;
+
+const AnswerCell = styled(Cell)`
+  margin-left: auto;
+`;
