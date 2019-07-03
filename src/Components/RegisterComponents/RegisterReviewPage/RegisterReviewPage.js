@@ -44,29 +44,31 @@ const RegisterReviewPage = ({
 
   const generateReview = (questions, answers) => {
     return questions.map(question => {
-      const temp = answers.find(answer => answer.blockId === question.id);
-      if (temp) {
+      const foundAnswer = answers.find(
+        answer => answer.blockId === question.id
+      );
+      if (foundAnswer) {
         switch (question.type) {
           case "addressQuestion":
           case "nameQuestion":
             return {
               id: question.id,
               q: question.title,
-              a: Object.values(temp.value),
+              a: Object.values(foundAnswer.value),
               type: question.type
             };
           case "checkboxQuestion":
             return {
               id: question.id,
               q: question.title,
-              a: Object.keys(temp.value),
+              a: Object.keys(foundAnswer.value),
               type: question.type
             };
           default:
             return {
               id: question.id,
               q: question.title,
-              a: temp.value,
+              a: foundAnswer.value,
               type: question.type
             };
         }
