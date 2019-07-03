@@ -144,5 +144,6 @@ const SignoutButton = styled.button`
 
 const Icon = styled(FontAwesomeIcon)`
   margin-right: 5px;
+  margin-top: -2px;
   color: #fff;
 `;
