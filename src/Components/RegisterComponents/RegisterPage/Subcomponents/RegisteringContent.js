@@ -193,10 +193,11 @@ const RegisteringContent = ({
       <TitleContainer>
         <WelcomeTitle>{pageData.title}</WelcomeTitle>
       </TitleContainer>
-
-      {pageData.blocks.map(answerBlock =>
-        renderAnswerBlocks(answerBlock, currentData)
-      )}
+      <form>
+        {pageData.blocks.map(answerBlock =>
+          renderAnswerBlocks(answerBlock, currentData)
+        )}
+      </form>
       <ButtonContainer>
         <BackButton history={history} match={match} conference={conference} />
         <ContinueButton

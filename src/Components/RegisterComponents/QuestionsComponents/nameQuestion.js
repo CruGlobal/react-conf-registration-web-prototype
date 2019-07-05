@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
-import { isSaving } from "../../../actions/";
+import { isSaving, dataChanged } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
 import PropTypes from "prop-types";
 import Required from "../RegisterPage/Subcomponents/Required";
@@ -31,13 +31,14 @@ class NameQuestions extends Component {
     });
     this.timer = setInterval(() => {
       if (this.state.valueChanged) {
-        this.getCurrentRegistration(
+        this.updateAnswer(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
         );
         this.props.IsSaving(true);
+        this.props.DataChanged(true);
       }
     }, 15000);
   }
@@ -46,7 +47,7 @@ class NameQuestions extends Component {
     clearInterval(this.timer);
   }
 
-  getCurrentRegistration = (url, authToken) => {
+  updateAnswer = (url, authToken) => {
     this.setState({
       valueChanged: false
     });
@@ -112,8 +113,9 @@ class NameQuestions extends Component {
           <Required isRequired={this.props.blockData.required} />
         </TitleContainer>
         <label>
-          <Format>
+          <InputContainer>
             <InputField
+              required={this.props.blockData.required}
               show-errors="group"
               type="text"
               placeholder="First Name"
@@ -122,6 +124,7 @@ class NameQuestions extends Component {
               onChange={this.handleChange}
             />
             <InputField
+              required={this.props.blockData.required}
               show-errors="group"
               type="text"
               placeholder="Last Name"
@@ -129,7 +132,7 @@ class NameQuestions extends Component {
               value={this.state.answerBlock.value.lastName}
               onChange={this.handleChange}
             />
-          </Format>
+          </InputContainer>
         </label>
       </QuestionContainer>
     );
@@ -144,6 +147,9 @@ const mapDispatchToProps = dispatch => {
   return {
     IsSaving: boolean => {
       dispatch(isSaving(boolean));
+    },
+    DataChanged: boolean => {
+      dispatch(dataChanged(boolean));
     }
   };
 };
@@ -154,7 +160,7 @@ export default connect(
 )(NameQuestions);
 
 NameQuestions.propTypes = {
-  getCurrentRegistration: PropTypes.func,
+  updateAnswer: PropTypes.func,
   handleChange: PropTypes.func,
   IsSaving: PropTypes.func,
   answer: PropTypes.shape({
@@ -185,7 +191,7 @@ const QuestionTitle = styled.h3`
   font-weight: 700;
   font-family: sans-serif;
 `;
-const Format = styled.div`
+const InputContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;

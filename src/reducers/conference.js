@@ -5,7 +5,8 @@ import {
   GET_CURRENT_CONFERENCE,
   GET_CURRENT_REGISTRANT,
   DELETE_CURRENT_REGISTRANT,
-  IS_SAVING
+  IS_SAVING,
+  DATA_CHANGED
 } from "../constants";
 
 const initialState = {
@@ -82,7 +83,8 @@ const initialState = {
   },
   userConferences: [],
   isLoading: false,
-  isSaving: false
+  isSaving: false,
+  dataChanged: true
 };
 
 const conferenceReducer = (
@@ -92,6 +94,7 @@ const conferenceReducer = (
     conferences,
     isLoading,
     isSaving,
+    dataChanged,
     userConferences,
     selectedConference,
     currentRegistration
@@ -139,6 +142,11 @@ const conferenceReducer = (
       return {
         ...state,
         isSaving: isSaving
+      };
+    case DATA_CHANGED:
+      return {
+        ...state,
+        dataChanged: dataChanged
       };
     default:
       return {

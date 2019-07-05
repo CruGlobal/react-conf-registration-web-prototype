@@ -6,7 +6,7 @@ import HelpComponent from "./Components/HelpComponent/HelpComponent";
 import AuthPage from "./Components/AuthComponent/AuthPage";
 import Dashboard from "./Components/DashboardComponent/Dashboard";
 import RegisterPage from "./Components/RegisterComponents/RegisterPage/RegisterPage";
-import RegisterReviewPage from "./Components/RegisterComponents/RegisterPage/RegisterReviewPage";
+import RegisterReviewPage from "./Components/RegisterComponents/RegisterReviewPage/RegisterReviewPage";
 
 import { applicationInit, userLogin } from "./actions";
 
@@ -66,7 +66,9 @@ class App extends Component {
 
         <Route
           path="/reviewRegistration/:confID"
-          component={props => <RegisterReviewPage {...props} />}
+          component={(props, history) => (
+            <RegisterReviewPage {...props} {...history} />
+          )}
         />
       </Switch>
     );

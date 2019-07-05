@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
-import { isSaving } from "../../../actions/";
+import { isSaving, dataChanged } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
 import Required from "../RegisterPage/Subcomponents/Required";
 const UUID = new UUIDController();
@@ -28,13 +28,14 @@ class NumberQuestion extends Component {
     });
     this.timer = setInterval(() => {
       if (this.state.valueChanged) {
-        this.getCurrentRegistration(
+        this.updateAnswer(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
         );
         this.props.IsSaving(true);
+        this.props.DataChanged(true);
       }
     }, 15000);
   }
@@ -71,7 +72,7 @@ class NumberQuestion extends Component {
     });
   };
 
-  getCurrentRegistration = (url, authToken) => {
+  updateAnswer = (url, authToken) => {
     this.setState({
       valueChanged: false
     });
@@ -122,6 +123,9 @@ const mapDispatchToProps = dispatch => {
   return {
     IsSaving: boolean => {
       dispatch(isSaving(boolean));
+    },
+    DataChanged: boolean => {
+      dispatch(dataChanged(boolean));
     }
   };
 };
