@@ -17,7 +17,33 @@ const RegisterNavbar = ({ userLogout, conference, history }) => {
       <NavbarHeader />
       <NavbarSection>
         <TitleContainer>
-          <ConferenceTitle>{conference.name}</ConferenceTitle>
+          <NavbarLeft>
+            <ConferenceTitle>{conference.name}</ConferenceTitle>
+            <DetailContainer>
+              <ConfDataContainer>
+                <Icon icon={faCalendarAlt} size="xs" />
+                <DetailText>
+                  {FORMATER.dateFormater(
+                    conference.eventStartTime,
+                    conference.eventTimezone,
+                    "ddd, MMM D, YYYY h:mma "
+                  )}{" "}
+                  -{" "}
+                  {FORMATER.dateFormater(
+                    conference.eventEndTime,
+                    conference.eventTimezone,
+                    "ddd, MMM D, YYYY h:mma"
+                  )}
+                </DetailText>
+              </ConfDataContainer>
+              {conference.locationName ? (
+                <ConfDataContainer>
+                  <Icon icon={faMapMarkerAlt} size="xs" />
+                  <DetailText>{conference.locationName}</DetailText>
+                </ConfDataContainer>
+              ) : null}
+            </DetailContainer>
+          </NavbarLeft>
           <SignoutButton
             onClick={() => {
               userLogout();
@@ -27,30 +53,6 @@ const RegisterNavbar = ({ userLogout, conference, history }) => {
             Sign Out
           </SignoutButton>
         </TitleContainer>
-        <DetailContainer>
-          <ConfDataContainer>
-            <Icon icon={faCalendarAlt} size="xs" />
-            <DetailText>
-              {FORMATER.dateFormater(
-                conference.eventStartTime,
-                conference.eventTimezone,
-                "ddd, MMM D, YYYY h:mma "
-              )}{" "}
-              -{" "}
-              {FORMATER.dateFormater(
-                conference.eventEndTime,
-                conference.eventTimezone,
-                "ddd, MMM D, YYYY h:mma"
-              )}
-            </DetailText>
-          </ConfDataContainer>
-          {conference.locationName ? (
-            <ConfDataContainer>
-              <Icon icon={faMapMarkerAlt} size="xs" />
-              <DetailText>{conference.locationName}</DetailText>
-            </ConfDataContainer>
-          ) : null}
-        </DetailContainer>
       </NavbarSection>
     </NavbarContainer>
   );
@@ -79,7 +81,12 @@ const NavbarContainer = styled.div`
   width: 100%;
   background: #156692;
 `;
-
+const NavbarLeft = styled.div`
+  width: 510px;
+  height: 82px;
+  padding: 0px 15px;
+  font-family: sans-serif;
+`;
 const NavbarHeader = styled.header`
   background: #3494c7;
   border-bottom: 4px solid #2b86b7;
@@ -129,6 +136,8 @@ const SignoutButton = styled.button`
   border-color: #2f84cd;
   text-transform: uppercase;
   color: #fff;
+  width: 90px;
+  height: 40px;
   border: 1px solid transparent;
   white-space: nowrap;
   padding: 6px 12px;
@@ -139,6 +148,12 @@ const SignoutButton = styled.button`
   :hover {
     background-color: #337ab7;
     border-color: #2969a0;
+  }
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+  @media screen and (min-width: 768px) {
+    display: 83.33333333%;
   }
 `;
 
