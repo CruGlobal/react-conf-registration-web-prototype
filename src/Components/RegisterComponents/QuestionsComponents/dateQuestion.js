@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
-import { isSaving } from "../../../actions/";
+import { isSaving, dataChanged } from "../../../actions/";
 import Calendar from "react-calendar";
 import moment from "moment";
 import Modal from "react-bootstrap/Modal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import UUIDController from "../../../Controllers/uuidcontroller";
+import Required from "../RegisterPage/Subcomponents/Required";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
@@ -32,13 +33,14 @@ class DateQuestion extends Component {
     });
     this.timer = setInterval(() => {
       if (this.state.valueChanged) {
-        this.getCurrentRegistration(
+        this.updateAnswer(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
         );
         this.props.IsSaving(true);
+        this.props.DataChanged(true);
       }
     }, 15000);
   }
@@ -82,7 +84,7 @@ class DateQuestion extends Component {
     });
   }
 
-  getCurrentRegistration = (url, authToken) => {
+  updateAnswer = (url, authToken) => {
     this.setState({
       valueChanged: false
     });
@@ -115,7 +117,10 @@ class DateQuestion extends Component {
             <Calendar onChange={this.onChange} value={this.state.date} />
           </ModalBody>
         </Modal>
-        <Prompt>{this.props.blockData.title}</Prompt>
+        <TitleContainer>
+          <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
+          <Required isRequired={this.props.blockData.required} />
+        </TitleContainer>
         <InputContainer onClick={() => this.changeShow(true)}>
           <CalendarButton>
             <FontAwesomeIcon icon={faCalendarAlt} />
@@ -140,6 +145,9 @@ const mapDispatchToProps = dispatch => {
   return {
     IsSaving: boolean => {
       dispatch(isSaving(boolean));
+    },
+    DataChanged: boolean => {
+      dispatch(dataChanged(boolean));
     }
   };
 };
@@ -156,6 +164,11 @@ const ModalBody = styled(Modal.Body)`
 const QuestionContainer = styled.div`
   width: 100%;
   margin-bottom: 15px;
+`;
+
+const TitleContainer = styled.span`
+  display: flex;
+  flex-direction: row;
 `;
 
 const CalendarButton = styled.span`
@@ -192,7 +205,7 @@ const InputContainer = styled.div`
   justify-content: center;
 `;
 
-const Prompt = styled.p`
+const QuestionTitle = styled.p`
   font-size: 14px;
   color: #333;
   font-weight: 700;

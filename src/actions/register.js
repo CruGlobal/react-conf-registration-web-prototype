@@ -2,7 +2,8 @@ import {
   IS_LOADING,
   IS_SAVING,
   GET_CURRENT_CONFERENCE,
-  GET_CURRENT_REGISTRANT
+  GET_CURRENT_REGISTRANT,
+  DATA_CHANGED
 } from "../constants";
 import APIController from "../Controllers/apicontroller";
 
@@ -62,11 +63,22 @@ const setCurrentRegistrant = async (dispatch, confID, authToken) => {
     )
       .then(res => res.json())
       .then(response => {
-        dispatch({
-          type: GET_CURRENT_REGISTRANT,
-          currentRegistration: response,
-          isLoading: false
-        });
+        if (response.error) {
+          API.createNewRegistration(
+            `${API.BASE_URL}${API.CONFERENCES}${confID}/registrations}`,
+            authToken
+          );
+        } else {
+          dispatch({
+            type: GET_CURRENT_REGISTRANT,
+            currentRegistration: response,
+            isLoading: false
+          });
+          dispatch({
+            type: DATA_CHANGED,
+            dataChanged: false
+          });
+        }
       });
   } catch (err) {
     dispatch({
@@ -183,6 +195,15 @@ export const isSaving = boolean => {
     dispatch({
       type: IS_SAVING,
       isSaving: boolean
+    });
+  };
+};
+
+export const dataChanged = boolean => {
+  return dispatch => {
+    dispatch({
+      type: DATA_CHANGED,
+      dataChanged: boolean
     });
   };
 };

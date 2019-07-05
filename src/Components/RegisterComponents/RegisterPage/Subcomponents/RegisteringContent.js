@@ -17,9 +17,6 @@ import TextQuestion from "../../QuestionsComponents/textQuestion";
 import YearQuestion from "../../QuestionsComponents/yearQuestion";
 import NumberQuestion from "../../QuestionsComponents/NumberQuestion";
 
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 const RegisteringContent = ({
   pageData,
   match,
@@ -38,10 +35,8 @@ const RegisteringContent = ({
   }, [conference.name]);
 
   useEffect(() => {
-    if (currentData && pageData) {
-      changeHasLoaded(true);
-    }
-  }, [currentData, pageData]);
+    changeHasLoaded(true);
+  }, [currentData, hasLoaded, pageData]);
 
   const filterCurrentRegistrant = currentData => {
     const data = currentData.registrants.filter(
@@ -52,142 +47,144 @@ const RegisteringContent = ({
   };
 
   const renderAnswerBlocks = (blocks, currentData) => {
-    const currentUser = filterCurrentRegistrant(currentData);
+    if (currentData.primaryRegistrantId !== "") {
+      const currentUser = filterCurrentRegistrant(currentData);
 
-    const answerValue = currentUser[0].answers.filter(
-      answer => answer.blockId === blocks.id
-    );
+      const answerValue = currentUser[0].answers.filter(
+        answer => answer.blockId === blocks.id
+      );
 
-    switch (blocks.type) {
-      case "nameQuestion":
-        return (
-          <NameQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "emailQuestion":
-        return (
-          <EmailQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
+      switch (blocks.type) {
+        case "nameQuestion":
+          return (
+            <NameQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "emailQuestion":
+          return (
+            <EmailQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
 
-      case "addressQuestion":
-        return (
-          <AddressQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "campusQuestion":
-        return (
-          <CampusQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "checkboxQuestion":
-        return (
-          <CheckboxQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "dateQuestion":
-        return (
-          <DateQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "genderQuestion":
-        return (
-          <GenderQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "numberQuestion":
-        return (
-          <NumberQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "phoneQuestion":
-        return (
-          <PhoneQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "radioQuestion":
-        return (
-          <RadioQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "selectQuestion":
-        return (
-          <SelectQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "textareaQuestion":
-        return (
-          <TextAreaQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "textQuestion":
-        return (
-          <TextQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      case "yearInSchoolQuestion":
-        return (
-          <YearQuestion
-            key={blocks.id}
-            blockData={blocks}
-            answer={answerValue[0]}
-            currentUser={currentUser}
-          />
-        );
-      default:
-        return <div />;
+        case "addressQuestion":
+          return (
+            <AddressQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "campusQuestion":
+          return (
+            <CampusQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "checkboxQuestion":
+          return (
+            <CheckboxQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "dateQuestion":
+          return (
+            <DateQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "genderQuestion":
+          return (
+            <GenderQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "numberQuestion":
+          return (
+            <NumberQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "phoneQuestion":
+          return (
+            <PhoneQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "radioQuestion":
+          return (
+            <RadioQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "selectQuestion":
+          return (
+            <SelectQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "textareaQuestion":
+          return (
+            <TextAreaQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "textQuestion":
+          return (
+            <TextQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        case "yearInSchoolQuestion":
+          return (
+            <YearQuestion
+              key={blocks.id}
+              blockData={blocks}
+              answer={answerValue[0]}
+              currentUser={currentUser}
+            />
+          );
+        default:
+          return <div />;
+      }
     }
   };
 
@@ -196,31 +193,19 @@ const RegisteringContent = ({
       <TitleContainer>
         <WelcomeTitle>{pageData.title}</WelcomeTitle>
       </TitleContainer>
-      {hasLoaded ? (
-        <>
-          {pageData.blocks.map(answerBlock =>
-            renderAnswerBlocks(answerBlock, currentData)
-          )}
-          <ButtonContainer>
-            <BackButton
-              history={history}
-              match={match}
-              conference={conference}
-            />
-            <ContinueButton
-              history={history}
-              match={match}
-              conference={conference}
-            />
-          </ButtonContainer>
-        </>
-      ) : (
-        <LoadingContainer>
-          {" "}
-          <h3>Loading...</h3>
-          <FontAwesomeIcon icon={faSpinner} spin size='3x' />
-        </LoadingContainer>
-      )}
+      <form>
+        {pageData.blocks.map(answerBlock =>
+          renderAnswerBlocks(answerBlock, currentData)
+        )}
+      </form>
+      <ButtonContainer>
+        <BackButton history={history} match={match} conference={conference} />
+        <ContinueButton
+          history={history}
+          match={match}
+          conference={conference}
+        />
+      </ButtonContainer>
     </div>
   ) : null;
 };
@@ -243,14 +228,4 @@ const TitleContainer = styled.div`
   border-bottom: 2px solid #e9e9e9;
   padding-bottom: 4px;
   margin-bottom: 22px;
-`;
-
-const LoadingContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-  > h3 {
-    margin-right: 10px;
-  }
 `;

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
-import { isSaving } from "../../../actions/";
+import { isSaving, dataChanged } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
+import Required from "../RegisterPage/Subcomponents/Required";
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
@@ -26,13 +27,14 @@ class InputCheckBoxQuestions extends Component {
     });
     this.timer = setInterval(() => {
       if (this.state.valueChanged) {
-        this.getCurrentRegistration(
+        this.updateAnswer(
           `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
             this.state.answerBlock.id
           }`,
           localStorage.getItem("crsToken")
         );
         this.props.IsSaving(true);
+        this.props.DataChanged(true);
       }
     }, 15000);
   }
@@ -80,7 +82,7 @@ class InputCheckBoxQuestions extends Component {
     });
   };
 
-  getCurrentRegistration = (url, authToken) => {
+  updateAnswer = (url, authToken) => {
     this.setState({
       valueChanged: false
     });
@@ -105,7 +107,10 @@ class InputCheckBoxQuestions extends Component {
   render() {
     return (
       <QuestionContainer>
-        <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
+        <TitleContainer>
+          <QuestionTitle>{this.props.blockData.title}</QuestionTitle>
+          <Required isRequired={this.props.blockData.required} />
+        </TitleContainer>
         <GridContainer>
           {this.props.blockData.content.choices.map(choice => {
             return (
@@ -134,6 +139,9 @@ const mapDispatchToProps = dispatch => {
   return {
     IsSaving: boolean => {
       dispatch(isSaving(boolean));
+    },
+    DataChanged: boolean => {
+      dispatch(dataChanged(boolean));
     }
   };
 };
@@ -150,6 +158,12 @@ const GridContainer = styled.div`
   grid-template-columns: repeat(1, 1fr);
   font-size: 14px;
 `;
+
+const TitleContainer = styled.span`
+  display: flex;
+  flex-direction: row;
+`;
+
 const QuestionTitle = styled.h6`
   font-size: 14px;
   font-weight: 700;
