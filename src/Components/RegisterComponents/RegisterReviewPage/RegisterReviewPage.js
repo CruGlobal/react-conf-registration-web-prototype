@@ -77,9 +77,13 @@ const RegisterReviewPage = ({
     });
   };
 
-  //I want to only run this when it's finished loading from the API
   const reviewTable = generateReview(
-    selectedConference.registrationPages[0].blocks, //TODO: map through all reg pages
+    [].concat.apply(
+      [],
+      selectedConference.registrationPages.map(curr => {
+        return curr.blocks;
+      })
+    ),
     currentRegistration.registrants[0].answers
   );
 
@@ -92,33 +96,37 @@ const RegisterReviewPage = ({
         switch (item.type) {
           case "nameQuestion":
             return (
-              <Row key={item ? item.id : count}>
-                <CellTitle>{item ? item.q : null}</CellTitle>
+              <Row key={item.id}>
+                <CellTitle>{item.q}</CellTitle>
                 <NameCell>
-                  {item
-                    ? item.a.map(answer => <p key={answer}>{answer} &nbsp;</p>)
-                    : null}
+                  {item.a.map(answer => {
+                    return answer ? (
+                      <p key={"a" + answer}>{answer} &nbsp;</p>
+                    ) : null;
+                  })}
                 </NameCell>
               </Row>
             );
           case "addressQuestion":
             return (
-              <Row key={item ? item.id : count}>
-                <CellTitle>{item ? item.q : null}</CellTitle>
+              <Row key={item.id}>
+                <CellTitle>{item.q}</CellTitle>
                 <AddressCell>
-                  {item
-                    ? item.a.map(answer => (
-                        <AddressContent key={answer}>{answer}</AddressContent>
-                      ))
-                    : null}
+                  {item.a.map(answer => {
+                    return answer ? (
+                      <AddressContent key={"a" + answer}>
+                        {answer}
+                      </AddressContent>
+                    ) : null;
+                  })}
                 </AddressCell>
               </Row>
             );
           default:
             return (
-              <Row key={item ? item.id : count}>
-                <CellTitle>{item ? item.q : null}</CellTitle>
-                <AnswerCell>{item ? item.a : null}</AnswerCell>
+              <Row key={item.id}>
+                <CellTitle>{item.q}</CellTitle>
+                <AnswerCell>{item.a}</AnswerCell>
               </Row>
             );
         }
@@ -165,13 +173,13 @@ const RegisterReviewPage = ({
                           <FontAwesomeIcon
                             onClick={() => changeShowAnswers(false)}
                             icon={faMinusSquare}
-                            size="sm"
+                            size='sm'
                           />
                         ) : (
                           <FontAwesomeIcon
                             onClick={() => changeShowAnswers(true)}
                             icon={faPlusSquare}
-                            size="sm"
+                            size='sm'
                           />
                         )}
                       </ShowCell>
