@@ -128,11 +128,17 @@ const JumbotronContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 425px) {
+    margin-top: 10px;
+  }
 `;
 
 const ContentContainer = styled.div`
-  width: 100%;
+  width: 1170px;
   height: auto;
+  @media screen and (max-width: 1170px) {
+    width: 100%;
+  }
 `;
 
 const JumbotronTitle = styled.h3`
@@ -141,6 +147,12 @@ const JumbotronTitle = styled.h3`
   color: white;
   text-shadow: 2px 2px black;
   padding-left: 22px;
+  @media screen and (max-width: 768px) {
+    font-size: 1.6em;
+  }
+  @media screen and (max-width: 425px) {
+    padding-left: 11px;
+  }
 `;
 
 const InputContainer = styled.div`
@@ -150,6 +162,9 @@ const InputContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0px 22px;
+  @media screen and (max-width: 425px) {
+    padding: 0px 11px;
+  }
 `;
 
 const EventInput = styled.input`

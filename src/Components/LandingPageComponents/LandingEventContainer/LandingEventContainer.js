@@ -81,7 +81,7 @@ export default connect(
 )(LandingEventContainer);
 
 const Container = styled.div`
-  width: 100%;
+  width: 1170px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -89,6 +89,12 @@ const Container = styled.div`
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   padding: 0px 22px;
+  @media screen and (max-width: 1170px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 425px) {
+    padding: 11px;
+  }
 `;
 
 const CardContainer = styled.div`

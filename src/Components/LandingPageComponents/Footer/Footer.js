@@ -29,6 +29,9 @@ const FooterContainer = styled.footer`
   width: 100%;
   padding: 22px;
   border-top: 1px solid #c7ecff;
+  @media screen and (max-width: 425px) {
+    padding: 11px;
+  }
 `;
 
 const FootContent = styled.div`
