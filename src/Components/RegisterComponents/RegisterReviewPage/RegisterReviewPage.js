@@ -28,6 +28,8 @@ const RegisterReviewPage = ({
   } - Review Registration | Event Registration Tool`;
 
   const [showAnswers, changeShowAnswers] = useState(false);
+  const [showCosts, changeShowCosts] = useState(false);
+
   //if not logged in, history.push them to / to the homepage
   useEffect(() => {
     if (crsToken && dataChanged) {
@@ -87,12 +89,25 @@ const RegisterReviewPage = ({
     currentRegistration.registrants[0].answers
   );
 
-  const CreateAnswerTable = reviewTable => {
+  const CreateCostTable = table => {
     let count = 0;
-    return reviewTable.map(item => {
+    return table.map(item => {
+      count++;
+      return (
+        <Row key={"row-" + count}>
+          <CellTitle>> Registartion</CellTitle>
+          <CostCell>{"$" + item.toFixed(2)}</CostCell>
+        </Row>
+      );
+    });
+  };
+
+  const CreateAnswerTable = table => {
+    let count = 0;
+    return table.map(item => {
       count += 1;
 
-      if (item && item.a instanceof Object) {
+      if (item.a instanceof Object) {
         switch (item.type) {
           case "nameQuestion":
             return (
@@ -207,6 +222,44 @@ const RegisterReviewPage = ({
             <WelcomeTitle>Summary</WelcomeTitle>
           </TitleContainer>
           <p>A breakdown of the costs associated with your registration.</p>
+          <Table>
+            <Thead>
+              <RegistrantRow>
+                <Chead>Registrant</Chead>
+              </RegistrantRow>
+              {currentRegistration
+                ? currentRegistration.registrants.map(registrant => {
+                    return (
+                      <Row key={registrant.id}>
+                        <ShowCell>
+                          {showCosts ? (
+                            <FontAwesomeIcon
+                              onClick={() => changeShowCosts(false)}
+                              icon={faMinusSquare}
+                              size='sm'
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              onClick={() => changeShowCosts(true)}
+                              icon={faPlusSquare}
+                              size='sm'
+                            />
+                          )}
+                        </ShowCell>
+                        <Cell>
+                          {registrant.firstName} {registrant.lastName}
+                        </Cell>
+                      </Row>
+                    );
+                  })
+                : null}
+            </Thead>
+            {showCosts ? (
+              <Tbody>
+                {CreateCostTable([currentRegistration.calculatedTotalDue])}
+              </Tbody>
+            ) : null}
+          </Table>
           <ButtonContainer>
             <ConfirmButton>Confirm</ConfirmButton>
           </ButtonContainer>
@@ -396,3 +449,5 @@ const EditCell = styled(Cell)`
   width: 100px;
   margin-left: auto;
 `;
+
+const CostCell = styled(Cell)``;
