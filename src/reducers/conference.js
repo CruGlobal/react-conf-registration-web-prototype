@@ -84,7 +84,8 @@ const initialState = {
   userConferences: [],
   isLoading: false,
   isSaving: false,
-  dataChanged: true
+  dataChanged: true,
+  staffMembers: []
 };
 
 const conferenceReducer = (

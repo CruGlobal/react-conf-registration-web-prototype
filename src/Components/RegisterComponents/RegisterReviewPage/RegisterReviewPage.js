@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
 import { selectConference, GetCurrentRegistrant } from "../../../actions";
+import PaymentMenu from "./Subcomponents/PaymentMenu";
 
 const RegisterReviewPage = ({
   LoginState,
@@ -260,6 +261,10 @@ const RegisterReviewPage = ({
               </Tbody>
             ) : null}
           </Table>
+          <TitleContainer>
+            <WelcomeTitle>Payment</WelcomeTitle>
+          </TitleContainer>
+          <PaymentMenu />
           <ButtonContainer>
             <ConfirmButton>Confirm</ConfirmButton>
           </ButtonContainer>
