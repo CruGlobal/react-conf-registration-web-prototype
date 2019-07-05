@@ -5,6 +5,8 @@ import BackgroundImg from "../../../img/rough_diagonal.png";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
 import { selectConference, GetCurrentRegistrant } from "../../../actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusSquare, faMinusSquare } from "@fortawesome/free-solid-svg-icons";
 
 const RegisterReviewPage = ({
   LoginState,
@@ -32,11 +34,12 @@ const RegisterReviewPage = ({
   ]);
 
   //I want to only run this when it's finished loading from the API
-  const reviewTable = generateReview(
-    selectedConference.registrationPages[0].blocks, //TODO: map through all reg pages
+  const reviewTable = componentDidMount(
+    selectedConference.registrationPages[0].blocks,
     currentRegistration.registrants[0].answers
   );
-  console.log(reviewTable);
+
+  const registrants = ["Cole Gibbs"];
 
   return (
     <PageContainer>
@@ -52,13 +55,33 @@ const RegisterReviewPage = ({
             </Row>
           </Thead>
           <Tbody>
-            {reviewTable.map(item => {
-              return (
-                <Row>
-                  <Cell>{item ? item.q : null}</Cell>
-                  <Cell>{item ? JSON.stringify(item.a) : null}</Cell>
-                </Row>
-              );
+            {registrants.map(currRegistrant => {
+              return currRegistrant ? (
+                <>
+                  <Row>
+                    <Cell1>
+                      <Icon icon={faPlusSquare} size='xs' />
+                    </Cell1>
+                    <CellR>{currRegistrant}</CellR>
+                    <Cell3 />
+                    <Cell4 />
+                  </Row>
+                  {reviewTable.map(item => {
+                    return item && item.id ? (
+                      <Row key={"r-" + item.id}>
+                        <Cell1 />
+                        <Cell2 key={"c-q-" + item.id}>{item.q}</Cell2>
+                        <Cell3 key={"c-a-" + item.id}>
+                          {typeof item.a === "object"
+                            ? JSON.stringify(item.a)
+                            : item.a}
+                        </Cell3>
+                        <Cell4 />
+                      </Row>
+                    ) : null;
+                  })}
+                </>
+              ) : null;
             })}
           </Tbody>
         </Table>
@@ -81,7 +104,8 @@ const generateReview = (questions, answers) => {
     if (temp) {
       return {
         q: question.title,
-        a: temp.value
+        a: temp.value,
+        id: temp.blockId
       };
     }
     return null;
@@ -95,6 +119,12 @@ const mapStateToProps = state => {
     currentRegistration: state.conferenceReducer.currentRegistration,
     crsToken: state.authenticationReducer.crsToken
   };
+};
+
+const componentDidMount = (q, a) => {
+  const reviewTable = generateReview(q, a);
+  console.log(reviewTable);
+  return reviewTable;
 };
 
 const mapDispatchToProps = dispatch => {
@@ -172,8 +202,48 @@ const Thead = styled.div``;
 
 const Tbody = styled.div``;
 
-const Chead = styled.div``;
+const Chead = styled.div`
+  font-size: 14px;
+  font-weight: bold;
 
-const Row = styled.div``;
+  border-bottom: 2px solid #e9e9e9;
+  padding-bottom: 4px;
+  padding-left: 10%;
+  padding-right: 10%;
+  width: 100%;
+`;
 
-const Cell = styled.div``;
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  font-size: 14px;
+  padding: 8px;
+`;
+
+const Cell1 = styled.div`
+  width: 10%;
+`;
+
+const Cell2 = styled.div`
+  width: 40%;
+  font-weight: bold;
+`;
+
+const CellR = styled.div`
+  width: 40%;
+`;
+
+const Cell3 = styled.div`
+  width: 30%;
+  word-wrap: break-word;
+`;
+
+const Cell4 = styled.div`
+  width: 20%;
+`;
+
+const Icon = styled(FontAwesomeIcon)`
+  margin-right: 5px;
+  color: #000;
+`;
