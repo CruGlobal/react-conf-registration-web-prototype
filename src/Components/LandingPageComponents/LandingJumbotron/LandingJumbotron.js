@@ -35,9 +35,9 @@ const LandingJumbotron = ({ setConferences, conferences }) => {
         <form onSubmit={e => e.preventDefault()}>
           <InputContainer>
             <EventInput
-              type='text'
-              name='eventInput'
-              placeholder='Event name'
+              type="text"
+              name="eventInput"
+              placeholder="Event name"
               value={searchQuery}
               onChange={e => {
                 setSearchQuery(e.target.value);
@@ -51,7 +51,7 @@ const LandingJumbotron = ({ setConferences, conferences }) => {
             <LocationInput>
               {conferences.length > 0 ? (
                 <>
-                  <option value=''>-Any Location-</option>
+                  <option value="">-Any Location-</option>
                   {_.map(conferences, conference => {
                     if (conference.locationName) {
                       return (
@@ -68,20 +68,20 @@ const LandingJumbotron = ({ setConferences, conferences }) => {
                   })}
                 </>
               ) : (
-                <option value=''>-Any Location-</option>
+                <option value="">-Any Location-</option>
               )}
             </LocationInput>
             {/* Need to Filter Based on Search results start times */}
             <DateInput>
               <option>-Any Date-</option>
-              <option value=''>This Week</option>
-              <option value=''>This Month</option>
-              <option value=''>Next Month</option>
-              <option value=''>Greater Than Next Month</option>
+              <option value="">This Week</option>
+              <option value="">This Month</option>
+              <option value="">Next Month</option>
+              <option value="">Greater Than Next Month</option>
             </DateInput>
             <SearchButton
-              data-testid='search-button'
-              type='button'
+              data-testid="search-button"
+              type="button"
               onClick={() => {
                 if (searchQuery.length >= 2) {
                   setConferences(`${searchQuery}`);
@@ -128,17 +128,11 @@ const JumbotronContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  @media screen and (max-width: 425px) {
-    margin-top: 10px;
-  }
 `;
 
 const ContentContainer = styled.div`
   width: 1170px;
   height: auto;
-  @media screen and (max-width: 1170px) {
-    width: 100%;
-  }
 `;
 
 const JumbotronTitle = styled.h3`
@@ -146,58 +140,36 @@ const JumbotronTitle = styled.h3`
   font-weight: bold;
   color: white;
   text-shadow: 2px 2px black;
-  padding-left: 22px;
-  @media screen and (max-width: 768px) {
-    font-size: 1.6em;
-  }
-  @media screen and (max-width: 425px) {
-    padding-left: 11px;
-  }
 `;
 
 const InputContainer = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  padding: 0px 22px;
-  @media screen and (max-width: 425px) {
-    padding: 0px 11px;
-  }
 `;
 
 const EventInput = styled.input`
-  width: 46%;
+  width: 470px;
   height: 40px;
   border-radius: 4px;
   border: 1px solid #ccc;
   font-size: 120%;
   padding-left: 10px;
-  @media screen and (max-width: 767px) {
-    width: 100%;
-  }
 `;
 
 const LocationInput = styled.select`
-  width: 27%;
+  width: 300px;
   height: 40px;
   border-radius: 4px;
   border: 1px solid #ccc;
-
-  @media screen and (max-width: 767px) {
-    display: none;
-  }
 `;
 
 const DateInput = styled.select`
-  width: 27%;
+  width: 300px;
   height: 40px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  @media screen and (max-width: 767px) {
-    display: none;
-  }
 `;
 
 const SearchButton = styled.button`

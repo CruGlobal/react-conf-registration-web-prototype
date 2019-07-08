@@ -22,7 +22,6 @@ const Navbar = ({ profile, loginState, userLogout }) => {
     border: 1px solid transparent;
     border-color: #ccc;
     background: #ffffff;
-    white-space: nowrap;
     :hover {
       cursor: pointer;
       background-color: #e6e5e5;
@@ -34,16 +33,14 @@ const Navbar = ({ profile, loginState, userLogout }) => {
   return (
     <NavBarContainer>
       <NavBar>
-        <MainHeadingContainer to='/'>
-          <NavBarTitle>
-            <FontAwesomeIcon icon={faUsers} />
-            &nbsp;Event Registration Tool
-          </NavBarTitle>
+        <MainHeadingContainer to="/">
+          <FontAwesomeIcon icon={faUsers} size="3x" />
+          <NavBarTitle>Event Registration Tool</NavBarTitle>
         </MainHeadingContainer>
         <ButtonContainer>
           {loginState ? (
             <>
-              <DashboardButton data-testid='signed-in-title'>
+              <DashboardButton data-testid="signed-in-title">
                 Hello <strong>{profile.firstName}</strong>
               </DashboardButton>
               <StyledDropDownButton userLogout={userLogout} />
@@ -51,7 +48,7 @@ const Navbar = ({ profile, loginState, userLogout }) => {
           ) : (
             <>
               <DashboardButton
-                data-testid='unsigned-in-title'
+                data-testid="unsigned-in-title"
                 onClick={() => changeShow(true)}
               >
                 EVENT DASHBOARD
@@ -95,27 +92,19 @@ const NavBarContainer = styled.header`
 
 const NavBar = styled.nav`
   width: 1170px;
-  height: flex;
+  height: 75px;
   background: #3494c7;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 5px;
-  padding: 26px 22px 0px 22px;
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  }
-  @media screen and (max-width: 425px) {
-    padding: 26px 11px 0px 11px;
-  }
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: right;
-  margin-bottom: 0px;
+  align-items: center;
+  margin-bottom: 15px;
 `;
 
 const StyledDropDownButton = styled(DropDownButton)`
@@ -129,8 +118,7 @@ const StyledDropDownButton = styled(DropDownButton)`
 const MainHeadingContainer = styled(Link)`
   display: flex;
   flex-direction: row;
-  align-items: left;
-  width: 100%;
+  align-items: center;
   color: #ffffff;
   :hover {
     color: #ffffff;
@@ -141,8 +129,5 @@ const MainHeadingContainer = styled(Link)`
 const NavBarTitle = styled.h3`
   font-size: 36px;
   text-decoration: none;
-  margin-bottom: 5px;
-  @media screen and (max-width: 768px) {
-    font-size: 22px;
-  }
+  margin: 0 10px;
 `;

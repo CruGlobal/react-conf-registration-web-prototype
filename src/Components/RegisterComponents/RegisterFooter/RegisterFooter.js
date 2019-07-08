@@ -25,7 +25,6 @@ const FooterContainer = styled.div`
   padding: 15px;
   margin: 0 auto;
   font-size: 14px;
-  text-align: center;
   > p a {
     color: #337ab7;
     :hover {

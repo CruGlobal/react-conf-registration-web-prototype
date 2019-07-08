@@ -9,14 +9,14 @@ const Footer = () => {
     <FooterContainer>
       <FootContent>
         <PrivacyContainer>
-          <LinkContent href='https://www.cru.org/us/en/about/privacy.html'>
+          <LinkContent href="https://www.cru.org/us/en/about/privacy.html">
             Privacy Policy
           </LinkContent>
-          <LinkComponentRoute to='/help'>Help</LinkComponentRoute>
+          <LinkComponentRoute to="/help">Help</LinkComponentRoute>
         </PrivacyContainer>
-        <span data-testid='copyright-title'>
+        <span data-testid="copyright-title">
           &copy; {currentYear} |{" "}
-          <LinkContent href='http://www.cru.org'>Cru</LinkContent>
+          <LinkContent href="http://www.cru.org">Cru</LinkContent>
         </span>
       </FootContent>
     </FooterContainer>
@@ -29,9 +29,6 @@ const FooterContainer = styled.footer`
   width: 100%;
   padding: 22px;
   border-top: 1px solid #c7ecff;
-  @media screen and (max-width: 425px) {
-    padding: 11px;
-  }
 `;
 
 const FootContent = styled.div`
@@ -41,9 +38,6 @@ const FootContent = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  @media screen and (max-width: 1200px) {
-    width: 100%;
-  }
 `;
 
 const PrivacyContainer = styled.div`
