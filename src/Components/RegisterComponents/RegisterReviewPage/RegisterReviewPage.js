@@ -339,6 +339,7 @@ const RegistrationCheckContent = styled.p`
   color: #333333;
   margin: 0px 0px 10px;
 `;
+
 const TitleContainer = styled.div`
   border-bottom: 2px solid #e9e9e9;
   padding-bottom: 4px;
@@ -346,6 +347,7 @@ const TitleContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
+  margin-top: 20px;
   width: 100%;
   display: flex;
   justify-content: center;

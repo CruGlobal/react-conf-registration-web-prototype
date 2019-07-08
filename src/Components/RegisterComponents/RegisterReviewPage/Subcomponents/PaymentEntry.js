@@ -1,27 +1,36 @@
 import React from "react";
 import styled from "@emotion/styled";
-import PaymentEntry from "./PaymentEntry";
 
-export default class PaymentMenu extends React.Component {
+export default class PaymentEntry extends React.Component {
   constructor(props) {
     super(props);
-    //TODO state needs to be restructured
     this.state = {
-      paymentType: "Card"
+      valueChanged: false,
+      accountType: "",
+      staffSearch: "",
+      accountNumber: "",
+
+      account: {
+        bu: "",
+        ou: "",
+        dep: "",
+        id: ""
+      }
     };
   }
 
-  //TODO this handle change is trash and needs to be fixed
   handleChange = event => {
-    this.setState({
-      ...this.state,
-      paymentType: event.target.value
-    });
+    if (event.target.name === "accountSelect") {
+      this.setState({
+        ...this.state,
+        accountType: event.target.value
+      });
+    }
   };
 
-  paymentEntry = paymentType => {
+  render() {
     const total = 999; //TODO this is a placeholder for an amount from the API
-    switch (paymentType) {
+    switch (this.props.paymentType) {
       case "Check": {
         return (
           <>
@@ -138,127 +147,8 @@ export default class PaymentMenu extends React.Component {
       default:
         return <p>error</p>;
     }
-  };
-
-  render() {
-    return (
-      <>
-        <QuestionContainer>
-          <TitleContainer>
-            <QuestionTitle>Payment Method</QuestionTitle>
-          </TitleContainer>
-          <Options>
-            <Choice>
-              <Selector
-                type='radio'
-                id='Card'
-                name='paymentType'
-                value='Card'
-                checked={this.state.paymentType === "Card"}
-                onChange={this.handleChange}
-              />
-              <label htmlFor='Card'>Credit Card</label>
-              <div className='check' />
-            </Choice>
-
-            <Choice>
-              <Selector
-                type='radio'
-                id='Check'
-                name='paymentType'
-                value='Check'
-                checked={this.state.paymentType === "Check"}
-                onChange={this.handleChange}
-              />
-              <label htmlFor='Check'>Check</label>
-              <div className='check' />
-            </Choice>
-
-            <Choice>
-              <Selector
-                type='radio'
-                id='Transfer'
-                name='paymentType'
-                value='Transfer'
-                checked={this.state.paymentType === "Transfer"}
-                onChange={this.handleChange}
-              />
-              <label htmlFor='Transfer'>
-                Cru Staff / Ministry Account Transfer
-              </label>
-              <div className='check' />
-            </Choice>
-
-            <Choice>
-              <Selector
-                type='radio'
-                id='Scholarship'
-                name='paymentType'
-                value='Scholarship'
-                checked={this.state.paymentType === "Scholarship"}
-                onChange={this.handleChange}
-              />
-              <label htmlFor='Scholarship'>Scholarship</label>
-              <div className='check' />
-            </Choice>
-
-            <Choice>
-              <Selector
-                type='radio'
-                id='OnSite'
-                name='paymentType'
-                value='OnSite'
-                checked={this.state.paymentType === "OnSite"}
-                onChange={this.handleChange}
-              />
-              <label htmlFor='OnSite'>Pay on site</label>
-              <div className='check' />
-            </Choice>
-          </Options>
-        </QuestionContainer>
-        <PaymentEntry paymentType={this.state.paymentType} />
-      </>
-    );
   }
 }
-
-const QuestionContainer = styled.div`
-  background: white;
-  display: flex;
-  flex-direciton: row;
-  font-family: sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 15px;
-`;
-
-const TitleContainer = styled.span`
-  width: 40%;
-  text-align: right;
-  margin-right: 20px;
-`;
-
-const QuestionTitle = styled.div`
-  margin-bottom: 5px;
-  width: 100%;
-`;
-
-const Options = styled.ul`
-  list-style: none;
-  margin-bottom: 1em;
-  padding: 0px;
-  width: 100%;
-`;
-
-const Choice = styled.li`
-  padding-left: 20px;
-  margin-left: -4px;
-`;
-
-const Selector = styled.input`
-  margin-right: 4px;
-  margin-left: -15px;
-`;
 
 const CheckTitle = styled.div`
   font-size: 18px;
@@ -268,11 +158,6 @@ const CheckText = styled.p`
   font-size: 14px;
   margin: 0;
   padding-left: 5%;
-`;
-
-const SiteText = styled.p`
-  font-size: 14px;
-  margin: 0;
 `;
 
 const Line = styled.input`
@@ -287,27 +172,10 @@ const Line = styled.input`
   color: #555;
 `;
 
-const ScholarshipText = styled.p`
-  font-size: 14px;
-  padding-bottom: 5%;
-`;
-
 const ScholarshipTitle = styled.div`
   margin-bottom: 5px;
   width: 100%;
   font-weight: 700;
-`;
-
-const Option = styled.select`
-  margin-bottom: 1em;
-  width: 100%;
-  height: 34px;
-  padding: 6px 12px;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  color: #555;
 `;
 
 const Row = styled.div`
@@ -320,4 +188,26 @@ const Col = styled.div`
   display: flex;
   flex-direction: column;
   width: 20%;
+`;
+
+const SiteText = styled.p`
+  font-size: 14px;
+  margin: 0;
+`;
+
+const ScholarshipText = styled.p`
+  font-size: 14px;
+  padding-bottom: 5%;
+`;
+
+const Option = styled.select`
+  margin-bottom: 1em;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #555;
 `;
