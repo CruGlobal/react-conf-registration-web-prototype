@@ -65,7 +65,7 @@ const setCurrentRegistrant = async (dispatch, confID, authToken) => {
       .then(response => {
         if (response.error) {
           API.createNewRegistration(
-            `${API.BASE_URL}${API.CONFERENCES}${confID}/registrations}`,
+            `${API.BASE_URL}${API.CONFERENCES}${confID}/registrations`,
             authToken
           );
         } else {
