@@ -16,6 +16,7 @@ import TextAreaQuestion from "../../QuestionsComponents/textAreaQuestion";
 import TextQuestion from "../../QuestionsComponents/textQuestion";
 import YearQuestion from "../../QuestionsComponents/yearQuestion";
 import NumberQuestion from "../../QuestionsComponents/NumberQuestion";
+import ParagraphContent from "../../QuestionsComponents/ParagraphContent";
 
 const RegisteringContent = ({
   pageData,
@@ -182,8 +183,10 @@ const RegisteringContent = ({
               currentUser={currentUser}
             />
           );
+        case "paragraphContent":
+          return <ParagraphContent key={blocks.id} blockData={blocks} />;
         default:
-          return <div />;
+          return <div key={blocks.id} />;
       }
     }
   };

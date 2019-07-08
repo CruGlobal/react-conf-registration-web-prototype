@@ -107,7 +107,9 @@ const RegisterReviewPage = ({
     let count = 0;
     return table.map(item => {
       count += 1;
-
+      if (!item) {
+        return null;
+      }
       if (item.a instanceof Object) {
         switch (item.type) {
           case "nameQuestion":
@@ -156,6 +158,76 @@ const RegisterReviewPage = ({
     });
   };
 
+  const CreateUserRow = currentRegistration => {
+    return currentRegistration.registrants.map(registrant => {
+      return (
+        <Row key={registrant.id}>
+          <ShowCell>
+            {showAnswers ? (
+              <FontAwesomeIcon
+                onClick={() => changeShowAnswers(false)}
+                icon={faMinusSquare}
+                size="sm"
+              />
+            ) : (
+              <FontAwesomeIcon
+                onClick={() => changeShowAnswers(true)}
+                icon={faPlusSquare}
+                size="sm"
+              />
+            )}
+          </ShowCell>
+          <Cell>
+            {registrant.firstName} {registrant.lastName}
+          </Cell>
+          {selectedConference.registrantTypes.length > 1 ? (
+            <TypeCell>
+              {selectedConference.registrantTypes
+                .filter(type => type.id === registrant.registrantTypeId)
+                .map(chosenType => chosenType.name)}
+            </TypeCell>
+          ) : null}
+          <EditCell>
+            <Link
+              to={`/register/${selectedConference.id}/page/${
+                selectedConference.registrationPages[0].id
+              }/${currentRegistration.primaryRegistrantId}`}
+            >
+              <EditButton>Edit</EditButton>
+            </Link>
+          </EditCell>
+        </Row>
+      );
+    });
+  };
+
+  const CreateUserCostRow = currentRegistration => {
+    return currentRegistration.registrants.map(registrant => {
+      return (
+        <Row key={registrant.id}>
+          <ShowCell>
+            {showCosts ? (
+              <FontAwesomeIcon
+                onClick={() => changeShowCosts(false)}
+                icon={faMinusSquare}
+                size="sm"
+              />
+            ) : (
+              <FontAwesomeIcon
+                onClick={() => changeShowCosts(true)}
+                icon={faPlusSquare}
+                size="sm"
+              />
+            )}
+          </ShowCell>
+          <Cell>
+            {registrant.firstName} {registrant.lastName}
+          </Cell>
+        </Row>
+      );
+    });
+  };
+
   return (
     <PageContainer>
       <RegisterNavbar conference={selectedConference} history={history} />
@@ -179,42 +251,11 @@ const RegisterReviewPage = ({
           <Thead>
             <RegistrantRow>
               <Chead>Registrant</Chead>
+              {selectedConference.registrantTypes.length > 1 ? (
+                <TypeHead>Type</TypeHead>
+              ) : null}
             </RegistrantRow>
-            {currentRegistration
-              ? currentRegistration.registrants.map(registrant => {
-                  return (
-                    <Row key={registrant.id}>
-                      <ShowCell>
-                        {showAnswers ? (
-                          <FontAwesomeIcon
-                            onClick={() => changeShowAnswers(false)}
-                            icon={faMinusSquare}
-                            size='sm'
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            onClick={() => changeShowAnswers(true)}
-                            icon={faPlusSquare}
-                            size='sm'
-                          />
-                        )}
-                      </ShowCell>
-                      <Cell>
-                        {registrant.firstName} {registrant.lastName}
-                      </Cell>
-                      <EditCell>
-                        <Link
-                          to={`/register/${selectedConference.id}/page/${
-                            selectedConference.registrationPages[0].id
-                          }/${currentRegistration.primaryRegistrantId}`}
-                        >
-                          <EditButton>Edit</EditButton>
-                        </Link>
-                      </EditCell>
-                    </Row>
-                  );
-                })
-              : null}
+            {currentRegistration ? CreateUserRow(currentRegistration) : null}
           </Thead>
           {showAnswers ? <Tbody>{CreateAnswerTable(reviewTable)}</Tbody> : null}
         </Table>
@@ -229,30 +270,7 @@ const RegisterReviewPage = ({
                 <Chead>Registrant</Chead>
               </RegistrantRow>
               {currentRegistration
-                ? currentRegistration.registrants.map(registrant => {
-                    return (
-                      <Row key={registrant.id}>
-                        <ShowCell>
-                          {showCosts ? (
-                            <FontAwesomeIcon
-                              onClick={() => changeShowCosts(false)}
-                              icon={faMinusSquare}
-                              size='sm'
-                            />
-                          ) : (
-                            <FontAwesomeIcon
-                              onClick={() => changeShowCosts(true)}
-                              icon={faPlusSquare}
-                              size='sm'
-                            />
-                          )}
-                        </ShowCell>
-                        <Cell>
-                          {registrant.firstName} {registrant.lastName}
-                        </Cell>
-                      </Row>
-                    );
-                  })
+                ? CreateUserCostRow(currentRegistration)
                 : null}
             </Thead>
             {showCosts ? (
@@ -407,6 +425,10 @@ const Chead = styled.th`
   padding: 8px;
 `;
 
+const TypeHead = styled(Chead)`
+  margin: 0 auto;
+`;
+
 const Row = styled.tr`
   display: flex;
   flex-direction: row;
@@ -428,7 +450,7 @@ const CellTitle = styled(Cell)`
 `;
 
 const AnswerCell = styled(Cell)`
-  margin-left: auto;
+  margin-left: 30px;
   display: flex;
   font-size: 14px;
 `;
@@ -458,3 +480,7 @@ const EditCell = styled(Cell)`
 `;
 
 const CostCell = styled(Cell)``;
+
+const TypeCell = styled(Cell)`
+  margin-left: 70px;
+`;

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import _ from "lodash";
 import bigBreak from "../../../img/big-break.jpg";
 import climbingImg from "../../../img/187.jpg";
 import friendsImg from "../../../img/311.jpg";
@@ -22,7 +21,10 @@ let jumbotronImages = [
   }
 ];
 
-let randomImage = jumbotronImages[_.random(0, jumbotronImages.length - 1)];
+let randomImage =
+  jumbotronImages[
+    Math.floor(Math.random() * Math.floor(jumbotronImages.length))
+  ];
 
 const LandingJumbotron = ({ setConferences, conferences }) => {
   // State Hook for storing our searchQuery
@@ -52,7 +54,7 @@ const LandingJumbotron = ({ setConferences, conferences }) => {
               {conferences.length > 0 ? (
                 <>
                   <option value="">-Any Location-</option>
-                  {_.map(conferences, conference => {
+                  {conferences.map(conference => {
                     if (conference.locationName) {
                       return (
                         <option
