@@ -8,13 +8,12 @@ export default class PaymentEntry extends React.Component {
       valueChanged: false,
       accountType: "",
       staffSearch: "",
-      accountNumber: "",
-
       account: {
-        bu: "",
-        ou: "",
-        dep: "",
-        id: ""
+        accountNumber: "",
+        businessUnit: "",
+        operatingUnit: "",
+        department: "",
+        projectId: ""
       }
     };
   }
@@ -26,10 +25,31 @@ export default class PaymentEntry extends React.Component {
         accountType: event.target.value
       });
     }
+
+    if (
+      [
+        "businessUnit",
+        "operatingUnit",
+        "department",
+        "projectId",
+        "accountNumber"
+      ].includes(event.target.name)
+    ) {
+      const newValue = this.state.account;
+      let key = event.target.name;
+      let value = event.target.value;
+      newValue[key] = value;
+
+      this.setState({
+        ...this.state,
+        valueChanged: true,
+        account: newValue
+      });
+    }
   };
 
   render() {
-    const total = 999; //TODO this is a placeholder for an amount from the API
+    const total = this.props.total; //TODO this is a placeholder for an amount from the API
     switch (this.props.paymentType) {
       case "Check": {
         return (
@@ -66,7 +86,8 @@ export default class PaymentEntry extends React.Component {
                     <Col>
                       <ScholarshipTitle>Business Unit</ScholarshipTitle>
                       <Line
-                        value={this.state.account.bu}
+                        name='businessUnit'
+                        value={this.state.account.businessUnit}
                         type='text'
                         placeholder=''
                         onChange={this.handleChange}
@@ -76,7 +97,8 @@ export default class PaymentEntry extends React.Component {
                     <Col>
                       <ScholarshipTitle>Operating Unit</ScholarshipTitle>
                       <Line
-                        value={this.state.account.ou}
+                        name='operatingUnit'
+                        value={this.state.account.operatingUnit}
                         type='text'
                         placeholder=''
                         onChange={this.handleChange}
@@ -86,7 +108,8 @@ export default class PaymentEntry extends React.Component {
                     <Col>
                       <ScholarshipTitle>Department</ScholarshipTitle>
                       <Line
-                        value={this.state.account.dep}
+                        name='department'
+                        value={this.state.account.department}
                         type='text'
                         placeholder=''
                         onChange={this.handleChange}
@@ -96,7 +119,8 @@ export default class PaymentEntry extends React.Component {
                     <Col>
                       <ScholarshipTitle>Project id</ScholarshipTitle>
                       <Line
-                        value={this.state.account.id}
+                        name='projectId'
+                        value={this.state.account.projectId}
                         type='text'
                         placeholder=''
                         onChange={this.handleChange}
@@ -107,7 +131,8 @@ export default class PaymentEntry extends React.Component {
                   <>
                     <ScholarshipTitle>Account Number</ScholarshipTitle>
                     <Line
-                      value={this.state.accountNumber}
+                      name='accountNumber'
+                      value={this.state.account.accountNumber}
                       type='text'
                       placeholder=''
                       onChange={this.handleChange}
