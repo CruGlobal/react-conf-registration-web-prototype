@@ -163,7 +163,6 @@ const RegisterSection = styled.section`
   margin: 20px auto;
   background: #fff;
   width: 612px;
-  height: 640px;
   padding: 15px;
 `;
 

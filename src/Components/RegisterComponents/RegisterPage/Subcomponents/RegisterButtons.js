@@ -170,7 +170,7 @@ const RegisterButton = styled.button`
   border-color: #4cae4c;
   color: #fff;
   margin: 0 auto;
-  :hover {
+  : hover {
     background-color: #449d44;
     border-color: #398439;
   }
@@ -182,7 +182,6 @@ const ContinueButton = styled(RegisterButton)`
 `;
 
 const StartoverButton = styled.button`
-  width: 50%;
   height: 46px;
   background: #f4f4f4;
   border: 1px solid transparent;
@@ -195,14 +194,10 @@ const StartoverButton = styled.button`
   text-align: center;
   cursor: pointer;
   margin: 0 10px;
-  :hover {
+  : hover {
     background: #e2e2e2;
     color: #333;
     border-color: #ccc;
-  }
-  @media screen and (min-width: 768px) {
-    width: 25%;
-    float: left;
   }
 `;
 

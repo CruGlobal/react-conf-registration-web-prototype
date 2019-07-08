@@ -133,18 +133,18 @@ const TitleContainer = styled.div`
   padding-bottom: 4px;
   margin-bottom: 22px;
 `;
+
 const LoadingContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 `;
+
 const DetailContainer = styled.div`
   min-height: 20px;
   background: #fafde8;
   border-radius: 0;
   border: 0;
-  weight: 544px;
-  height: 140.333px;
   padding: 19px;
   margin-bottom: 20px;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);

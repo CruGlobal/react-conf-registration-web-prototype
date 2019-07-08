@@ -12,7 +12,7 @@ const LandingEventContainer = ({ conferences, isLoading, loginState }) => {
     return (
       <Container>
         <>
-          <ContentTitle data-testid='register-title'>
+          <ContentTitle data-testid="register-title">
             Register for an event
           </ContentTitle>
           <ContentInfo>
@@ -22,7 +22,7 @@ const LandingEventContainer = ({ conferences, isLoading, loginState }) => {
           <ContentInfo>
             To create a new event or view registrations, manage scholarships or
             change questions on an existing event, continue to your{" "}
-            <LinkContent to='/eventDashboard'>Event Dashboard</LinkContent>
+            <LinkContent to="/eventDashboard">Event Dashboard</LinkContent>
           </ContentInfo>{" "}
         </>
       </Container>
@@ -31,10 +31,10 @@ const LandingEventContainer = ({ conferences, isLoading, loginState }) => {
     return (
       <Container>
         <SearchingContainer>
-          <SearchingTitle data-testid='searching-title'>
+          <SearchingTitle data-testid="searching-title">
             Searching Events...
           </SearchingTitle>
-          <FontAwesomeIcon icon={faSpinner} spin size='3x' />
+          <FontAwesomeIcon icon={faSpinner} spin size="3x" />
         </SearchingContainer>
       </Container>
     );
@@ -88,24 +88,11 @@ const Container = styled.div`
   margin: 0 auto;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
-  padding: 0px 22px;
-  @media screen and (max-width: 1170px) {
-    width: 100%;
-  }
-  @media screen and (max-width: 425px) {
-    margin-top: 0.75rem;
-    margin-bottom: 0.75rem;
-    padding: 0px 11px;
-  }
 `;
 
 const CardContainer = styled.div`
   columns: 2;
   column-gap: 10px;
-  @media screen and (max-width: 1129px) {
-    columns: 1;
-    align-items: center;
-  }
 `;
 
 const SearchingContainer = styled.div`
