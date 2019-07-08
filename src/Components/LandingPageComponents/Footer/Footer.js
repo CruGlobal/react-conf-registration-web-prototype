@@ -9,14 +9,14 @@ const Footer = () => {
     <FooterContainer>
       <FootContent>
         <PrivacyContainer>
-          <LinkContent href='https://www.cru.org/us/en/about/privacy.html'>
+          <LinkContent href="https://www.cru.org/us/en/about/privacy.html">
             Privacy Policy
           </LinkContent>
-          <LinkComponentRoute to='/help'>Help</LinkComponentRoute>
+          <LinkComponentRoute to="/help">Help</LinkComponentRoute>
         </PrivacyContainer>
-        <span data-testid='copyright-title'>
+        <span data-testid="copyright-title">
           &copy; {currentYear} |{" "}
-          <LinkContent href='http://www.cru.org'>Cru</LinkContent>
+          <LinkContent href="http://www.cru.org">Cru</LinkContent>
         </span>
       </FootContent>
     </FooterContainer>
@@ -54,6 +54,10 @@ const PrivacyContainer = styled.div`
 
 const LinkContent = styled.a`
   color: #337ab7;
+  @media and (min-width: 768px) .col-sm-4 {
+    width: 33.33333333%;
+    float: left;
+  }
 `;
 
 const LinkComponentRoute = styled(Link)`

@@ -22,7 +22,7 @@ const Dashboard = ({ getUserConferences, userConferences }) => {
 
   return (
     <>
-      <div>
+      <PageContainer>
         <Navbar />
         <TitleSection>
           <DashboardContainer>
@@ -35,14 +35,16 @@ const Dashboard = ({ getUserConferences, userConferences }) => {
               Showing <strong>0 of {userConferences.length}</strong> events
             </p>
             <InputContainer>
-              <DashboardButtons>
-                <Icon icon={faPlus} />
-                Create New Event
-              </DashboardButtons>
-              <DashboardButtons>
-                <Icon icon={faKey} />
-                Request Access to Existing Event
-              </DashboardButtons>
+              <ButtonContainer>
+                <DashboardButtons>
+                  <Icon icon={faPlus} />
+                  Create New Event
+                </DashboardButtons>
+                <DashboardButtons>
+                  <Icon icon={faKey} />
+                  Request Access to Existing Event
+                </DashboardButtons>
+              </ButtonContainer>
               <FilterInput type="text" placeholder="Filter Events" />
             </InputContainer>
             <ConferencesContainer>
@@ -53,14 +55,14 @@ const Dashboard = ({ getUserConferences, userConferences }) => {
                   })}
                 </div>
               ) : (
-                <p>
+                <div>
                   No events found.{" "}
                   <DashboardLink href="#">Create a new event</DashboardLink> or{" "}
                   <DashboardLink href="#">
                     request access to an existing event
                   </DashboardLink>{" "}
                   to get started!
-                </p>
+                </div>
               )}
             </ConferencesContainer>
             <ArchivedContainer>
@@ -76,7 +78,7 @@ const Dashboard = ({ getUserConferences, userConferences }) => {
           </ContentContainer>
         </DashboardContainer>
         <Footer />
-      </div>
+      </PageContainer>
     </>
   );
 };
@@ -102,35 +104,65 @@ export default connect(
 )(Dashboard);
 
 const DashboardContainer = styled.div`
-  width: 1170px;
+  width: 100%;
   margin: 0 auto;
 `;
-
-const ContentContainer = styled.section`
-  margin: 20px 0;
+const ButtonContainer = styled.div`
+  font-family: sans-serif;
+  padding: 0 15px;
+  @media screen and (min-width: 768px) {
+    width: 66.6%;
+    float: left;
+  }
 `;
-
+const ContentContainer = styled.div`
+  width: 1170px;
+  margin: 20px 10px;
+  @media screen and (max-width: 1170px) {
+    width: 100%;
+    margin: 20px 0px;
+  }
+`;
+const PageContainer = styled.div`
+  box-sizing: border-box;
+  display: block;
+`;
 const InputContainer = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 14px;
+  width: 100%;
+  @media screen and (max-width: 400px) {
+    flex-direction: column;
+  }
+  @media screen and (max-width: 1175px) {
+    width: 90%;
+  }
 `;
 
 const ArchivedContainer = styled.div`
-  display: flex;
+  display: inline-block;
   flex-direction: row;
+  margin-bottom: 5px;
+  max-width: 100%;
   align-items: center;
   color: #333333;
 `;
 
 const ConferencesContainer = styled.div`
+  width: 100%;
+  height: 52px;
   color: #31708f;
   background-color: #d9edf7;
   border-color: #bce8f1;
   border-radius: 4px;
-  margin: 20px 0;
+  margin-bottom: 20px;
+  margin: 20px 0px;
   > p {
     padding: 15px;
+  }
+  @media screen and (max-width: 430px) {
+    height: 80px;
   }
 `;
 
@@ -139,14 +171,17 @@ const TitleSection = styled.section`
   padding-top: 25px;
   padding-bottom: 5px;
   border-bottom: 1px solid #ece8d8;
+  font-family: sans-serif;
 `;
 
 const DashboardTitle = styled.h3`
   color: #7d7d83;
   font-weight: 300;
-  font-family: sans-serif;
   font-size: 30px;
   margin-bottom: 10px;
+  @media (max-width: 300px) {
+    font-size: 20px;
+  }
 `;
 
 const Icon = styled(FontAwesomeIcon)`
@@ -157,13 +192,15 @@ const DashboardButtons = styled.button`
   background: #00a651;
   border-color: #4cae4c;
   color: #fff;
-  font-weight: 400;
+  font-weight: 400px;
   text-align: center;
   cursor: pointer;
   border: 1px solid transparent;
+  white-space: nowrap;
   padding: 6px 12px;
   border-radius: 4px;
   margin-right: 5px;
+  margin-bottom: .5em;
   :hover {
     background-color: #449d44;
     border-color: #398439
@@ -189,8 +226,16 @@ const FilterInput = styled.input`
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 33%;
+  width: 50%;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   margin-left: auto;
+  padding-right: 42.5px;
+  @media screen and (min-width: 465px) {
+    padding: 2px 12px;
+  }
+  @media screen and (max-width: 400px) {
+    width: 100%;
+    margin-left: 15px;
+  }
 `;

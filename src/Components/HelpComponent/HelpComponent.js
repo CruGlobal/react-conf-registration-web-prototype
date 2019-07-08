@@ -43,8 +43,9 @@ const HelpTitle = styled.h3`
 `;
 
 const Container = styled.div`
-  width: 1170px;
+  width: 100%;
   margin: 0 auto;
+  padding: 0 15px;
 `;
 
 const SupportLink = styled.a`
