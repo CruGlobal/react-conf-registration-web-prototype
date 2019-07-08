@@ -45,41 +45,6 @@ const RegisterReviewPage = ({
     match.params.confID
   ]);
 
-  const generateReview = (questions, answers) => {
-    return questions.map(question => {
-      const foundAnswer = answers.find(
-        answer => answer.blockId === question.id
-      );
-      if (foundAnswer) {
-        switch (question.type) {
-          case "addressQuestion":
-          case "nameQuestion":
-            return {
-              id: question.id,
-              q: question.title,
-              a: Object.values(foundAnswer.value),
-              type: question.type
-            };
-          case "checkboxQuestion":
-            return {
-              id: question.id,
-              q: question.title,
-              a: Object.keys(foundAnswer.value),
-              type: question.type
-            };
-          default:
-            return {
-              id: question.id,
-              q: question.title,
-              a: foundAnswer.value,
-              type: question.type
-            };
-        }
-      }
-      return null;
-    });
-  };
-
   const reviewTable = generateReview(
     [].concat.apply(
       [],
@@ -89,72 +54,6 @@ const RegisterReviewPage = ({
     ),
     currentRegistration.registrants[0].answers
   );
-
-  const CreateCostTable = table => {
-    let count = 0;
-    return table.map(item => {
-      count++;
-      return (
-        <Row key={"row-" + count}>
-          <CellTitle>> Registartion</CellTitle>
-          <CostCell>{"$" + item.toFixed(2)}</CostCell>
-        </Row>
-      );
-    });
-  };
-
-  const CreateAnswerTable = table => {
-    let count = 0;
-    return table.map(item => {
-      count += 1;
-
-      if (item.a instanceof Object) {
-        switch (item.type) {
-          case "nameQuestion":
-            return (
-              <Row key={item.id}>
-                <CellTitle>{item.q}</CellTitle>
-                <NameCell>
-                  {item.a.map(answer => {
-                    return answer ? (
-                      <p key={"a" + answer}>{answer} &nbsp;</p>
-                    ) : null;
-                  })}
-                </NameCell>
-              </Row>
-            );
-          case "addressQuestion":
-            return (
-              <Row key={item.id}>
-                <CellTitle>{item.q}</CellTitle>
-                <AddressCell>
-                  {item.a.map(answer => {
-                    return answer ? (
-                      <AddressContent key={"a" + answer}>
-                        {answer}
-                      </AddressContent>
-                    ) : null;
-                  })}
-                </AddressCell>
-              </Row>
-            );
-          default:
-            return (
-              <Row key={item.id}>
-                <CellTitle>{item.q}</CellTitle>
-                <AnswerCell>{item.a}</AnswerCell>
-              </Row>
-            );
-        }
-      }
-      return (
-        <Row key={item ? item.id : count}>
-          <CellTitle>{item ? item.q : null}</CellTitle>
-          <AnswerCell>{item ? item.a : null}</AnswerCell>
-        </Row>
-      );
-    });
-  };
 
   return (
     <PageContainer>
@@ -255,16 +154,33 @@ const RegisterReviewPage = ({
                   })
                 : null}
             </Thead>
-            {showCosts ? (
-              <Tbody>
-                {CreateCostTable([currentRegistration.calculatedTotalDue])}
-              </Tbody>
-            ) : null}
+            <Tbody>
+              {showCosts ? (
+                <>
+                  {CreateCostTable(
+                    findCosts(
+                      selectedConference,
+                      currentRegistration,
+                      reviewTable
+                    )
+                  )}
+                </>
+              ) : null}
+              <Row>
+                <TotalTitle>Total: </TotalTitle>
+                <TotalCell>
+                  {currentRegistration.calculatedTotalDue
+                    ? "$" + currentRegistration.calculatedTotalDue.toFixed(2)
+                    : null}
+                </TotalCell>
+              </Row>
+            </Tbody>
           </Table>
+
           <TitleContainer>
             <WelcomeTitle>Payment</WelcomeTitle>
           </TitleContainer>
-          <PaymentMenu />
+          <PaymentMenu total={currentRegistration.calculatedTotalDue} />
           <ButtonContainer>
             <ConfirmButton>Confirm</ConfirmButton>
           </ButtonContainer>
@@ -300,6 +216,122 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(RegisterReviewPage);
+
+const generateReview = (questions, answers) => {
+  return questions.map(question => {
+    const foundAnswer = answers.find(answer => answer.blockId === question.id);
+    if (foundAnswer) {
+      switch (question.type) {
+        case "addressQuestion":
+        case "nameQuestion":
+          return {
+            id: question.id,
+            q: question.title,
+            a: Object.values(foundAnswer.value),
+            type: question.type,
+            cost: foundAnswer.amount
+          };
+        case "checkboxQuestion":
+          return {
+            id: question.id,
+            q: question.title,
+            a: Object.keys(foundAnswer.value),
+            type: question.type,
+            cost: foundAnswer.amount
+          };
+        default:
+          return {
+            id: question.id,
+            q: question.title,
+            a: foundAnswer.value,
+            type: question.type,
+            cost: foundAnswer.amount
+          };
+      }
+    }
+    return null;
+  });
+};
+
+const CreateCostTable = table => {
+  let count = 0;
+  return table.map(current => {
+    count++;
+    return (
+      <Row key={"row-" + count}>
+        <CostTitle>{"> " + current.item}</CostTitle>
+        <CostCell>{"$" + current.cost.toFixed(2)}</CostCell>
+      </Row>
+    );
+  });
+};
+
+const CreateAnswerTable = table => {
+  let count = 0;
+  return table.map(item => {
+    count += 1;
+
+    if (item.a instanceof Object) {
+      switch (item.type) {
+        case "nameQuestion":
+          return (
+            <Row key={item.id}>
+              <CellTitle>{item.q}</CellTitle>
+              <NameCell>
+                {item.a.map(answer => {
+                  return answer ? (
+                    <p key={"a" + answer}>{answer} &nbsp;</p>
+                  ) : null;
+                })}
+              </NameCell>
+            </Row>
+          );
+        case "addressQuestion":
+          return (
+            <Row key={item.id}>
+              <CellTitle>{item.q}</CellTitle>
+              <AddressCell>
+                {item.a.map(answer => {
+                  return answer ? (
+                    <AddressContent key={"a" + answer}>{answer}</AddressContent>
+                  ) : null;
+                })}
+              </AddressCell>
+            </Row>
+          );
+        default:
+          return (
+            <Row key={item.id}>
+              <CellTitle>{item.q}</CellTitle>
+              <AnswerCell>{item.a}</AnswerCell>
+            </Row>
+          );
+      }
+    }
+    return (
+      <Row key={item ? item.id : count}>
+        <CellTitle>{item ? item.q : null}</CellTitle>
+        <AnswerCell>{item ? item.a : null}</AnswerCell>
+      </Row>
+    );
+  });
+};
+
+const findCosts = (conference, registrant, review) => {
+  const base = conference.registrantTypes.find(curr => {
+    return curr.id === registrant.registrants[0].registrantTypeId;
+  }).cost;
+
+  const receipt = [{ item: "Registration", cost: base }];
+
+  review.forEach(curr => {
+    if (curr.cost !== 0) {
+      receipt.push({ item: curr.q, cost: curr.cost });
+    }
+  });
+
+  return receipt;
+};
 
 const ReviewSection = styled.div`
   margin: 20px auto;
@@ -410,6 +442,7 @@ const Chead = styled.th`
 const Row = styled.tr`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `;
 
 const RegistrantRow = styled(Row)`
@@ -427,10 +460,30 @@ const CellTitle = styled(Cell)`
   font-weight: 700;
 `;
 
+const CostTitle = styled(Cell)`
+  font-weight: 700;
+  padding-left: 5%;
+`;
+
+const TotalTitle = styled(Cell)`
+  font-weight: 700;
+  margin-left: 70%;
+
+  border-top: 2px solid #ddd;
+`;
+
 const AnswerCell = styled(Cell)`
   margin-left: auto;
   display: flex;
   font-size: 14px;
+`;
+
+const TotalCell = styled(AnswerCell)`
+  margin-left: auto;
+  display: flex;
+  font-size: 14px;
+
+  border-top: 2px solid #ddd;
 `;
 
 const AddressCell = styled(AnswerCell)`
@@ -445,6 +498,8 @@ const AddressContent = styled.p`
 const NameCell = styled(AnswerCell)`
   display: flex;
   flex-direction: row;
+
+  height: 1em;
 `;
 
 const ShowCell = styled(Cell)`
@@ -457,4 +512,7 @@ const EditCell = styled(Cell)`
   margin-left: auto;
 `;
 
-const CostCell = styled(Cell)``;
+const CostCell = styled(Cell)`
+  text-align: right;
+  padding-right: 6.5%;
+`;

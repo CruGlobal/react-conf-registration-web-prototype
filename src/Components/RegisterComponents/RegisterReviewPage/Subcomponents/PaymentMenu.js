@@ -216,7 +216,10 @@ export default class PaymentMenu extends React.Component {
             </Choice>
           </Options>
         </QuestionContainer>
-        <PaymentEntry paymentType={this.state.paymentType} />
+        <PaymentEntry
+          paymentType={this.state.paymentType}
+          total={this.props.total}
+        />
       </>
     );
   }
