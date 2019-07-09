@@ -94,7 +94,7 @@ const NavbarHeader = styled.header`
 `;
 
 const NavbarSection = styled.div`
-  width: 612px;
+  width: 100%;
   padding: 15px;
   margin: 0 auto;
   background: #156692;
@@ -103,6 +103,9 @@ const NavbarSection = styled.div`
 const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  @media screen and (min-width: 768px) {
+    justify-content: center;
+  }
 `;
 
 const DetailContainer = styled.div`
@@ -130,6 +133,9 @@ const ConferenceTitle = styled.h3`
   font-family: sans-serif;
   font-weight: 600;
   margin: 5px 0 0 0;
+  @media screen and (max-width: 330px) {
+    font-size: 18px;
+  }
 `;
 const SignoutButton = styled.button`
   background: #3494c7;

@@ -8,7 +8,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectConference, GetCurrentRegistrant } from "../../../actions";
 import BackgroundImg from "../../../img/rough_diagonal.png";
-
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
@@ -155,8 +154,8 @@ export default connect(
 // Maybe find a better way to cover div with background img?
 const PageContainer = styled.div`
   background: url(${BackgroundImg}) #e7e8e6;
-  min-width: 100%;
-  min-height: 100%;
+  width: 100%;
+  height: 100%;
 `;
 
 const RegisterSection = styled.section`
@@ -165,6 +164,9 @@ const RegisterSection = styled.section`
   width: 612px;
   height: 640px;
   padding: 15px;
+  @media screen and (max-width: 730px) {
+    width: 90%;
+  }
 `;
 
 const PageSelectorSection = styled.div`

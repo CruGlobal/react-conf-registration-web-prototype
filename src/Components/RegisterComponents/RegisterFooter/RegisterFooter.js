@@ -6,7 +6,7 @@ const RegisterFooter = () => {
 
   return (
     <FooterContainer>
-      <p>
+      <div>
         © {currentYear} | Created with Event Registration Tool, powerred by{" "}
         <a
           href="https://www.cru.org/"
@@ -15,13 +15,13 @@ const RegisterFooter = () => {
         >
           Cru
         </a>
-      </p>
+      </div>
     </FooterContainer>
   );
 };
 
 const FooterContainer = styled.div`
-  width: 582px;
+  width: 100%;
   padding: 15px;
   margin: 0 auto;
   font-size: 14px;

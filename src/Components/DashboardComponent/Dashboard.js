@@ -104,12 +104,11 @@ export default connect(
 )(Dashboard);
 
 const DashboardContainer = styled.div`
-  width: 100%;
-  margin: 0 auto;
+  width: 90%;
+  margin: 0 20px;
 `;
 const ButtonContainer = styled.div`
   font-family: sans-serif;
-  padding: 0 15px;
   @media screen and (min-width: 768px) {
     width: 66.6%;
     float: left;
@@ -132,11 +131,8 @@ const InputContainer = styled.div`
   flex-direction: row;
   margin-bottom: 14px;
   width: 100%;
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 480px) {
     flex-direction: column;
-  }
-  @media screen and (max-width: 1175px) {
-    width: 90%;
   }
 `;
 
@@ -234,8 +230,7 @@ const FilterInput = styled.input`
   @media screen and (min-width: 465px) {
     padding: 2px 12px;
   }
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 480px) {
     width: 100%;
-    margin-left: 15px;
   }
 `;

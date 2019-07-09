@@ -150,6 +150,7 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  flex-direction: row;
 `;
 
 const MultipleTypeContainer = styled.div`
@@ -179,10 +180,16 @@ const RegisterButton = styled.button`
 const ContinueButton = styled(RegisterButton)`
   width: 429px;
   margin: 0 5px;
+  @media screen and (max-width: 670px) {
+    width: 200px;
+  }
+  @media screen and (max-width: 390px) {
+    width: 130px;
+  }
 `;
 
 const StartoverButton = styled.button`
-  width: 50%;
+  width: 100%;
   height: 46px;
   background: #f4f4f4;
   border: 1px solid transparent;
@@ -200,9 +207,11 @@ const StartoverButton = styled.button`
     color: #333;
     border-color: #ccc;
   }
-  @media screen and (min-width: 768px) {
-    width: 25%;
-    float: left;
+  @media screen and (max-width: 415px) {
+    padding: 10px 2px;
+  }
+  @media screen and (max-width: 300px) {
+    font-size: 12px;
   }
 `;
 
