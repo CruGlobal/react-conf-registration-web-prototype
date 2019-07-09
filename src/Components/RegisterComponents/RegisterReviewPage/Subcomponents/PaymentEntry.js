@@ -9,13 +9,12 @@ export default class PaymentEntry extends React.Component {
       valueChanged: false,
       accountType: "",
       staffSearch: "",
-      accountNumber: "",
-
       account: {
-        bu: "",
-        ou: "",
-        dep: "",
-        id: ""
+        accountNumber: "",
+        businessUnit: "",
+        operatingUnit: "",
+        department: "",
+        projectId: ""
       }
     };
   }
@@ -27,10 +26,31 @@ export default class PaymentEntry extends React.Component {
         accountType: event.target.value
       });
     }
+
+    if (
+      [
+        "businessUnit",
+        "operatingUnit",
+        "department",
+        "projectId",
+        "accountNumber"
+      ].includes(event.target.name)
+    ) {
+      const newValue = this.state.account;
+      let key = event.target.name;
+      let value = event.target.value;
+      newValue[key] = value;
+
+      this.setState({
+        ...this.state,
+        valueChanged: true,
+        account: newValue
+      });
+    }
   };
 
   render() {
-    const total = 999; //TODO this is a placeholder for an amount from the API
+    const total = this.props.total; //TODO this is a placeholder for an amount from the API
     switch (this.props.paymentType) {
       case "Check": {
         return (

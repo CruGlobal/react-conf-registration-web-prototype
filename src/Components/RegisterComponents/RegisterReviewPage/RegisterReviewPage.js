@@ -45,41 +45,6 @@ const RegisterReviewPage = ({
     match.params.confID
   ]);
 
-  const generateReview = (questions, answers) => {
-    return questions.map(question => {
-      const foundAnswer = answers.find(
-        answer => answer.blockId === question.id
-      );
-      if (foundAnswer) {
-        switch (question.type) {
-          case "addressQuestion":
-          case "nameQuestion":
-            return {
-              id: question.id,
-              q: question.title,
-              a: Object.values(foundAnswer.value),
-              type: question.type
-            };
-          case "checkboxQuestion":
-            return {
-              id: question.id,
-              q: question.title,
-              a: Object.keys(foundAnswer.value),
-              type: question.type
-            };
-          default:
-            return {
-              id: question.id,
-              q: question.title,
-              a: foundAnswer.value,
-              type: question.type
-            };
-        }
-      }
-      return null;
-    });
-  };
-
   const reviewTable = generateReview(
     [].concat.apply(
       [],
@@ -90,24 +55,13 @@ const RegisterReviewPage = ({
     currentRegistration.registrants[0].answers
   );
 
-  const CreateCostTable = table => {
-    let count = 0;
-    return table.map(item => {
-      count++;
-      return (
-        <Row key={"row-" + count}>
-          <CellTitle>> Registartion</CellTitle>
-          <CostCell>{"$" + item.toFixed(2)}</CostCell>
-        </Row>
-      );
-    });
-  };
-
   const CreateAnswerTable = table => {
     let count = 0;
     return table.map(item => {
       count += 1;
-
+      if (!item) {
+        return null;
+      }
       if (item.a instanceof Object) {
         switch (item.type) {
           case "nameQuestion":
@@ -156,6 +110,76 @@ const RegisterReviewPage = ({
     });
   };
 
+  const CreateUserRow = currentRegistration => {
+    return currentRegistration.registrants.map(registrant => {
+      return (
+        <Row key={registrant.id}>
+          <ShowCell>
+            {showAnswers ? (
+              <FontAwesomeIcon
+                onClick={() => changeShowAnswers(false)}
+                icon={faMinusSquare}
+                size="sm"
+              />
+            ) : (
+              <FontAwesomeIcon
+                onClick={() => changeShowAnswers(true)}
+                icon={faPlusSquare}
+                size="sm"
+              />
+            )}
+          </ShowCell>
+          <Cell>
+            {registrant.firstName} {registrant.lastName}
+          </Cell>
+          {selectedConference.registrantTypes.length > 1 ? (
+            <TypeCell>
+              {selectedConference.registrantTypes
+                .filter(type => type.id === registrant.registrantTypeId)
+                .map(chosenType => chosenType.name)}
+            </TypeCell>
+          ) : null}
+          <EditCell>
+            <Link
+              to={`/register/${selectedConference.id}/page/${
+                selectedConference.registrationPages[0].id
+              }/${currentRegistration.primaryRegistrantId}`}
+            >
+              <EditButton>Edit</EditButton>
+            </Link>
+          </EditCell>
+        </Row>
+      );
+    });
+  };
+
+  const CreateUserCostRow = currentRegistration => {
+    return currentRegistration.registrants.map(registrant => {
+      return (
+        <Row key={registrant.id}>
+          <ShowCell>
+            {showCosts ? (
+              <FontAwesomeIcon
+                onClick={() => changeShowCosts(false)}
+                icon={faMinusSquare}
+                size="sm"
+              />
+            ) : (
+              <FontAwesomeIcon
+                onClick={() => changeShowCosts(true)}
+                icon={faPlusSquare}
+                size="sm"
+              />
+            )}
+          </ShowCell>
+          <Cell>
+            {registrant.firstName} {registrant.lastName}
+          </Cell>
+        </Row>
+      );
+    });
+  };
+
   return (
     <PageContainer>
       <RegisterNavbar conference={selectedConference} history={history} />
@@ -179,42 +203,11 @@ const RegisterReviewPage = ({
           <Thead>
             <RegistrantRow>
               <Chead>Registrant</Chead>
+              {selectedConference.registrantTypes.length > 1 ? (
+                <TypeHead>Type</TypeHead>
+              ) : null}
             </RegistrantRow>
-            {currentRegistration
-              ? currentRegistration.registrants.map(registrant => {
-                  return (
-                    <Row key={registrant.id}>
-                      <ShowCell>
-                        {showAnswers ? (
-                          <FontAwesomeIcon
-                            onClick={() => changeShowAnswers(false)}
-                            icon={faMinusSquare}
-                            size='sm'
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            onClick={() => changeShowAnswers(true)}
-                            icon={faPlusSquare}
-                            size='sm'
-                          />
-                        )}
-                      </ShowCell>
-                      <Cell>
-                        {registrant.firstName} {registrant.lastName}
-                      </Cell>
-                      <EditCell>
-                        <Link
-                          to={`/register/${selectedConference.id}/page/${
-                            selectedConference.registrationPages[0].id
-                          }/${currentRegistration.primaryRegistrantId}`}
-                        >
-                          <EditButton>Edit</EditButton>
-                        </Link>
-                      </EditCell>
-                    </Row>
-                  );
-                })
-              : null}
+            {currentRegistration ? CreateUserRow(currentRegistration) : null}
           </Thead>
           {showAnswers ? <Tbody>{CreateAnswerTable(reviewTable)}</Tbody> : null}
         </Table>
@@ -229,42 +222,36 @@ const RegisterReviewPage = ({
                 <Chead>Registrant</Chead>
               </RegistrantRow>
               {currentRegistration
-                ? currentRegistration.registrants.map(registrant => {
-                    return (
-                      <Row key={registrant.id}>
-                        <ShowCell>
-                          {showCosts ? (
-                            <FontAwesomeIcon
-                              onClick={() => changeShowCosts(false)}
-                              icon={faMinusSquare}
-                              size='sm'
-                            />
-                          ) : (
-                            <FontAwesomeIcon
-                              onClick={() => changeShowCosts(true)}
-                              icon={faPlusSquare}
-                              size='sm'
-                            />
-                          )}
-                        </ShowCell>
-                        <Cell>
-                          {registrant.firstName} {registrant.lastName}
-                        </Cell>
-                      </Row>
-                    );
-                  })
+                ? CreateUserCostRow(currentRegistration)
                 : null}
             </Thead>
-            {showCosts ? (
-              <Tbody>
-                {CreateCostTable([currentRegistration.calculatedTotalDue])}
-              </Tbody>
-            ) : null}
+            <Tbody>
+              {showCosts ? (
+                <>
+                  {CreateCostTable(
+                    findCosts(
+                      selectedConference,
+                      currentRegistration,
+                      reviewTable
+                    )
+                  )}
+                </>
+              ) : null}
+              <Row>
+                <TotalTitle>Total: </TotalTitle>
+                <TotalCell>
+                  {currentRegistration.calculatedTotalDue
+                    ? "$" + currentRegistration.calculatedTotalDue.toFixed(2)
+                    : null}
+                </TotalCell>
+              </Row>
+            </Tbody>
           </Table>
+
           <TitleContainer>
             <WelcomeTitle>Payment</WelcomeTitle>
           </TitleContainer>
-          <PaymentMenu />
+          <PaymentMenu total={currentRegistration.calculatedTotalDue} />
           <ButtonContainer>
             <ConfirmButton>Confirm</ConfirmButton>
           </ButtonContainer>
@@ -300,6 +287,74 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(RegisterReviewPage);
+
+const generateReview = (questions, answers) => {
+  return questions.map(question => {
+    const foundAnswer = answers.find(answer => answer.blockId === question.id);
+    if (foundAnswer) {
+      switch (question.type) {
+        case "addressQuestion":
+        case "nameQuestion":
+          return {
+            id: question.id,
+            q: question.title,
+            a: Object.values(foundAnswer.value),
+            type: question.type,
+            cost: foundAnswer.amount
+          };
+        case "checkboxQuestion":
+          return {
+            id: question.id,
+            q: question.title,
+            a: Object.keys(foundAnswer.value),
+            type: question.type,
+            cost: foundAnswer.amount
+          };
+        default:
+          return {
+            id: question.id,
+            q: question.title,
+            a: foundAnswer.value,
+            type: question.type,
+            cost: foundAnswer.amount
+          };
+      }
+    }
+    return null;
+  });
+};
+
+const CreateCostTable = table => {
+  let count = 0;
+  return table.map(current => {
+    count++;
+    return (
+      <Row key={"row-" + count}>
+        <CostTitle>{"> " + current.item}</CostTitle>
+        <CostCell>{"$" + current.cost.toFixed(2)}</CostCell>
+      </Row>
+    );
+  });
+};
+
+const findCosts = (conference, registrant, review) => {
+  const base = conference.registrantTypes.find(curr => {
+    return curr.id === registrant.registrants[0].registrantTypeId;
+  }).cost;
+
+  const receipt = [{ item: "Registration", cost: base }];
+
+  review.forEach(curr => {
+    if (!curr) {
+      return null;
+    }
+    if (curr.cost !== 0) {
+      receipt.push({ item: curr.q, cost: curr.cost });
+    }
+  });
+
+  return receipt;
+};
 
 const ReviewSection = styled.div`
   margin: 20px auto;
@@ -407,9 +462,14 @@ const Chead = styled.th`
   padding: 8px;
 `;
 
+const TypeHead = styled(Chead)`
+  margin: 0 auto;
+`;
+
 const Row = styled.tr`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `;
 
 const RegistrantRow = styled(Row)`
@@ -427,10 +487,30 @@ const CellTitle = styled(Cell)`
   font-weight: 700;
 `;
 
+const CostTitle = styled(Cell)`
+  font-weight: 700;
+  padding-left: 5%;
+`;
+
+const TotalTitle = styled(Cell)`
+  font-weight: 700;
+  margin-left: 70%;
+
+  border-top: 2px solid #ddd;
+`;
+
 const AnswerCell = styled(Cell)`
+  margin-left: 30px;
+  display: flex;
+  font-size: 14px;
+`;
+
+const TotalCell = styled(AnswerCell)`
   margin-left: auto;
   display: flex;
   font-size: 14px;
+
+  border-top: 2px solid #ddd;
 `;
 
 const AddressCell = styled(AnswerCell)`
@@ -445,6 +525,8 @@ const AddressContent = styled.p`
 const NameCell = styled(AnswerCell)`
   display: flex;
   flex-direction: row;
+
+  height: 1em;
 `;
 
 const ShowCell = styled(Cell)`
@@ -457,4 +539,11 @@ const EditCell = styled(Cell)`
   margin-left: auto;
 `;
 
-const CostCell = styled(Cell)``;
+const CostCell = styled(Cell)`
+  text-align: right;
+  padding-right: 6.5%;
+`;
+
+const TypeCell = styled(Cell)`
+  margin-left: 70px;
+`;

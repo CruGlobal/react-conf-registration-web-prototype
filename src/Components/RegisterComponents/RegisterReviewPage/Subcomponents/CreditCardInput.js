@@ -1,13 +1,5 @@
 import React, { Component } from "react";
 import styled from "@emotion/styled";
-import {
-  CARD_WIDTH_LEFT,
-  CARD_WIDTH_RIGHT,
-  CITY_WIDTH,
-  STATE_WIDTH,
-  QUESTION_MARGIN,
-  POSTAL_WIDTH
-} from "../../../../constants";
 
 class CreditCardInput extends Component {
   constructor(props) {
@@ -472,7 +464,7 @@ export default CreditCardInput;
 const CardNum = styled.input`
   font-size: 14px;
   margin-bottom: 1em;
-  width: ${CARD_WIDTH_LEFT}px;
+  width: 372px;
   height: 34px;
   padding: 6px 12px;
   background-color: #fff;
@@ -485,7 +477,7 @@ const CardNum = styled.input`
 const CardCode = styled.input`
   font-size: 14px;
   margin-bottom: 1em;
-  width: ${CARD_WIDTH_RIGHT}px;
+  width: 180px;
   height: 34px;
   padding: 6px 12px;
   background-color: #fff;
@@ -493,13 +485,13 @@ const CardCode = styled.input`
   border: 1px solid #ccc;
   border-radius: 4px;
   color: #555;
-  margin-left: ${QUESTION_MARGIN}px;
+  margin-left: 30px;
 `;
 
 const Month = styled.select`
   font-size: 14px;
   margin-bottom: 1em;
-  width: ${CARD_WIDTH_LEFT}px;
+  width: 372px;
   height: 34px;
   padding: 6px 12px;
   background-color: #fff;
@@ -513,8 +505,8 @@ const Year = styled.select`
   font-size: 14px;
   margin-bottom: 1em;
   padding: 6px 12px;
-  width: ${CARD_WIDTH_RIGHT}px;
-  margin-left: ${QUESTION_MARGIN}px;
+  width: 180px;
+  margin-left: 30px;
   height: 34px;
   padding: 6px 12px;
   background-color: #fff;
@@ -553,7 +545,7 @@ const QuestionTitle = styled.div`
 `;
 
 const CardTitle = styled(QuestionTitle)`
-  width: ${CARD_WIDTH_LEFT + QUESTION_MARGIN}px;
+  width: 402px;
 `;
 
 const LineTitle = styled(QuestionTitle)`
@@ -561,11 +553,11 @@ const LineTitle = styled(QuestionTitle)`
 `;
 
 const CityTitle = styled(QuestionTitle)`
-  width: ${CITY_WIDTH + QUESTION_MARGIN}px;
+  width: 306px;
 `;
 
 const StateTitle = styled(QuestionTitle)`
-  width: ${STATE_WIDTH + QUESTION_MARGIN}px;
+  width: 153px;
 `;
 
 const TitleContainer = styled.span`
@@ -602,7 +594,7 @@ const Country = styled.select`
 const City = styled.input`
   font-size: 14px;
   margin-bottom: 1em;
-  width: ${CITY_WIDTH}px;
+  width: 276px;
   height: 34px;
   padding: 6px 12px;
   background-color: #fff;
@@ -616,8 +608,8 @@ const State = styled.select`
   font-size: 14px;
   margin-bottom: 1em;
   padding: 6px 12px;
-  width: ${STATE_WIDTH}px;
-  margin-left: ${QUESTION_MARGIN}px;
+  width: 123px;
+  margin-left: 30px;
   height: 34px;
   padding: 6px 12px;
   background-color: #fff;
@@ -632,8 +624,8 @@ const Postal = styled.input`
   font-size: 14px;
   margin-bottom: 1em;
   padding: 6px 12px;
-  width: ${POSTAL_WIDTH}px;
-  margin-left: ${QUESTION_MARGIN}px;
+  width: 123px;
+  margin-left: 30px;
   height: 34px;
   padding: 6px 12px;
   background-color: #fff;
