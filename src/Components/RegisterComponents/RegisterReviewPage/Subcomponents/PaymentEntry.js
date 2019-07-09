@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
+import CreditCardInput from "./CreditCardInput";
 
 export default class PaymentEntry extends React.Component {
   constructor(props) {
@@ -66,11 +67,11 @@ export default class PaymentEntry extends React.Component {
           <>
             <ScholarshipTitle>Account Type</ScholarshipTitle>
             <Option
-              name='accountSelect'
+              name="accountSelect"
               onChange={this.handleChange}
               value={this.state.accountType}
             >
-              <option value=''>Choose one...</option>
+              <option value="">Choose one...</option>
               {["Staff", "Ministry", "Non-U.S. Staff"].map(Choice => {
                 return (
                   <option key={Choice} value={Choice}>
@@ -86,10 +87,9 @@ export default class PaymentEntry extends React.Component {
                     <Col>
                       <ScholarshipTitle>Business Unit</ScholarshipTitle>
                       <Line
-                        name='businessUnit'
-                        value={this.state.account.businessUnit}
-                        type='text'
-                        placeholder=''
+                        value={this.state.account.bu}
+                        type="text"
+                        placeholder=""
                         onChange={this.handleChange}
                       />
                     </Col>
@@ -97,10 +97,9 @@ export default class PaymentEntry extends React.Component {
                     <Col>
                       <ScholarshipTitle>Operating Unit</ScholarshipTitle>
                       <Line
-                        name='operatingUnit'
-                        value={this.state.account.operatingUnit}
-                        type='text'
-                        placeholder=''
+                        value={this.state.account.ou}
+                        type="text"
+                        placeholder=""
                         onChange={this.handleChange}
                       />
                     </Col>
@@ -108,10 +107,9 @@ export default class PaymentEntry extends React.Component {
                     <Col>
                       <ScholarshipTitle>Department</ScholarshipTitle>
                       <Line
-                        name='department'
-                        value={this.state.account.department}
-                        type='text'
-                        placeholder=''
+                        value={this.state.account.dep}
+                        type="text"
+                        placeholder=""
                         onChange={this.handleChange}
                       />
                     </Col>
@@ -119,10 +117,9 @@ export default class PaymentEntry extends React.Component {
                     <Col>
                       <ScholarshipTitle>Project id</ScholarshipTitle>
                       <Line
-                        name='projectId'
-                        value={this.state.account.projectId}
-                        type='text'
-                        placeholder=''
+                        value={this.state.account.id}
+                        type="text"
+                        placeholder=""
                         onChange={this.handleChange}
                       />
                     </Col>
@@ -131,10 +128,9 @@ export default class PaymentEntry extends React.Component {
                   <>
                     <ScholarshipTitle>Account Number</ScholarshipTitle>
                     <Line
-                      name='accountNumber'
-                      value={this.state.account.accountNumber}
-                      type='text'
-                      placeholder=''
+                      value={this.state.accountNumber}
+                      type="text"
+                      placeholder=""
                       onChange={this.handleChange}
                     />
                   </>
@@ -152,7 +148,7 @@ export default class PaymentEntry extends React.Component {
               below and choosing his or her name from the results list.
             </ScholarshipText>
             <ScholarshipTitle>Staff member name:</ScholarshipTitle>
-            <Line value={this.props.staffSearch} type='text' placeholder='' />
+            <Line value={this.props.staffSearch} type="text" placeholder="" />
           </>
         );
       }
@@ -167,7 +163,7 @@ export default class PaymentEntry extends React.Component {
         );
       }
       case "Card": {
-        return <p>card</p>;
+        return <CreditCardInput />;
       }
       default:
         return <p>error</p>;
