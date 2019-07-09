@@ -49,7 +49,7 @@ export default class PaymentEntry extends React.Component {
     }
   };
 
-  render() {
+  CreatePaymentMethod() {
     const total = this.props.total; //TODO this is a placeholder for an amount from the API
     switch (this.props.paymentType) {
       case "Check": {
@@ -163,12 +163,15 @@ export default class PaymentEntry extends React.Component {
         );
       }
       case "Card": {
-        console.log("credit card question");
         return <CreditCardInput />;
       }
       default:
-        return <p>error</p>;
+        return <div />;
     }
+  }
+
+  render() {
+    return this.CreatePaymentMethod();
   }
 }
 

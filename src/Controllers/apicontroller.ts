@@ -131,7 +131,8 @@ class APIController {
         Authorization: `${authToken}`
       },
       redirect: "follow", // manual, *follow, error
-      referrer: "no-referrer" // no-referrer, *client
+      referrer: "no-referrer", // no-referrer, *client
+      body: '{}'
     });
   };
 

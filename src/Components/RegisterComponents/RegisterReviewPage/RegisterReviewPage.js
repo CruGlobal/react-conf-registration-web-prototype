@@ -175,6 +175,16 @@ const RegisterReviewPage = ({
           <Cell>
             {registrant.firstName} {registrant.lastName}
           </Cell>
+
+          {!showCosts ? (
+            <CostCell>
+              $
+              {registrant.calculatedTotalDue ||
+              registrant.calculatedTotalDue === 0
+                ? registrant.calculatedTotalDue.toFixed(2)
+                : null}
+            </CostCell>
+          ) : null}
         </Row>
       );
     });
@@ -220,7 +230,9 @@ const RegisterReviewPage = ({
             <Thead>
               <RegistrantRow>
                 <Chead>Registrant</Chead>
+                <TotalHead>Total</TotalHead>
               </RegistrantRow>
+
               {currentRegistration
                 ? CreateUserCostRow(currentRegistration)
                 : null}
@@ -240,18 +252,23 @@ const RegisterReviewPage = ({
               <Row>
                 <TotalTitle>Total: </TotalTitle>
                 <TotalCell>
-                  {currentRegistration.calculatedTotalDue
+                  {currentRegistration.calculatedTotalDue ||
+                  currentRegistration.calculatedTotalDue === 0
                     ? "$" + currentRegistration.calculatedTotalDue.toFixed(2)
                     : null}
                 </TotalCell>
               </Row>
             </Tbody>
           </Table>
+          {currentRegistration.calculatedTotalDue > 0 ? (
+            <>
+              <TitleContainer>
+                <WelcomeTitle>Payment</WelcomeTitle>
+              </TitleContainer>
+              <PaymentMenu total={currentRegistration.calculatedTotalDue} />{" "}
+            </>
+          ) : null}
 
-          <TitleContainer>
-            <WelcomeTitle>Payment</WelcomeTitle>
-          </TitleContainer>
-          <PaymentMenu total={currentRegistration.calculatedTotalDue} />
           <ButtonContainer>
             <ConfirmButton>Confirm</ConfirmButton>
           </ButtonContainer>
@@ -460,6 +477,10 @@ const Tbody = styled.tbody``;
 
 const Chead = styled.th`
   padding: 8px;
+`;
+
+const TotalHead = styled(Chead)`
+  margin-right: 40px;
 `;
 
 const TypeHead = styled(Chead)`
