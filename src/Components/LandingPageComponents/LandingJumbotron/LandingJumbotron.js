@@ -54,20 +54,7 @@ const LandingJumbotron = ({ setConferences, conferences }) => {
               {conferences.length > 0 ? (
                 <>
                   <option value="">-Any Location-</option>
-                  {conferences.map(conference => {
-                    if (conference.locationName) {
-                      return (
-                        <option
-                          key={conference.id}
-                          value={conference.locationName}
-                        >
-                          {conference.locationName}
-                        </option>
-                      );
-                    } else {
-                      return null;
-                    }
-                  })}
+                  {generateLocations(conferences)}
                 </>
               ) : (
                 <option value="">-Any Location-</option>
@@ -97,6 +84,39 @@ const LandingJumbotron = ({ setConferences, conferences }) => {
       </ContentContainer>
     </JumbotronContainer>
   );
+};
+
+const generateLocations = conferences => {
+  let locations = [];
+  let idx;
+
+  conferences.forEach(function(conference) {
+    if (conference.locationName) {
+      // if location is not null
+      if ((idx = locations.indexOf(conference.locationName)) === -1) {
+        locations.push(conference.locationName); // add conference location to array
+        locations.push([1, conference.id]); // add the number of locations and id
+      } else {
+        locations[idx + 1][0] += 1; // update count
+      }
+    }
+  });
+  for (idx = 0; idx < locations.length; idx += 2) {
+    if (locations[idx + 1][0] > 1) {
+      // add count if there is more than one event
+      return (
+        <option key={locations[idx + 1][1]} value={locations[idx]}>
+          {`${locations[idx]} (${locations[idx + 1][0]})`}
+        </option>
+      );
+    } else {
+      return (
+        <option key={locations[idx + 1][1]} value={locations[idx]}>
+          {locations[idx]}
+        </option>
+      );
+    }
+  }
 };
 
 const mapStateToProps = state => {
