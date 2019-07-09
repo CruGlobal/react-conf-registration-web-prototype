@@ -2,6 +2,7 @@
 export const CRS_TOKEN = "crsToken";
 export const SET_CRS_TOKEN = "SET_CRS_TOKEN";
 export const APPLICATION_INIT = "APPLICATION_INIT";
+export const WIPE_CURRENT_DATA = "WIPE_CURRENT_DATA";
 
 // LOGIN CONSTANTS
 export const USER_LOGIN = "USER_LOGIN";

@@ -92,7 +92,7 @@ class CreditCardInput extends Component {
           onChange={this.handleChange}
           value={this.state.creditCardInfo.year}
         >
-          <option value="Year">Year</option>
+          <option value="">Year</option>
           <option value="2019">2019</option>
           <option value="2020">2020</option>
           <option value="2021">2021</option>
