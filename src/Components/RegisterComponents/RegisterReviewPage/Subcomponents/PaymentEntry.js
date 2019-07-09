@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "@emotion/styled";
 import CreditCardInput from "./CreditCardInput";
+import { connect } from "react-redux";
+import { staffMemberSearch } from "../../../../actions";
 
-export default class PaymentEntry extends React.Component {
+class PaymentEntry extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,6 +26,12 @@ export default class PaymentEntry extends React.Component {
       this.setState({
         ...this.state,
         accountType: event.target.value
+      });
+    }
+    if (event.target.name === "staffSearch") {
+      this.setState({
+        ...this.state,
+        staffSearch: event.target.value
       });
     }
 
@@ -148,7 +156,20 @@ export default class PaymentEntry extends React.Component {
               below and choosing his or her name from the results list.
             </ScholarshipText>
             <ScholarshipTitle>Staff member name:</ScholarshipTitle>
-            <Line value={this.props.staffSearch} type="text" placeholder="" />
+            <Line
+              value={this.state.staffSearch}
+              name="staffSearch"
+              type="text"
+              placeholder=""
+              onChange={e => {
+                this.handleChange(e);
+                this.props.StaffMemberSearch(
+                  localStorage.getItem("crsToken"),
+                  e.target.value,
+                  this.props.currentRegistration.id
+                );
+              }}
+            />
           </>
         );
       }
@@ -174,6 +195,27 @@ export default class PaymentEntry extends React.Component {
     return this.CreatePaymentMethod();
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    isLoading: state.conferenceReducer.isLoading,
+    staffMembers: state.conferenceReducer.staffMembers,
+    currentRegistration: state.conferenceReducer.currentRegistration
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    StaffMemberSearch: (authToken, searchQuery, regID) => {
+      dispatch(staffMemberSearch(authToken, searchQuery, regID));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PaymentEntry);
 
 const CheckTitle = styled.div`
   font-size: 18px;

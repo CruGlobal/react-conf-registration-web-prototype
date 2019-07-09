@@ -3,7 +3,8 @@ import {
   IS_SAVING,
   GET_CURRENT_CONFERENCE,
   GET_CURRENT_REGISTRANT,
-  DATA_CHANGED
+  DATA_CHANGED,
+  STAFF_SEARCH
 } from "../constants";
 import APIController from "../Controllers/apicontroller";
 
@@ -206,4 +207,38 @@ export const dataChanged = boolean => {
       dataChanged: boolean
     });
   };
+};
+
+export const staffMemberSearch = (authToken, searchQuery, regID) => {
+  return dispatch => {
+    dispatch({
+      type: IS_LOADING,
+      isLoading: true
+    });
+    StaffMemberSearch(dispatch, authToken, searchQuery, regID);
+  };
+};
+
+const StaffMemberSearch = (dispatch, authToken, searchQuery, regID) => {
+  try {
+    API.getStaffMembers(
+      `${API.BASE_URL}${API.REGISTRATIONS}${regID}/${
+        API.STAFF_SEARCH_NAME
+      }${searchQuery}`,
+      authToken
+    )
+      .then(res => res.json())
+      .then(response => {
+        dispatch({
+          type: STAFF_SEARCH,
+          staffMembers: response,
+          isLoading: false
+        });
+      });
+  } catch (err) {
+    dispatch({
+      type: STAFF_SEARCH,
+      staffMembers: []
+    });
+  }
 };

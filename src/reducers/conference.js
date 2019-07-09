@@ -7,7 +7,8 @@ import {
   DELETE_CURRENT_REGISTRANT,
   IS_SAVING,
   DATA_CHANGED,
-  WIPE_CURRENT_DATA
+  WIPE_CURRENT_DATA,
+  STAFF_SEARCH
 } from "../constants";
 
 const initialState = {
@@ -99,7 +100,8 @@ const conferenceReducer = (
     dataChanged,
     userConferences,
     selectedConference,
-    currentRegistration
+    currentRegistration,
+    staffMembers
   }
 ) => {
   switch (type) {
@@ -207,6 +209,13 @@ const conferenceReducer = (
         ...state,
         currentRegistration: currentRegistration,
         isLoading: false
+      };
+
+    case STAFF_SEARCH:
+      return {
+        ...state,
+        staffMembers: staffMembers,
+        isLoading: isLoading
       };
 
     case DELETE_CURRENT_REGISTRANT:
