@@ -26,6 +26,21 @@ class NameQuestions extends Component {
   }
 
   componentDidMount() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    } else {
+      this.setState({
+        valueChanged: true,
+        answerBlock: {
+          ...this.state.answerBlock,
+          blockId: this.props.blockData.id,
+          id: newID,
+          registrantId: this.props.currentUser[0].id
+        }
+      });
+    }
     this.setState({
       blockData: this.props.blockData
     });
@@ -68,24 +83,6 @@ class NameQuestions extends Component {
       this.props.IsSaving(false);
     });
   };
-
-  componentWillReceiveProps() {
-    if (this.props.answer) {
-      this.setState({
-        answerBlock: this.props.answer
-      });
-    } else {
-      this.setState({
-        valueChanged: true,
-        answerBlock: {
-          ...this.state.answerBlock,
-          blockId: this.props.blockData.id,
-          id: newID,
-          registrantId: this.props.currentUser[0].id
-        }
-      });
-    }
-  }
 
   handleChange = event => {
     const newValue = this.state.answerBlock.value;

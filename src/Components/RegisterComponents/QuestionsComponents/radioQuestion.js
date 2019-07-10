@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { isSaving, dataChanged } from "../../../actions/";
 import UUIDController from "../../../Controllers/uuidcontroller";
 import Required from "../RegisterPage/Subcomponents/Required";
+
 const UUID = new UUIDController();
 let newID = UUID.createUUID();
 
@@ -21,6 +22,21 @@ class RadioQuestion extends Component {
     };
   }
   componentDidMount() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    } else {
+      this.setState({
+        valueChanged: true,
+        answerBlock: {
+          ...this.state.answerBlock,
+          blockId: this.props.blockData.id,
+          id: newID,
+          registrantId: this.props.currentUser[0].id
+        }
+      });
+    }
     this.setState({
       blockData: this.props.blockData
     });
@@ -42,23 +58,7 @@ class RadioQuestion extends Component {
     clearInterval(this.timer);
   }
 
-  componentWillReceiveProps() {
-    if (this.props.answer) {
-      this.setState({
-        answerBlock: this.props.answer
-      });
-    } else {
-      this.setState({
-        valueChanged: true,
-        answerBlock: {
-          ...this.state.answerBlock,
-          blockId: this.props.blockData.id,
-          id: newID,
-          registrantId: this.props.currentUser[0].id
-        }
-      });
-    }
-  }
+  componentWillReceiveProps() {}
 
   handleChange = event => {
     this.setState({

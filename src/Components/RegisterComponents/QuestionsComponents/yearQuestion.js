@@ -21,27 +21,6 @@ class YearQuestion extends Component {
     };
   }
   componentDidMount() {
-    this.setState({
-      blockData: this.props.blockData
-    });
-    this.timer = setInterval(() => {
-      if (this.state.valueChanged) {
-        this.updateAnswer(
-          `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
-            this.state.answerBlock.id
-          }`,
-          localStorage.getItem("crsToken")
-        );
-        this.props.IsSaving(true);
-      }
-    }, 15000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timer);
-  }
-
-  componentWillReceiveProps() {
     if (this.props.answer) {
       this.setState({
         answerBlock: this.props.answer
@@ -57,6 +36,25 @@ class YearQuestion extends Component {
         }
       });
     }
+    this.setState({
+      blockData: this.props.blockData
+    });
+    this.timer = setInterval(() => {
+      if (this.state.valueChanged) {
+        this.updateAnswer(
+          `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
+            this.state.answerBlock.id
+          }`,
+          localStorage.getItem("crsToken")
+        );
+        this.props.IsSaving(true);
+        this.props.DataChanged(true);
+      }
+    }, 15000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   handleChange = event => {
@@ -102,67 +100,67 @@ class YearQuestion extends Component {
         <Options>
           <Choice>
             <Selector
-              type='radio'
-              id='fresh-option'
-              name='yearInSchool'
-              value='Freshman'
+              type="radio"
+              id="fresh-option"
+              name="yearInSchool"
+              value="Freshman"
               checked={this.state.answerBlock.value === "Freshman"}
               onChange={this.handleChange}
             />
-            <label htmlFor='fresh-option'>Freshman</label>
-            <div className='check' />
+            <label htmlFor="fresh-option">Freshman</label>
+            <div className="check" />
           </Choice>
 
           <Choice>
             <Selector
-              type='radio'
-              id='soph-option'
-              name='yearInSchool'
-              value='Sophomore'
+              type="radio"
+              id="soph-option"
+              name="yearInSchool"
+              value="Sophomore"
               onChange={this.handleChange}
               checked={this.state.answerBlock.value === "Sophomore"}
             />
-            <label htmlFor='soph-option'>Sophomore</label>
-            <div className='check' />
+            <label htmlFor="soph-option">Sophomore</label>
+            <div className="check" />
           </Choice>
 
           <Choice>
             <Selector
-              type='radio'
-              id='jr-option'
-              name='yearInSchool'
-              value='Junior'
+              type="radio"
+              id="jr-option"
+              name="yearInSchool"
+              value="Junior"
               onChange={this.handleChange}
               checked={this.state.answerBlock.value === "Junior"}
             />
-            <label htmlFor='jr-option'>Junior</label>
-            <div className='check' />
+            <label htmlFor="jr-option">Junior</label>
+            <div className="check" />
           </Choice>
 
           <Choice>
             <Selector
-              type='radio'
-              id='senior-option'
-              name='yearInSchool'
-              value='Senior'
+              type="radio"
+              id="senior-option"
+              name="yearInSchool"
+              value="Senior"
               onChange={this.handleChange}
               checked={this.state.answerBlock.value === "Senior"}
             />
-            <label htmlFor='senior-option'>Senior</label>
-            <div className='check' />
+            <label htmlFor="senior-option">Senior</label>
+            <div className="check" />
           </Choice>
 
           <Choice>
             <Selector
-              type='radio'
-              id='g-option'
-              name='yearInSchool'
-              value='Graduate Student'
+              type="radio"
+              id="g-option"
+              name="yearInSchool"
+              value="Graduate Student"
               onChange={this.handleChange}
               checked={this.state.answerBlock.value === "Graduate Student"}
             />
-            <label htmlFor='g-option'>Graduate Student</label>
-            <div className='check' />
+            <label htmlFor="g-option">Graduate Student</label>
+            <div className="check" />
           </Choice>
         </Options>
       </QuestionContainer>

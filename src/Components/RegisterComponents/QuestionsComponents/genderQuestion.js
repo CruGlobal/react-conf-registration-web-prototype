@@ -21,6 +21,21 @@ class GenderQuestion extends Component {
     };
   }
   componentDidMount() {
+    if (this.props.answer) {
+      this.setState({
+        answerBlock: this.props.answer
+      });
+    } else {
+      this.setState({
+        valueChanged: true,
+        answerBlock: {
+          ...this.state.answerBlock,
+          blockId: this.props.blockData.id,
+          id: newID,
+          registrantId: this.props.currentUser[0].id
+        }
+      });
+    }
     this.setState({
       blockData: this.props.blockData
     });
@@ -40,24 +55,6 @@ class GenderQuestion extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timer);
-  }
-
-  componentWillReceiveProps() {
-    if (this.props.answer) {
-      this.setState({
-        answerBlock: this.props.answer
-      });
-    } else {
-      this.setState({
-        valueChanged: true,
-        answerBlock: {
-          ...this.state.answerBlock,
-          blockId: this.props.blockData.id,
-          id: newID,
-          registrantId: this.props.currentUser[0].id
-        }
-      });
-    }
   }
 
   handleChange = event => {
