@@ -28,7 +28,7 @@ const RegisteringContent = ({
   const [hasLoaded, changeHasLoaded] = useState(false);
 
   useEffect(() => {
-    if (conference.name) {
+    if (conference.name !== null) {
       document.title = `${
         conference.name
       } - Register | Event Registration Tool`;

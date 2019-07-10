@@ -58,6 +58,7 @@ const LandingJumbotron = ({ setConferences, conferences }) => {
           currentLocation[0].appeared += 1; // Up that objects appeared value + 1, since it has appeared additionally
         }
       }
+      return null;
     });
     // We then map through all our locations
     return locations.map(location => {
