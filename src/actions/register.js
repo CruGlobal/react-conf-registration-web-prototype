@@ -209,6 +209,43 @@ export const dataChanged = boolean => {
   };
 };
 
+export const completeRegistration = (authToken, regID, confID, current) => {
+  return dispatch => {
+    dispatch({
+      type: IS_LOADING,
+      isLoading: true
+    });
+    CompleteRegistration(dispatch, authToken, regID, confID, current);
+  };
+};
+
+const CompleteRegistration = (dispatch, authToken, regID, confID, current) => {
+  try {
+    API.completeRegistration(
+      `${API.BASE_URL}${API.REGISTRATIONS}${regID}`,
+      authToken,
+      current
+    ).then(() => {
+      API.getCurrentRegistration(
+        `${API.BASE_URL}${API.CONFERENCES}${confID}/${
+          API.CURRENT_REGISTRATION
+        }`,
+        authToken
+      )
+        .then(res => res.json())
+        .then(response => {
+          dispatch({
+            type: GET_CURRENT_REGISTRANT,
+            currentRegistration: response,
+            isLoading: false
+          });
+        });
+    });
+  } catch (err) {
+    alert("There was an error with submitting your reigstration");
+  }
+};
+
 export const staffMemberSearch = (authToken, searchQuery, regID) => {
   return dispatch => {
     dispatch({

@@ -5,7 +5,7 @@ import RegisterLanding from "./Subcomponents/RegisterLanding";
 import RegisteringContent from "./Subcomponents/RegisteringContent";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { selectConference, GetCurrentRegistrant } from "../../../actions";
 import BackgroundImg from "../../../img/rough_diagonal.png";
 
@@ -38,6 +38,20 @@ class RegisterPage extends Component {
       match,
       currentRegistration
     } = this.props;
+
+    if (
+      currentRegistration &&
+      selectedConference &&
+      currentRegistration.completed
+    ) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/reviewRegistration/${selectedConference.id}`
+          }}
+        />
+      );
+    }
     return (
       <PageContainer>
         <RegisterNavbar conference={selectedConference} history={history} />

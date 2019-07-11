@@ -10,11 +10,17 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "@emotion/styled";
 import { connect } from "react-redux";
-import { selectConference, GetCurrentRegistrant } from "../../../actions";
+import {
+  selectConference,
+  GetCurrentRegistrant,
+  completeRegistration
+} from "../../../actions";
 import PaymentMenu from "./Subcomponents/PaymentMenu";
+import EvtFormater from "../../../Controllers/formatercontroller";
+
+const FORMATER = new EvtFormater();
 
 const RegisterReviewPage = ({
-  LoginState,
   history,
   selectedConference,
   currentRegistration,
@@ -22,7 +28,8 @@ const RegisterReviewPage = ({
   match,
   getSelectedConference,
   getCurrentRegistrant,
-  dataChanged
+  dataChanged,
+  CompleteRegistration
 }) => {
   document.title = `${
     selectedConference.name
@@ -30,6 +37,9 @@ const RegisterReviewPage = ({
 
   const [showAnswers, changeShowAnswers] = useState(false);
   const [showCosts, changeShowCosts] = useState(false);
+  const [completedRegistration, changeCompletedRegistration] = useState(
+    currentRegistration
+  );
 
   //if not logged in, history.push them to / to the homepage
   useEffect(() => {
@@ -44,6 +54,21 @@ const RegisterReviewPage = ({
     getSelectedConference,
     match.params.confID
   ]);
+
+  useEffect(() => {
+    if (completedRegistration.primaryRegistrantId === "") {
+      changeCompletedRegistration(currentRegistration);
+    }
+    if (
+      completedRegistration.primaryRegistrantId !== "" &&
+      !completedRegistration.completed
+    ) {
+      changeCompletedRegistration({
+        ...completedRegistration,
+        completed: true
+      });
+    }
+  }, [completedRegistration, currentRegistration]);
 
   const reviewTable = generateReview(
     [].concat.apply(
@@ -139,15 +164,17 @@ const RegisterReviewPage = ({
                 .map(chosenType => chosenType.name)}
             </TypeCell>
           ) : null}
-          <EditCell>
-            <Link
-              to={`/register/${selectedConference.id}/page/${
-                selectedConference.registrationPages[0].id
-              }/${currentRegistration.primaryRegistrantId}`}
-            >
-              <EditButton>Edit</EditButton>
-            </Link>
-          </EditCell>
+          {!currentRegistration.completed ? (
+            <EditCell>
+              <Link
+                to={`/register/${selectedConference.id}/page/${
+                  selectedConference.registrationPages[0].id
+                }/${currentRegistration.primaryRegistrantId}`}
+              >
+                <EditButton>Edit</EditButton>
+              </Link>
+            </EditCell>
+          ) : null}
         </Row>
       );
     });
@@ -194,16 +221,78 @@ const RegisterReviewPage = ({
     <PageContainer>
       <RegisterNavbar conference={selectedConference} history={history} />
       <ReviewSection>
-        <RegistrationCheckContainer>
-          <RegistrationCheckTitle>
-            Your registration is not complete...
-          </RegistrationCheckTitle>
-          <br />
-          <RegistrationCheckContent>
-            Almost done. Please review your registation details below and click
-            Confirm if correct. That's it!
-          </RegistrationCheckContent>
-        </RegistrationCheckContainer>
+        {currentRegistration.completed ? (
+          <RegistrationCheckContainer>
+            <RegistrationCheckTitle>You are registered!</RegistrationCheckTitle>
+
+            <RegistrationCheckContent>
+              Keep this information for your records.
+            </RegistrationCheckContent>
+            <DetailContainer>
+              <TitleContainer>
+                <WelcomeTitle>{selectedConference.name}</WelcomeTitle>
+              </TitleContainer>
+              <DescriptionText>
+                {selectedConference.description}
+              </DescriptionText>
+
+              <DetailTitle>Event Dates</DetailTitle>
+
+              <DescriptionText>
+                {FORMATER.dateFormater(
+                  selectedConference.eventStartTime,
+                  selectedConference.eventTimezone,
+                  "MMM D, YYYY h:mma z"
+                )}{" "}
+                -{" "}
+                {FORMATER.dateFormater(
+                  selectedConference.eventEndTime,
+                  selectedConference.eventTimezone,
+                  "MMM D, YYYY h:mma z"
+                )}
+              </DescriptionText>
+
+              {!selectedConference.locationAddress &&
+              !selectedConference.locationName &&
+              !selectedConference.locationCity &&
+              !selectedConference.locationState &&
+              !selectedConference.locationZipCode ? null : (
+                <>
+                  <DetailTitle>Event Location</DetailTitle>
+
+                  <DescriptionText>
+                    {selectedConference.locationName} <br />
+                    {selectedConference.locationAddress} <br />
+                    {selectedConference.locationCity},
+                    {selectedConference.locationState}{" "}
+                    {selectedConference.locationZipCode}
+                  </DescriptionText>
+                </>
+              )}
+              <DetailTitle>Contact Info</DetailTitle>
+              <DescriptionText>
+                {selectedConference.contactPersonName}
+                <br />
+                <EmailText
+                  href={`mailto:${selectedConference.contactPersonEmail}`}
+                >
+                  {selectedConference.contactPersonEmail}
+                </EmailText>
+              </DescriptionText>
+            </DetailContainer>
+          </RegistrationCheckContainer>
+        ) : (
+          <RegistrationCheckContainer>
+            <RegistrationCheckTitle>
+              Your registration is not complete...
+            </RegistrationCheckTitle>
+            <br />
+            <RegistrationCheckContent>
+              Almost done. Please review your registation details below and
+              click Confirm if correct. That's it!
+            </RegistrationCheckContent>
+          </RegistrationCheckContainer>
+        )}
       </ReviewSection>
       <ReviewSection>
         <TitleContainer>
@@ -268,10 +357,33 @@ const RegisterReviewPage = ({
               <PaymentMenu total={currentRegistration.calculatedTotalDue} />{" "}
             </>
           ) : null}
-
-          <ButtonContainer>
-            <ConfirmButton>Confirm</ConfirmButton>
-          </ButtonContainer>
+          {/* This is temporary, will make sure that we cannot submit a completed registration for conferences that cost money */}
+          {currentRegistration.completed ? (
+            <ButtonContainer>
+              <PrintButton onClick={() => window.print()}>
+                Print this page
+              </PrintButton>
+            </ButtonContainer>
+          ) : currentRegistration.calculatedTotalDue === 0 ? (
+            <ButtonContainer>
+              <ConfirmButton
+                onClick={() => {
+                  CompleteRegistration(
+                    localStorage.getItem("crsToken"),
+                    completedRegistration.id,
+                    selectedConference.id,
+                    completedRegistration
+                  );
+                }}
+              >
+                Confirm
+              </ConfirmButton>
+            </ButtonContainer>
+          ) : (
+            <ButtonContainer>
+              <ConfirmButton>Confirm</ConfirmButton>
+            </ButtonContainer>
+          )}
         </section>
       </ReviewSection>
       <RegisterFooter />
@@ -296,6 +408,9 @@ const mapDispatchToProps = dispatch => {
     },
     getCurrentRegistrant: (authToken, confID) => {
       dispatch(GetCurrentRegistrant(authToken, confID));
+    },
+    CompleteRegistration: (authToken, regID, confID, current) => {
+      dispatch(completeRegistration(authToken, regID, confID, current));
     }
   };
 };
@@ -392,6 +507,28 @@ const PageContainer = styled.div`
   min-height: 100%;
 `;
 
+const DetailContainer = styled.div`
+  min-height: 20px;
+  background: #fafde8;
+  border-radius: 0;
+  border: 0;
+  padding: 19px;
+  margin-bottom: 20px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+`;
+
+const DetailTitle = styled.h2`
+  font-size: 14px;
+  color: #333;
+  font-weight: 700;
+`;
+
+const DescriptionText = styled.p`
+  font-size: 14px;
+  font-family: sans-serif;
+  color: #333333;
+`;
+
 const WelcomeTitle = styled.h2`
   color: #00a651;
   font-size: 28px;
@@ -403,6 +540,11 @@ const RegistrationCheckTitle = styled.h3`
   font-size: 24px;
   font-family: sans-serif;
   margin: 20px 0 10px;
+`;
+
+const EmailText = styled.a`
+  color: #337ab7;
+  text-decoration: none;
 `;
 
 const RegistrationCheckContent = styled.p`
@@ -444,6 +586,24 @@ const ConfirmButton = styled.button`
     color: #fff;
     background-color: #449d44;
     border-color: #398439;
+  }
+`;
+
+const PrintButton = styled.button`
+  background: #3494c7;
+  cursor: pointer;
+  color: #fff;
+  border: 1px solid transparent;
+  border-color: #2f84cd;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  :hover {
+    background-color: #337ab7;
+    border-color: #2969a0;
   }
 `;
 

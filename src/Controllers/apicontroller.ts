@@ -155,6 +155,23 @@ class APIController {
     });
   };
 
+  completeRegistration = (url: string, authToken: string, current: object) => {
+    return fetch(url, {
+      method: "PUT", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, cors, *same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `${authToken}`
+      },
+      redirect: "follow", // manual, *follow, error
+      referrer: "no-referrer",
+      body: JSON.stringify(current) // no-referrer, *client
+    });
+  };
+
   getStaffMembers = (url: string, authToken: string) => {
     return fetch(url, {
       method: "GET", // *GET, POST, PUT, DELETE, etc.
