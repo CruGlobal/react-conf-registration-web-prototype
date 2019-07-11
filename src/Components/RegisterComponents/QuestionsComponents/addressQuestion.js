@@ -61,6 +61,15 @@ class AddressQuestion extends Component {
   }
 
   componentWillUnmount() {
+    if (this.state.valueChanged) {
+      this.updateAnswer(
+        `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
+          this.state.answerBlock.id
+        }`,
+        localStorage.getItem("crsToken")
+      );
+      this.props.IsSaving(true);
+    }
     clearInterval(this.timer);
   }
 
@@ -98,6 +107,7 @@ class AddressQuestion extends Component {
       body: JSON.stringify(this.state.answerBlock)
     }).then(() => {
       this.props.IsSaving(false);
+      this.props.DataChanged(true);
     });
   };
 

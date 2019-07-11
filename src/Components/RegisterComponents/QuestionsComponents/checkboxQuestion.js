@@ -55,6 +55,17 @@ class InputCheckBoxQuestions extends Component {
   }
 
   componentWillUnmount() {
+    if (this.state.valueChanged) {
+      this.updateAnswer(
+        `https://api.stage.eventregistrationtool.com/eventhub-api/rest/answers/${
+          this.state.answerBlock.id
+        }`,
+        localStorage.getItem("crsToken")
+      ).then(() => {
+        this.props.DataChanged(true);
+      });
+      this.props.IsSaving(true);
+    }
     clearInterval(this.timer);
   }
 
