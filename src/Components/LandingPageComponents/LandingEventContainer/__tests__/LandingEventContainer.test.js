@@ -6,6 +6,7 @@ import rootReducer from "../../../../reducers";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { conferenceSearch } from "../../../../actions";
+import { MemoryRouter } from "react-router-dom";
 import { IS_LOADING, CONFERENCE_SEARCH } from "../../../../constants";
 
 afterEach(() => {
@@ -40,12 +41,14 @@ test("<LandingEventContainer /> ", () => {
       }
     ]
   });
-  const { getByTestId } = render(
+  const { getAllByTestId } = render(
     <Provider store={store}>
-      <LandingEventContainer />
+      <MemoryRouter>
+        <LandingEventContainer />
+      </MemoryRouter>
     </Provider>
   );
-  expect(getByTestId("results-container").textContent).toBe("Results found");
+  expect(getAllByTestId("Card")).toBeTruthy();
 });
 
 test("<LandingEventContainer/> with no conferences", () => {
@@ -55,7 +58,9 @@ test("<LandingEventContainer/> with no conferences", () => {
   });
   const { getByTestId } = render(
     <Provider store={store}>
-      <LandingEventContainer />
+      <MemoryRouter>
+        <LandingEventContainer />
+      </MemoryRouter>
     </Provider>
   );
   expect(console.error).toHaveBeenCalledTimes(0);
@@ -67,7 +72,9 @@ test("<LandingEventContainer/> with no conferences", () => {
 test("<LandingEventContainer /> while searching", () => {
   const { getByTestId } = render(
     <Provider store={store}>
-      <LandingEventContainer />
+      <MemoryRouter>
+        <LandingEventContainer />
+      </MemoryRouter>
     </Provider>
   );
   store.dispatch({

@@ -12,12 +12,16 @@ const Navbar = ({ profile, loginState, userLogout }) => {
   const DashboardButton = styled.button`
     width: ${loginState ? "auto" : "180px"};
     height: 35px;
-    font-size: ${loginState ? "18px" : "16px"};
+    font-size: 14px;
     color: #3494c6;
+    padding: 6px 12px;
     border-radius: ${loginState ? "0px" : "5px"};
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     text-transform: uppercase;
+    border: 1px solid transparent;
+    border-color: #ccc;
+    background: #ffffff;
     :hover {
       cursor: pointer;
       background-color: #e6e5e5;
@@ -39,7 +43,7 @@ const Navbar = ({ profile, loginState, userLogout }) => {
               <DashboardButton data-testid="signed-in-title">
                 Hello <strong>{profile.firstName}</strong>
               </DashboardButton>
-              <DropDownButton userLogout={userLogout} />
+              <StyledDropDownButton userLogout={userLogout} />
             </>
           ) : (
             <>
@@ -89,7 +93,7 @@ const NavBarContainer = styled.header`
 const NavBar = styled.nav`
   width: 1170px;
   height: 75px;
-  background: #3494c6;
+  background: #3494c7;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
@@ -101,6 +105,14 @@ const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 15px;
+`;
+
+const StyledDropDownButton = styled(DropDownButton)`
+  border: 1px solid transparent;
+  border-color: #2f84cd;
+  :hover {
+    border-color: #2969a0;
+  }
 `;
 
 const MainHeadingContainer = styled(Link)`

@@ -1,35 +1,21 @@
 import React, { Component } from "react";
 // import styled from "@emotion/styled";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import LandingPage from "./Components/LandingPageComponents/LandingPage/LandingPage";
 import HelpComponent from "./Components/HelpComponent/HelpComponent";
 import AuthPage from "./Components/AuthComponent/AuthPage";
 import Dashboard from "./Components/DashboardComponent/Dashboard";
 import RegisterPage from "./Components/RegisterComponents/RegisterPage/RegisterPage";
+import RegisterReviewPage from "./Components/RegisterComponents/RegisterReviewPage/RegisterReviewPage";
 
-import {
-  applicationInit,
-  successfulLogin,
-  failedLogin,
-  userLogin
-} from "./actions";
+import { applicationInit, userLogin } from "./actions";
 
 import { connect } from "react-redux";
 
 class App extends Component {
-  setSignInStatus = () => {
-    if (localStorage.getItem("crsToken")) {
-      this.props.successfulLogin();
-    } else {
-      this.props.failedLogin();
-    }
-  };
-
   async componentDidMount() {
     // When the component mounts, check localstorage for a crsToken and set it our redux store
     await this.props.getCrsToken();
-    // After the above function runs, set the signin status
-    this.setSignInStatus();
     // Then we will use the crsToken we set to get our users profile information
     this.props.setUserProfile(this.props.crsToken);
   }
@@ -40,35 +26,51 @@ class App extends Component {
     return (
       // This is where we do our routing
       // Dependent on the route, we will render the required component
-      <Router>
-        <Switch>
-          <Route exact path="/" render={props => <LandingPage {...props} />} />
+      <Switch>
+        <Route exact path="/" component={props => <LandingPage {...props} />} />
 
-          <Route
-            path="/help"
-            render={props => <HelpComponent signedIn={loginState} {...props} />}
-          />
+        <Route
+          path="/help"
+          component={(props, history) => (
+            <HelpComponent signedIn={loginState} {...props} {...history} />
+          )}
+        />
 
-          <Route
-            path="/eventDashboard"
-            render={props => <Dashboard {...props} />}
-          />
+        <Route
+          path="/eventDashboard"
+          component={props => <Dashboard {...props} />}
+        />
 
-          <Route
-            exact
-            path="/register/:confID/page/"
-            render={props => <RegisterPage {...props} />}
-          />
+        <Route
+          exact
+          path="/register/:confID/page/"
+          component={(props, history) => (
+            <RegisterPage {...props} {...history} />
+          )}
+        />
 
-          <Route
-            exact
-            path="/auth/"
-            render={props => <AuthPage {...props} />}
-          />
+        <Route
+          path="/register/:confID/page/:pageID/:regID"
+          component={(props, history) => (
+            <RegisterPage {...props} {...history} />
+          )}
+        />
 
-          <Route path="/auth/:id" render={props => <AuthPage {...props} />} />
-        </Switch>
-      </Router>
+        <Route
+          exact
+          path="/auth/"
+          component={props => <AuthPage {...props} />}
+        />
+
+        <Route path="/auth/:id" component={props => <AuthPage {...props} />} />
+
+        <Route
+          path="/reviewRegistration/:confID"
+          component={(props, history) => (
+            <RegisterReviewPage {...props} {...history} />
+          )}
+        />
+      </Switch>
     );
   }
 }
@@ -87,18 +89,13 @@ const mapDispatchToProps = dispatch => {
     },
     getCrsToken: () => {
       dispatch(applicationInit());
-    },
-    successfulLogin: () => {
-      dispatch(successfulLogin());
-    },
-
-    failedLogin: () => {
-      dispatch(failedLogin());
     }
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+);

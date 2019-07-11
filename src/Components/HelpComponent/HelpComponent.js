@@ -1,36 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import Navbar from "../LandingPageComponents/Navbar/Navbar";
 import Footer from "../LandingPageComponents/Footer/Footer";
-import { Redirect } from "react-router";
 
-const HelpComponent = ({ signedIn }) => {
-  document.title = "Help | Event Registration Tool";
+const HelpComponent = ({ signedIn, history }) => {
+  useEffect(() => {
+    document.title = "Help | Event Registration Tool";
+  }, []);
+
+  useEffect(() => {
+    if (!signedIn) {
+      history.push("/");
+    }
+  }, [history, signedIn]);
 
   return (
     <>
-      {signedIn ? (
-        <>
-          <Navbar />
-          <Container>
-            <HelpTitle>Help</HelpTitle>
-            <p>
-              For questions/suggestions regarding the Event Registration Tool,
-              please email{" "}
-              <SupportLink href="mailto:support@eventregistrationtool.com">
-                support@eventregistrationtool.com{" "}
-              </SupportLink>{" "}
-            </p>
-          </Container>
-          <Footer />
-        </>
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/"
-          }}
-        />
-      )}
+      <>
+        <Navbar />
+        <Container>
+          <HelpTitle>Help</HelpTitle>
+          <p>
+            For questions/suggestions regarding the Event Registration Tool,
+            please email{" "}
+            <SupportLink href="mailto:support@eventregistrationtool.com">
+              support@eventregistrationtool.com{" "}
+            </SupportLink>{" "}
+          </p>
+        </Container>
+        <Footer />
+      </>
     </>
   );
 };

@@ -1,104 +1,152 @@
 import React, { Component } from "react";
 import RegisterNavbar from "../RegisterNavbar/RegisterNavbar";
 import RegisterFooter from "../RegisterFooter/RegisterFooter";
+import RegisterLanding from "./Subcomponents/RegisterLanding";
+import RegisteringContent from "./Subcomponents/RegisteringContent";
 import styled from "@emotion/styled";
-import BackgroundImg from "../../../img/rough_diagonal.png";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { selectConference } from "../../../actions";
+import { Link, Redirect } from "react-router-dom";
+import { selectConference, GetCurrentRegistrant } from "../../../actions";
+import BackgroundImg from "../../../img/rough_diagonal.png";
 
 class RegisterPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataRecieved: false
+    };
+  }
   componentDidMount() {
-    const { getSelectedConference, match } = this.props;
-    const token = localStorage.getItem("crsToken");
-    getSelectedConference(token, match.params.confID);
+    let token = localStorage.getItem("crsToken");
+    const {
+      getCurrentRegistrant,
+      getSelectedConference,
+      match,
+      dataChanged
+    } = this.props;
+    if (dataChanged) {
+      getCurrentRegistrant(token, match.params.confID);
+
+      getSelectedConference(token, match.params.confID);
+    }
   }
 
   render() {
-    const { loginState, selectedConference } = this.props;
-    return (
-      <>
-        {loginState ? (
-          <PageContainer>
-            <RegisterNavbar conference={selectedConference} />
-            <RegisterSection>
-              <TitleContainer>
-                <WelcomeTitle>Welcome</WelcomeTitle>
-              </TitleContainer>
-              <DescriptionText>
-                {selectedConference.description}
-              </DescriptionText>
-              <DetailContainer>
-                <TitleContainer>
-                  <DetailTitle>Event Dates</DetailTitle>
-                </TitleContainer>
-                <DescriptionText>
-                  {selectedConference.eventStartTime} -{" "}
-                  {selectedConference.eventEndTime}
-                </DescriptionText>
-              </DetailContainer>
-              {!selectedConference.locationAddress &&
-              !selectedConference.locationName &&
-              !selectedConference.locationCity &&
-              !selectedConference.locationState &&
-              !selectedConference.locationZipCode ? null : (
-                <DetailContainer>
-                  <TitleContainer>
-                    <DetailTitle>Event Location</DetailTitle>
-                  </TitleContainer>
-                  <DescriptionText>
-                    {selectedConference.locationName} <br />
-                    {selectedConference.locationAddress} <br />
-                    {selectedConference.locationCity},
-                    {selectedConference.locationState}{" "}
-                    {selectedConference.locationZipCode}
-                  </DescriptionText>
-                </DetailContainer>
-              )}
-              <DetailContainer>
-                <TitleContainer>
-                  <DetailTitle>Registration Window</DetailTitle>
-                </TitleContainer>
-                <DescriptionText>
-                  {selectedConference.registrationStartTime} -{" "}
-                  {selectedConference.registrationEndTime}
-                </DescriptionText>
-              </DetailContainer>
-              <DetailContainer>
-                <TitleContainer>
-                  <DetailTitle>Contact Info</DetailTitle>
-                </TitleContainer>
-                <DescriptionText>
-                  {selectedConference.contactPersonName}
-                  <br />
-                  <a href={`mailto:${selectedConference.contactPersonEmail}`}>
-                    {selectedConference.contactPersonEmail}
-                  </a>
-                </DescriptionText>
-              </DetailContainer>
-              <ButtonContainer>
-                <RegisterButton>Register</RegisterButton>
-              </ButtonContainer>
-            </RegisterSection>
+    const {
+      selectedConference,
+      history,
+      match,
+      currentRegistration
+    } = this.props;
 
-            <RegisterFooter />
-          </PageContainer>
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/"
-            }}
-          />
-        )}
-      </>
+    if (
+      currentRegistration &&
+      selectedConference &&
+      currentRegistration.completed
+    ) {
+      return (
+        <Redirect
+          to={{
+            pathname: `/reviewRegistration/${selectedConference.id}`
+          }}
+        />
+      );
+    }
+    return (
+      <PageContainer>
+        <RegisterNavbar conference={selectedConference} history={history} />
+        <RegisterSection>
+          {match.params.pageID ? (
+            <PageSelectorSection>
+              {selectedConference.registrationPages.map(page => {
+                const PageButton = styled.div`
+                  background: ${match.params.pageID === page.id
+                    ? "#337AB7"
+                    : "#d6d6d6"};
+                  width: 170px;
+                  height: 45px;
+                  font-size: 14px;
+                  color: ${match.params.pageID === page.id
+                    ? "#ffffff"
+                    : "#156692"};
+                  padding: 0 10px;
+                  display: block;
+                  white-space: nowrap;
+                  margin-bottom: 3px;
+                  display: flex;
+                  align-items: center;
+                `;
+
+                const Circle = styled.span`
+                  width: 26px;
+                  height: 26px;
+                  border: 2px solid
+                    ${match.params.pageID === page.id ? "#ffffff" : "#156692"};
+                  color: ${match.params.pageID === page.id
+                    ? "#ffffff"
+                    : "#156692"};
+                  line-height: 20px;
+                  margin-right: 5px;
+                  border-radius: 55px;
+                  font-size: 14px;
+                  text-align: center;
+                  font-weight: 700;
+                  font-family: sans-serif;
+                  display: inline-block;
+                `;
+
+                if (page.blocks.length === 0) {
+                  return null;
+                }
+                return (
+                  <PageLink
+                    key={page.id}
+                    to={`/register/${selectedConference.id}/page/${page.id}/${
+                      currentRegistration.primaryRegistrantId
+                    }`}
+                  >
+                    <PageButton>
+                      <Circle>
+                        {selectedConference.registrationPages.indexOf(page) + 1}
+                      </Circle>
+                      {page.title}
+                    </PageButton>
+                  </PageLink>
+                );
+              })}
+            </PageSelectorSection>
+          ) : null}
+
+          {match.params.pageID ? (
+            selectedConference.registrationPages.map(page => {
+              return (
+                <RegisteringContent
+                  history={history}
+                  match={match}
+                  key={page.id}
+                  pageData={page}
+                  conference={selectedConference}
+                  currentData={currentRegistration}
+                />
+              );
+            })
+          ) : (
+            <RegisterLanding />
+          )}
+        </RegisterSection>
+        <RegisterFooter />
+      </PageContainer>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    loginState: state.authenticationReducer.loginState,
-    selectedConference: state.conferenceReducer.selectedConference
+    LoginState: state.authenticationReducer.loginState,
+    selectedConference: state.conferenceReducer.selectedConference,
+    currentRegistration: state.conferenceReducer.currentRegistration,
+    crsToken: state.authenticationReducer.crsToken,
+    dataChanged: state.conferenceReducer.dataChanged
   };
 };
 
@@ -106,6 +154,9 @@ const mapDispatchToProps = dispatch => {
   return {
     getSelectedConference: (authToken, confID) => {
       dispatch(selectConference(authToken, confID));
+    },
+    getCurrentRegistrant: (authToken, confID) => {
+      dispatch(GetCurrentRegistrant(authToken, confID));
     }
   };
 };
@@ -120,67 +171,32 @@ const PageContainer = styled.div`
   background: url(${BackgroundImg}) #e7e8e6;
   min-width: 100%;
   min-height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
 `;
 
 const RegisterSection = styled.section`
   margin: 20px auto;
   background: #fff;
-  width: 582px;
+  width: 612px;
   padding: 15px;
 `;
 
-const WelcomeTitle = styled.h2`
-  color: #00a651;
-  font-size: 28px;
-  margin-top: 5px;
-`;
-
-const TitleContainer = styled.div`
-  border-bottom: 2px solid #e9e9e9;
-  padding-bottom: 4px;
-  margin-bottom: 22px;
-`;
-
-const DetailContainer = styled.div`
-  min-height: 20px;
-  background: #fafde8;
-  border-radius: 0;
-  border: 0;
-  padding: 19px;
-  margin-bottom: 20px;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
-`;
-
-const ButtonContainer = styled.div`
+const PageSelectorSection = styled.div`
+  width: 200px;
+  float: left;
+  position: absolute;
+  margin-left: -230px;
+  background: #fff;
+  padding: 10px 0;
+  margin-top: -14px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  list-style: none;
 `;
 
-const DetailTitle = styled.h2`
-  font-size: 18px;
-  color: #00a651;
-  margin-top: 5px;
-`;
-
-const DescriptionText = styled.p`
-  font-size: 14px;
-  font-family: sans-serif;
-  color: #333333;
-`;
-
-const RegisterButton = styled.button`
-  background: #00a651;
-  text-transform: uppercase;
-  font-family: sans-serif;
-  font-weight: 600;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.3333333;
-  border-radius: 6px;
-  border-color: #4cae4c;
-  color: #fff;
-  margin: 0 auto;
+const PageLink = styled(Link)`
+  :hover {
+    text-decoration: none;
+  }
 `;

@@ -23,7 +23,8 @@ const authenticationReducer = (
     case USER_LOGIN:
       return {
         ...state,
-        profile: profile
+        profile: profile,
+        loginState: true
       };
     case SET_CRS_TOKEN:
       return {
@@ -43,10 +44,12 @@ const authenticationReducer = (
       };
 
     case USER_LOGIN_FAILURE:
+      localStorage.removeItem("crsToken");
       return {
         ...state,
         profile: {},
-        loginState: false
+        loginState: false,
+        crsToken: ""
       };
 
     case SET_USER_PROFILE:

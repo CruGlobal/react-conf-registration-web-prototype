@@ -21,10 +21,17 @@ const loginUser = async (dispatch, accessToken) => {
     API.getUser(`${API.BASE_URL}${API.PROFILE_SEARCH}`, accessToken)
       .then(res => res.json())
       .then(response => {
-        dispatch({
-          type: USER_LOGIN,
-          profile: response
-        });
+        if (response.error) {
+          dispatch({
+            type: USER_LOGIN_FAILURE,
+            profile: {}
+          });
+        } else {
+          dispatch({
+            type: USER_LOGIN,
+            profile: response
+          });
+        }
       });
   } catch (err) {
     dispatch({

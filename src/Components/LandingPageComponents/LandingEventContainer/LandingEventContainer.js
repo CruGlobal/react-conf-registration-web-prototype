@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
 import Card from "./Subcomponents/Card";
 import { Link } from "react-router-dom";
-import _ from "lodash";
 
 const LandingEventContainer = ({ conferences, isLoading, loginState }) => {
   if (!isLoading && conferences.length <= 0) {
@@ -42,7 +41,7 @@ const LandingEventContainer = ({ conferences, isLoading, loginState }) => {
     return (
       <Container>
         <CardContainer>
-          {_.map(conferences, conference => {
+          {conferences.map(conference => {
             return (
               <Card
                 key={conference.id}

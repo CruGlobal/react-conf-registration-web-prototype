@@ -14,11 +14,11 @@ const Card = ({ cardData, loginState }) => {
   const FORMATER = new EvtFormater();
 
   return (
-    <CardContainer>
+    <CardContainer data-testid='Card'>
       <CardName>{cardData.name}</CardName>
 
       <DetailContainer>
-        <Icon size="xs" icon={faCalendarAlt} />
+        <Icon size='xs' icon={faCalendarAlt} />
         <DetailText>
           {FORMATER.dateFormater(
             cardData.eventStartTime,
@@ -36,7 +36,7 @@ const Card = ({ cardData, loginState }) => {
 
       {cardData.locationName ? (
         <DetailContainer>
-          <Icon size="xs" icon={faMapMarkerAlt} />
+          <Icon size='xs' icon={faMapMarkerAlt} />
           <DetailText>{cardData.locationName}</DetailText>
         </DetailContainer>
       ) : null}
@@ -47,9 +47,7 @@ const Card = ({ cardData, loginState }) => {
             Register
           </RegisterButton>
         ) : (
-          <RegisterButton onClick={() => changeShow(true)}>
-            Register
-          </RegisterButton>
+          <RegisterAlt onClick={() => changeShow(true)}>Register</RegisterAlt>
         )}
       </ButtonContainer>
       <LoginModal changeShow={changeShow} show={show} />
@@ -69,6 +67,9 @@ const CardContainer = styled.div`
   display: inline-block;
   vertical-align: top;
   margin-bottom: 10px;
+  @media screen and (max-width: 1129px) {
+    width: 100%;
+  }
 `;
 
 const CardName = styled.p`
@@ -77,6 +78,24 @@ const CardName = styled.p`
 `;
 
 const RegisterButton = styled(Link)`
+  background: #3494c7;
+  border-color: #2f84cd;
+  padding: 6px 12px;
+  color: #fff;
+  margin-top: 0.5em;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  :hover {
+    text-decoration: none;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2969a0;
+  }
+`;
+
+const RegisterAlt = styled.button`
   background: #3494c7;
   border-color: #2f84cd;
   padding: 6px 12px;

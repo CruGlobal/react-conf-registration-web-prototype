@@ -6,11 +6,10 @@ import {
   faMapMarkerAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { userLogout } from "../../../actions";
 
-const RegisterNavbar = ({ userLogout, conference }) => {
+const RegisterNavbar = ({ userLogout, conference, history }) => {
   const FORMATER = new EvtFormater();
 
   return (
@@ -19,7 +18,14 @@ const RegisterNavbar = ({ userLogout, conference }) => {
       <NavbarSection>
         <TitleContainer>
           <ConferenceTitle>{conference.name}</ConferenceTitle>
-          <SignoutButton onClick={userLogout}>Sign Out</SignoutButton>
+          <SignoutButton
+            onClick={() => {
+              userLogout();
+              history.push("/");
+            }}
+          >
+            Sign Out
+          </SignoutButton>
         </TitleContainer>
         <DetailContainer>
           <ConfDataContainer>
@@ -28,13 +34,13 @@ const RegisterNavbar = ({ userLogout, conference }) => {
               {FORMATER.dateFormater(
                 conference.eventStartTime,
                 conference.eventTimezone,
-                "ddd, MMM D, YYYY h:00a "
+                "ddd, MMM D, YYYY h:mma "
               )}{" "}
               -{" "}
               {FORMATER.dateFormater(
                 conference.eventEndTime,
                 conference.eventTimezone,
-                "ddd, MMM D, YYYY h:00a"
+                "ddd, MMM D, YYYY h:mma"
               )}
             </DetailText>
           </ConfDataContainer>
@@ -81,7 +87,7 @@ const NavbarHeader = styled.header`
 `;
 
 const NavbarSection = styled.div`
-  width: 582px;
+  width: 612px;
   padding: 15px;
   margin: 0 auto;
   background: #156692;
@@ -138,5 +144,6 @@ const SignoutButton = styled.button`
 
 const Icon = styled(FontAwesomeIcon)`
   margin-right: 5px;
+  margin-top: -2px;
   color: #fff;
 `;
